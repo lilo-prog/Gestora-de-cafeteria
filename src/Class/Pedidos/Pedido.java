@@ -1,6 +1,6 @@
 package Class.Pedidos;
-import Class.Exceptions.EElementoNoEncontrado;
-import Class.Exceptions.EElementoRepetido;
+import Exceptions.EElementoNoEncontrado;
+import Exceptions.EElementoRepetido;
 import Class.Productos.Producto;
 
 import Interface.IJson;
@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Pedido implements IJson {
     //Atributos.
@@ -129,4 +130,23 @@ public class Pedido implements IJson {
         }
         return total;
     }
+        //Método motrar lista de productos.
+    public String mostrarListaDeProductos(){
+        StringBuilder sb = new StringBuilder("- Lista de productos del pedido -");
+        for(Map.Entry<Producto, Integer> producto_clave : listaProductos.entrySet()){
+            Producto producto = producto_clave.getKey();
+            sb.append(producto.toString()).append(producto_clave.getValue()).append("\n - ");
+        }
+        return sb.toString();
+    }
+
+    //Override.
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Pedido pedido)) return false;
+        return id == pedido.id && Objects.equals(listaProductos, pedido.listaProductos) && Objects.equals(total, pedido.total) && Objects.equals(fecha, pedido.fecha) && tipoPago == pedido.tipoPago;
+    }
+    @Override public int hashCode() {return Objects.hash(id, listaProductos, total, fecha, tipoPago);}
+
+    @Override public String toString() {return "Pedido{ " + "id: " + id + mostrarListaDeProductos() + ", total: " + total + ", fecha: " + fecha + ", tipo de pago: " + tipoPago + " }";}
 }

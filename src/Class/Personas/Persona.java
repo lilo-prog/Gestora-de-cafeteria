@@ -2,11 +2,12 @@ package Class.Personas;
 import Interface.IJson;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.Objects;
 
 public class Persona implements IJson{
     //Atributos.
+    private int id;
+    private static int idGeneral;
     private String nombre;
     private String apellido;
     private int edad;
@@ -15,6 +16,7 @@ public class Persona implements IJson{
 
     //Método constructor.
     public Persona(String nombre, String apellido, int edad, int dni, int telefono) {
+        this.id = idGeneral++;
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
@@ -22,6 +24,7 @@ public class Persona implements IJson{
         this.telefono = telefono;
     }
     public Persona() {
+        this.id = idGeneral++;
         this.nombre = "";
         this.apellido = "";
         this.edad = 0;
@@ -30,6 +33,7 @@ public class Persona implements IJson{
     }
 
     //Getters y Setters.
+    public int getId() {return id;}
     public String getNombre() {return nombre;}
     public void setNombre(String nombre) {this.nombre = nombre;}
     public String getApellido() {return apellido;}
@@ -48,6 +52,7 @@ public class Persona implements IJson{
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         try{
+            json.put("id", id);
             json.put("nombre",nombre);
             json.put("apellido",apellido);
             json.put("edad",edad);
@@ -63,6 +68,7 @@ public class Persona implements IJson{
     @Override
     public void fromJson(JSONObject objetoJSON) {
         try{
+            id = objetoJSON.getInt("id");
             nombre = objetoJSON.getString("nombre");
             apellido = objetoJSON.getString("apellido");
             edad = objetoJSON.getInt("edad");
@@ -76,8 +82,9 @@ public class Persona implements IJson{
     //Override.
     @Override public boolean equals(Object o) {
         if (!(o instanceof Persona persona)) return false;
-        return dni == persona.dni;
+        return id == persona.id;
     }
-    @Override public int hashCode() {return Objects.hashCode(dni);}
-    @Override public String toString() {return "Persona{ " + "nombre: '" + nombre + '\'' + ", apellido: '" + apellido + '\'' + ", edad: " + edad + ", dni: " + dni + ", teléfono: " + telefono + " }";}
+    @Override public int hashCode() {return Objects.hashCode(id);}
+
+    @Override public String toString() {return "Persona{ " + "ID: " + id + "nombre: '" + nombre + '\'' + ", apellido: '" + apellido + '\'' + ", edad: " + edad + ", dni: " + dni + ", teléfono: " + telefono + " }";}
 }

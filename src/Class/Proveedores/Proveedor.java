@@ -6,23 +6,28 @@ import java.util.Objects;
 
 public class Proveedor implements IJson {
     //Atributos.
+    private int id;
+    private static int idGeneral = 0;
     private String nombre;
     private String cuil;
     private int telefono;
 
     //Métodos constructores.
     public Proveedor(String nombre, String cuil, int telefono) {
+        this.id = idGeneral++;
         this.nombre = nombre;
         this.cuil = cuil;
         this.telefono = telefono;
     }
     public Proveedor() {
+        this.id = idGeneral++;
         this.nombre = "";
         this.cuil = "";
         this.telefono = 0;
     }
 
     //Getters y Setters.
+    public int getId() {return id;}
     public String getNombre() {return nombre;}
     public void setNombre(String nombre) {this.nombre = nombre;}
     public String getCuil() {return cuil;}
@@ -37,6 +42,7 @@ public class Proveedor implements IJson {
     public JSONObject toJson() {
         JSONObject objetoJSON = new JSONObject();
         try {
+            objetoJSON.put("id", this.id);
             objetoJSON.put("nombre", this.nombre);
             objetoJSON.put("cuil", this.cuil);
             objetoJSON.put("telefono", this.telefono);
@@ -49,6 +55,7 @@ public class Proveedor implements IJson {
     @Override
     public void fromJson(JSONObject objetoJSON) {
         try {
+            this.id = objetoJSON.getInt("id");
             this.nombre = objetoJSON.getString("nombre");
             this.cuil = objetoJSON.getString("cuil");
             this.telefono = objetoJSON.getInt("telefono");
@@ -58,11 +65,10 @@ public class Proveedor implements IJson {
     }
 
     //Override.
-    @Override public String toString() {return "Proveedor{ " + "nombre: '" + nombre + '\'' + ", cuil: '" + cuil + '\'' + ", teléfono: " + telefono + " }";}
-    @Override
-    public boolean equals(Object o) {
+    @Override public String toString() {return "Proveedor{ " + "ID: " + id + "nombre: '" + nombre + '\'' + ", cuil: '" + cuil + '\'' + ", teléfono: " + telefono + " }";}
+    @Override public boolean equals(Object o) {
         if (!(o instanceof Proveedor proveedor)) return false;
-        return Objects.equals(cuil, proveedor.cuil);
+        return id == proveedor.id;
     }
-    @Override public int hashCode() {return Objects.hashCode(cuil);}
+    @Override public int hashCode() {return Objects.hashCode(id);}
 }

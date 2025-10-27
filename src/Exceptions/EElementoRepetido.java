@@ -1,4 +1,4 @@
-package Class.Exceptions;
+package Exceptions;
 
 public class EElementoRepetido extends RuntimeException {
     public EElementoRepetido() {
