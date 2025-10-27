@@ -40,7 +40,7 @@ public class Persona implements IJson{
     public void setDni(int dni) {this.dni = dni;}
     public int getTelefono() {return telefono;}
     public void setTelefono(int telefono) {this.telefono = telefono;}
-//kujbkñkbkjññkjñjk
+
     //Métodos propios.
     //Métodos JSON.
         //toJSON.
