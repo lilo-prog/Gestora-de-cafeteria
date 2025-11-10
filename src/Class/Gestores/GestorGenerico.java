@@ -57,6 +57,14 @@ public class GestorGenerico<T extends IJson> {
         return lista;
     }
 
+    public HashSet exportarASet(HashMap<Integer,T> elementos){
+        HashSet<T> set = new HashSet<>();
+        for(Map.Entry<Integer,T> entry : elementos.entrySet()){
+            set.add(entry.getValue());
+        }
+        return set;
+    }
+
         //toJson.
     public JSONArray toJson(){
         JSONArray listaJSON = new JSONArray();

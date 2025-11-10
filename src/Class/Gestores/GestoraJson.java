@@ -13,9 +13,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class GestoraJson extends GestorGenerico{
+public class GestoraJson{
     //metodo FromJSON
-    public static <T> HashSet fromJson(JSONArray arrJson){
+    public static <T extends IJson> HashSet fromJson(JSONArray arrJson){
         HashSet<T> lista = new HashSet<>();
         try{
             String clase = arrJson.get(0).getClass().toString();
@@ -55,5 +55,18 @@ public class GestoraJson extends GestorGenerico{
             e.printStackTrace();
         }
         return lista;
+    }
+
+    public static <T extends IJson> void toJson(HashSet<T> elementos){
+        if(!elementos.isEmpty()) {
+            String nombreArchivo = "";
+            JSONArray arregloJSON = new JSONArray();
+            for(T t: elementos) {
+                nombreArchivo = t.getClass().toString();
+                arregloJSON.put(t.toJson());
+            }
+            JsonUtiles.grabarUnJson(arregloJSON,nombreArchivo + ".json");
+        }
+        }
     }
 }
