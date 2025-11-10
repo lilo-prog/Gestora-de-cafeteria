@@ -17,21 +17,24 @@ import java.util.Objects;
 public class Pedido implements IJson {
     //Atributos.
     private int id;
+    private static int idGeneral = 0;
     private HashMap<Producto, Integer> listaProductos;
     private Double total;
     private LocalDateTime fecha;
     private ETipoPago tipoPago;
 
     //MétoodO constructor.
-    public Pedido(int id, ETipoPago tipoPago) {
-        this.id = id;
+    public Pedido(ETipoPago tipoPago) {
+        idGeneral++;
+        this.id = idGeneral;
         this.listaProductos = new HashMap<>();
         this.total = 0.0;
         this.fecha = LocalDateTime.now();
-        this.tipoPago = ETipoPago.VACIO;
+        this.tipoPago = tipoPago;
     }
     public Pedido() {
-        this.id = 0;
+        idGeneral++;
+        this.id = idGeneral;
         this.listaProductos = new HashMap<>();
         this.total = 0.0;
         this.fecha = LocalDateTime.now();
@@ -56,17 +59,18 @@ public class Pedido implements IJson {
         JSONObject objetoJSON = new JSONObject();
         JSONArray arregloJSON = new JSONArray();
         try{
-            objetoJSON.put("idPedido",id);
+            objetoJSON.put("idPedido", id);
             for(Map.Entry<Producto, Integer> lista : listaProductos.entrySet()){
                 JSONObject ob = new JSONObject();
-                ob.put("producto",lista.getKey().toJson());
-                ob.put("cantidad_producto",lista.getValue());
+                ob.put("producto", lista.getKey().toJson());
+                ob.put("cantidad_producto", lista.getValue());
                 arregloJSON.put(ob);
             }
             objetoJSON.put("lista_productos", arregloJSON);
             objetoJSON.put("total", total);
-            objetoJSON.put("fecha",fecha.toString());
+            objetoJSON.put("fecha", fecha.toString());
             objetoJSON.put("tipo_de_pago", tipoPago.name());
+            objetoJSON.put("clase",this.getClass());
         }catch(JSONException e){
             e.printStackTrace();
         }
@@ -148,5 +152,5 @@ public class Pedido implements IJson {
     }
     @Override public int hashCode() {return Objects.hash(id, listaProductos, total, fecha, tipoPago);}
 
-    @Override public String toString() {return "Pedido{ " + "id: " + id + mostrarListaDeProductos() + ", total: " + total + ", fecha: " + fecha + ", tipo de pago: " + tipoPago + " }";}
+    @Override public String toString() {return "Pedido{ " + "id: " + id + ", total: " + total + ", fecha: " + fecha + ", tipo de pago: " + tipoPago + "\n" + mostrarListaDeProductos() + " }";}
 }

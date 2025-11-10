@@ -29,6 +29,7 @@ public class Empleado extends Persona{
         JSONObject json = super.toJson();
         try{
             json.put("sueldo", this.sueldo);
+            json.put("clase",this.getClass());
         } catch (JSONException e){
             e.printStackTrace();
         }
@@ -48,5 +49,5 @@ public class Empleado extends Persona{
 
     //Override.
 
-    @Override public String toString() {return "Empleado{ " + "sueldo: " + sueldo + " }";}
+    @Override public String toString() {return "Empleado{ " + super.toString() + "sueldo: " + sueldo + " }";}
 }

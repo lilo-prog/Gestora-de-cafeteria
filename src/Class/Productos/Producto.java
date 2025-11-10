@@ -21,7 +21,8 @@ public class Producto implements IJson {
     private static int idGeneral = 0;
     //Método constructor.
     public Producto(String nombre, String upc, String marca, Double precio, Proveedor proveedor, String descripcion, String categoria, ETipoProducto tipoProducto) {
-        this.id = idGeneral++;
+        idGeneral++;
+        this.id = idGeneral;
         this.nombre = nombre;
         this.upc = upc;
         this.marca = marca;
@@ -32,7 +33,8 @@ public class Producto implements IJson {
         this.tipoProducto = tipoProducto;
     }
     public Producto() {
-        this.id = idGeneral++;
+        idGeneral++;
+        this.id = idGeneral;
         this.nombre = "";
         this.upc = "";
         this.marca = "";
@@ -77,6 +79,7 @@ public class Producto implements IJson {
             json.put("descripcion",descripcion);
             json.put("categoria",categoria);
             json.put("tipoProducto",tipoProducto.name());
+            json.put("clase",this.getClass());
         }catch(JSONException e){
             e.printStackTrace();
         }

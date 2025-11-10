@@ -1,0 +1,8 @@
+[{
+    "fecha": "2025-11-10T15:52:29.660691400",
+    "total": 0,
+    "idPedido": 1,
+    "lista_productos": [],
+    "tipo_de_pago": "EFECTIVO",
+    "clase": "class Class.Pedidos.Pedido"
+}]

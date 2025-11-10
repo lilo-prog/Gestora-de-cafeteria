@@ -7,25 +7,11 @@ import org.json.JSONObject;
 
 import java.util.HashSet;
 
-public class GestorString implements IJson{
-    private String nombreLista;
+public class GestorString {
     private HashSet<String> lista;
 
-    public GestorString(String nombreLista) {
-        this.nombreLista = nombreLista;
-        this.lista = new HashSet<>();
-    }
     public GestorString() {
-        this.nombreLista = "";
         this.lista = new HashSet<>();
-    }
-
-    public String getNombreLista() {
-        return nombreLista;
-    }
-
-    public void setNombreLista(String nombreLista) {
-        this.nombreLista = nombreLista;
     }
 
     public boolean agregar(String s) {
@@ -48,24 +34,17 @@ public class GestorString implements IJson{
         return sb.toString();
     }
 
-    @Override
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
+
+    public JSONArray toJson() {
         JSONArray arreglo = new JSONArray();
-        try{
-            json.put("nombreLista",nombreLista);
-            arreglo.put(lista);
-            json.put(nombreLista,arreglo);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        for(String s : lista){
+            arreglo.put(s);
         }
-        return json;
+        return arreglo;
     }
-    @Override
-    public void fromJson(JSONObject objetoJSON) {
+
+    public void fromJson(JSONArray arreglo) {
         try{
-            nombreLista = objetoJSON.getString("nombreLista");
-            JSONArray arreglo = objetoJSON.getJSONArray("lista");
             for(int i = 0; i<arreglo.length(); i++){
                 JSONObject aux = arreglo.getJSONObject(i);
                 lista.add(aux.toString());
@@ -74,5 +53,5 @@ public class GestorString implements IJson{
             e.printStackTrace();
         }
     }
-    
+
 }

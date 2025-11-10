@@ -14,13 +14,15 @@ public class Proveedor implements IJson {
 
     //Métodos constructores.
     public Proveedor(String nombre, String cuil, int telefono) {
-        this.id = idGeneral++;
+        idGeneral++;
+        this.id = idGeneral;
         this.nombre = nombre;
         this.cuil = cuil;
         this.telefono = telefono;
     }
     public Proveedor() {
-        this.id = idGeneral++;
+        idGeneral++;
+        this.id = idGeneral;
         this.nombre = "";
         this.cuil = "";
         this.telefono = 0;
@@ -46,6 +48,7 @@ public class Proveedor implements IJson {
             objetoJSON.put("nombre", this.nombre);
             objetoJSON.put("cuil", this.cuil);
             objetoJSON.put("telefono", this.telefono);
+            objetoJSON.put("clase",this.getClass());
         } catch (JSONException e){
             e.printStackTrace();
         }

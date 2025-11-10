@@ -28,6 +28,7 @@ public class Cliente extends Persona {
         JSONObject json =  super.toJson();
         try{
             json.put("gastos_totales",gastosTotales);
+            json.put("clase",this.getClass());
         }catch(JSONException e){
             e.printStackTrace();
         }
@@ -46,6 +47,6 @@ public class Cliente extends Persona {
     }
 
     //Override.
-    @Override public String toString() {return "Cliente{ " + "gastos totales=: " + gastosTotales + " }";}
+    @Override public String toString() {return "Cliente{ " + super.toString() + "gastos totales=: " + gastosTotales + " }";}
 
 }

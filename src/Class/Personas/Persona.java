@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Persona implements IJson{
     //Atributos.
     private int id;
-    private static int idGeneral;
+    private static int idGeneral=0;
     private String nombre;
     private String apellido;
     private int edad;
@@ -16,7 +16,8 @@ public class Persona implements IJson{
 
     //Método constructor.
     public Persona(String nombre, String apellido, int edad, int dni, int telefono) {
-        this.id = idGeneral++;
+        idGeneral++;
+        this.id = idGeneral;
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
@@ -24,7 +25,8 @@ public class Persona implements IJson{
         this.telefono = telefono;
     }
     public Persona() {
-        this.id = idGeneral++;
+        idGeneral++;
+        this.id = idGeneral;
         this.nombre = "";
         this.apellido = "";
         this.edad = 0;
@@ -86,5 +88,5 @@ public class Persona implements IJson{
     }
     @Override public int hashCode() {return Objects.hashCode(id);}
 
-    @Override public String toString() {return "Persona{ " + "ID: " + id + "nombre: '" + nombre + '\'' + ", apellido: '" + apellido + '\'' + ", edad: " + edad + ", dni: " + dni + ", teléfono: " + telefono + " }";}
+    @Override public String toString() {return "ID: " + id + ", nombre: '" + nombre + '\'' + ", apellido: '" + apellido + '\'' + ", edad: " + edad + ", dni: " + dni + ", teléfono: " + telefono;}
 }
