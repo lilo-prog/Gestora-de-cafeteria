@@ -68,10 +68,11 @@ public class Proveedor implements IJson {
     }
 
     //Override.
-    @Override public String toString() {return "Proveedor{ " + "ID: " + id + "nombre: '" + nombre + '\'' + ", cuil: '" + cuil + '\'' + ", teléfono: " + telefono + " }";}
     @Override public boolean equals(Object o) {
         if (!(o instanceof Proveedor proveedor)) return false;
-        return id == proveedor.id;
+        return Objects.equals(cuil, proveedor.cuil);
     }
-    @Override public int hashCode() {return Objects.hashCode(id);}
+    @Override public int hashCode() {return Objects.hashCode(cuil);}
+
+    @Override public String toString() {return "Proveedor{ " + "ID: " + id + "nombre: '" + nombre + '\'' + ", cuil: '" + cuil + '\'' + ", teléfono: " + telefono + " }";}
 }

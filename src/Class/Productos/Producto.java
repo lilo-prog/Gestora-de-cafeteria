@@ -105,9 +105,10 @@ public class Producto implements IJson {
     //Override.
     @Override public boolean equals(Object o) {
         if (!(o instanceof Producto producto)) return false;
-        return id == producto.id;
+        return Objects.equals(upc, producto.upc);
     }
-    @Override public int hashCode() {return Objects.hashCode(id);}
+    @Override public int hashCode() {return Objects.hashCode(upc);}
+
     @Override public String toString() {return "Producto{ " + "ID: " + id + "nombre: '" + nombre + '\'' + ", upc: '" + upc + '\'' + ", marca: '" + marca + '\'' + ", precio: " + precio + ", proveedor: " + proveedor + ", descripción: '" + descripcion + '\'' + ", categoría: '" + categoria + '\'' + ", tipo de producto: " + tipoProducto + " }";}
 
 }

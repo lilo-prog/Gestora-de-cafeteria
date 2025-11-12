@@ -49,6 +49,7 @@ public class GestorGenerico<T extends IJson> {
         }
         return sb.toString();
     }
+
     public HashMap<Integer,T> getMap(){
         return lista;
     }

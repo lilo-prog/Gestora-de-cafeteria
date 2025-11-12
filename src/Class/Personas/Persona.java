@@ -84,9 +84,9 @@ public class Persona implements IJson{
     //Override.
     @Override public boolean equals(Object o) {
         if (!(o instanceof Persona persona)) return false;
-        return id == persona.id;
+        return dni == persona.dni;
     }
-    @Override public int hashCode() {return Objects.hashCode(id);}
+    @Override public int hashCode() {return Objects.hashCode(dni);}
 
     @Override public String toString() {return "ID: " + id + ", nombre: '" + nombre + '\'' + ", apellido: '" + apellido + '\'' + ", edad: " + edad + ", dni: " + dni + ", teléfono: " + telefono;}
 }
