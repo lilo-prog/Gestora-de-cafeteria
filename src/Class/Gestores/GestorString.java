@@ -59,8 +59,8 @@ public class GestorString {
     public void fromJson(JSONArray arreglo) {
         try{
             for(int i = 0; i<arreglo.length(); i++){
-                JSONObject aux = arreglo.getJSONObject(i);
-                lista.add(aux.toString());
+                String aux = arreglo.getString(i);
+                lista.add(aux);
             }
         }catch(JSONException e){
             e.printStackTrace();

@@ -6,5 +6,5 @@
     "nombre": "Lilo",
     "edad": 21,
     "dni": 1,
-    "clase": "class Class.Personas.Empleado"
+    "clase": "Empleado"
 }]

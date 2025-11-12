@@ -70,7 +70,7 @@ public class Pedido implements IJson {
             objetoJSON.put("total", total);
             objetoJSON.put("fecha", fecha.toString());
             objetoJSON.put("tipo_de_pago", tipoPago.name());
-            objetoJSON.put("clase",this.getClass());
+            objetoJSON.put("clase",this.getClass().getSimpleName());
         }catch(JSONException e){
             e.printStackTrace();
         }

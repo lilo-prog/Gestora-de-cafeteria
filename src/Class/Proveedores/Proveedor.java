@@ -48,7 +48,7 @@ public class Proveedor implements IJson {
             objetoJSON.put("nombre", this.nombre);
             objetoJSON.put("cuil", this.cuil);
             objetoJSON.put("telefono", this.telefono);
-            objetoJSON.put("clase",this.getClass());
+            objetoJSON.put("clase",this.getClass().getSimpleName());
         } catch (JSONException e){
             e.printStackTrace();
         }

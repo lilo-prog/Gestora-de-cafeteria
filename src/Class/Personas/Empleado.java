@@ -29,7 +29,7 @@ public class Empleado extends Persona{
         JSONObject json = super.toJson();
         try{
             json.put("sueldo", this.sueldo);
-            json.put("clase",this.getClass());
+            json.put("clase",this.getClass().getSimpleName());
         } catch (JSONException e){
             e.printStackTrace();
         }

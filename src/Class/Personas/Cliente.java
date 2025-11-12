@@ -28,7 +28,7 @@ public class Cliente extends Persona {
         JSONObject json =  super.toJson();
         try{
             json.put("gastos_totales",gastosTotales);
-            json.put("clase",this.getClass());
+            json.put("clase",this.getClass().getSimpleName());
         }catch(JSONException e){
             e.printStackTrace();
         }

@@ -6,8 +6,6 @@ import Class.Productos.Producto;
 import Class.Proveedores.Proveedor;
 import Exceptions.ElementoRepetidoException;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.HashSet;
 
 public class Cafeteria {
@@ -62,87 +60,82 @@ public class Cafeteria {
     }
 
     //convertir DE JSON a CAFETERIA
-    public void fromJson(JSONArray cafeteriaJson) throws ElementoRepetidoException {
-        try {
-            for(int i = 0 ; i < cafeteriaJson.length(); i++) {
-                JSONObject objetoJson = cafeteriaJson.getJSONObject(i);
-                String clave = objetoJson.toString();
-                switch(clave){
-                    case "class Class.Personas.Empleado":
-                        listaEmpleadosFromJson(objetoJson.getJSONArray("class Class.Personas.Empleado"));
-                        break;
-                    case "class Class.Personas.Cliente":
-                        listaClientesFromJson(objetoJson.getJSONArray("class Class.Personas.Cliente"));
-                        break;
-                    case "class Class.Proveedores.Proveedor":
-                        listaProveedoresFromJson(objetoJson.getJSONArray("class Class.Proveedores.Proveedor"));
-                        break;
-                    case "class Class.Productos.Producto":
-                        listaProductosFromJson(objetoJson.getJSONArray("class Class.Productos.Producto"));
-                        break;
-                    case "class Class.Pedidos.Pedido":
-                        listaPedidosFromJson(objetoJson.getJSONArray("class Class.Pedidos.Pedido"));
-                        break;
-                    case "marcas":
-                        listaMarcasFromJson(objetoJson.getJSONArray("marcas"));
-                        break;
-                    case "categorias":
-                        listaCategoriasFromJson(objetoJson.getJSONArray("categorias"));
-                        break;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void fromJson(JSONArray cafeteriaJson) throws ElementoRepetidoException {
+//        try {
+//            for(int i = 0 ; i < cafeteriaJson.length(); i++) {
+//                JSONObject objetoJson = cafeteriaJson.getJSONObject(i);
+//                String clave = objetoJson.toString();
+//                switch(clave){
+//                    case "class Class.Personas.Empleado":
+//                        listaEmpleadosFromJson(objetoJson.getJSONArray("class Class.Personas.Empleado"));
+//                        break;
+//                    case "class Class.Personas.Cliente":
+//                        listaClientesFromJson(objetoJson.getJSONArray("class Class.Personas.Cliente"));
+//                        break;
+//                    case "class Class.Proveedores.Proveedor":
+//                        listaProveedoresFromJson(objetoJson.getJSONArray("class Class.Proveedores.Proveedor"));
+//                        break;
+//                    case "class Class.Productos.Producto":
+//                        listaProductosFromJson(objetoJson.getJSONArray("class Class.Productos.Producto"));
+//                        break;
+//                    case "class Class.Pedidos.Pedido":
+//                        listaPedidosFromJson(objetoJson.getJSONArray("class Class.Pedidos.Pedido"));
+//                        break;
+//                    case "marcas":
+//                        listaMarcasFromJson(objetoJson.getJSONArray("marcas"));
+//                        break;
+//                    case "categorias":
+//                        listaCategoriasFromJson(objetoJson.getJSONArray("categorias"));
+//                        break;
+//                }
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     //convertir JSON a LISTAS
-    private void listaEmpleadosFromJson(JSONArray listaJson) throws ElementoRepetidoException {
-        HashSet<Empleado> lista = GestoraJson.fromJson(listaJson);
-        for(Empleado e : lista){
+    public void listaEmpleadosFromJson(JSONArray listaJson) throws ElementoRepetidoException {
+        HashSet<Empleado> lista = GestoraJson.fromJson(listaJson); //pasamos el archivo json a un hashset
+        for(Empleado e : lista){ //se recorre el hashset para pasarlo a map y guardarlo en cafeteria.
             listaEmpleados.agregar(e.getId(),e);
         }
     }
 
-    private void listaClientesFromJson(JSONArray listaJson) throws ElementoRepetidoException {
+    public void listaClientesFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Cliente> lista = GestoraJson.fromJson(listaJson);
         for(Cliente e : lista){
             listaClientes.agregar(e.getId(),e);
         }
     }
 
-    private void listaProductosFromJson(JSONArray listaJson) throws ElementoRepetidoException {
+    public void listaProductosFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Producto> lista = GestoraJson.fromJson(listaJson);
         for(Producto e : lista){
             listaProductos.agregar(e.getId(),e);
         }
     }
 
-    private void listaPedidosFromJson(JSONArray listaJson) throws ElementoRepetidoException {
+    public void listaPedidosFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Pedido> lista = GestoraJson.fromJson(listaJson);
         for(Pedido e : lista){
             listaPedidos.agregar(e.getId(),e);
         }
     }
 
-    private void listaProveedoresFromJson(JSONArray listaJson) throws ElementoRepetidoException {
+    public void listaProveedoresFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Proveedor> lista = GestoraJson.fromJson(listaJson);
         for(Proveedor e : lista){
             listaProveedores.agregar(e.getId(),e);
         }
     }
 
-    private void listaMarcasFromJson(JSONArray listaJson) throws ElementoRepetidoException {
-        HashSet<String> lista = GestoraJson.fromJson(listaJson);
-        for(String e : lista){
-            listaMarcas.agregar(e);
-        }
+    public void listaMarcasFromJson(JSONArray listaJson) throws ElementoRepetidoException {
+        listaMarcas.fromJson(listaJson);
     }
 
-    private void listaCategoriasFromJson(JSONArray listaJson) throws ElementoRepetidoException {
-        HashSet<String> lista = GestoraJson.fromJson(listaJson);
-        for(String e : lista){
-            listaCategorias.agregar(e);
-        }
+    public void listaCategoriasFromJson(JSONArray listaJson) throws ElementoRepetidoException {
+        listaCategorias.fromJson(listaJson);
     }
 
 }

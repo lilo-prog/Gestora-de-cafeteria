@@ -79,7 +79,7 @@ public class Producto implements IJson {
             json.put("descripcion",descripcion);
             json.put("categoria",categoria);
             json.put("tipoProducto",tipoProducto.name());
-            json.put("clase",this.getClass());
+            json.put("clase",this.getClass().getSimpleName());
         }catch(JSONException e){
             e.printStackTrace();
         }
