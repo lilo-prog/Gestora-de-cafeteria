@@ -1,0 +1,10 @@
+[{
+    "apellido": "Trola",
+    "sueldo": 333.33,
+    "id": 1,
+    "telefono": 1234,
+    "nombre": "Lilo",
+    "edad": 21,
+    "dni": 1,
+    "clase": "class Class.Personas.Empleado"
+}]

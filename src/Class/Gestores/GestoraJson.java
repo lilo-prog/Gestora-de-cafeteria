@@ -1,5 +1,4 @@
 package Class.Gestores;
-
 import Class.Pedidos.Pedido;
 import Class.Personas.Cliente;
 import Class.Personas.Empleado;
@@ -8,9 +7,6 @@ import Class.Proveedores.Proveedor;
 import Interface.IJson;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class GestoraJson{
@@ -21,27 +17,27 @@ public class GestoraJson{
             String clase = arrJson.get(0).getClass().toString();
             for(int i=0;i<arrJson.length();i++){
                 switch(clase) {
-                    case "Class.Pedidos.Pedido":
+                    case " class Class.Pedidos.Pedido":
                         Pedido p = new Pedido();
                         p.fromJson(arrJson.getJSONObject(i));
                         lista.add((T) p);
                         break;
-                    case "Class.Personas.Cliente":
+                    case "class Class.Personas.Cliente":
                         Cliente c = new Cliente();
                         c.fromJson(arrJson.getJSONObject(i));
                         lista.add((T) c);
                         break;
-                    case "Class.Personas.Empleado":
+                    case "class Class.Personas.Empleado":
                         Empleado e = new Empleado();
                         e.fromJson(arrJson.getJSONObject(i));
                         lista.add((T) e);
                         break;
-                    case "Class.Proveedores.Proveedor":
+                    case "class Class.Proveedores.Proveedor":
                         Proveedor pr = new Proveedor();
                         pr.fromJson(arrJson.getJSONObject(i));
                         lista.add((T) pr);
                         break;
-                    case "Class.Productos.Producto":
+                    case "class Class.Productos.Producto":
                         Producto pro = new Producto();
                         pro.fromJson(arrJson.getJSONObject(i));
                         lista.add((T) pro);
@@ -67,6 +63,15 @@ public class GestoraJson{
             }
             JsonUtiles.grabarUnJson(arregloJSON,nombreArchivo + ".json");
         }
+    }
+    public static <T extends GestorString> void toJsonString(T elementos){
+        if(!elementos.getLista().isEmpty()) {
+            String nombreArchivo = "";
+            nombreArchivo = elementos.getNombre();
+            JSONArray arregloJSON = elementos.toJson();
+
+            JsonUtiles.grabarUnJson(arregloJSON,nombreArchivo + ".json");
         }
     }
 }
+

@@ -1,12 +1,8 @@
 package Class.Gestores;
-
-import Exceptions.EElementoNoEncontrado;
-import Exceptions.EElementoRepetido;
+import Exceptions.ElementoNoEncontradoException;
+import Exceptions.ElementoRepetidoException;
 import Interface.IJson;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -23,26 +19,26 @@ public class GestorGenerico<T extends IJson> {
 
     //Métodos propios.
         //Método agregar a lista.
-    public Boolean agregar(Integer clave,T elemento) throws NullPointerException, EElementoRepetido {
+    public Boolean agregar(Integer clave,T elemento) throws ElementoRepetidoException {
         if(elemento == null) throw new NullPointerException();
-        if(lista.containsKey(clave)) throw new EElementoRepetido();
+        if(lista.containsKey(clave)) throw new ElementoRepetidoException();
         lista.put(clave, elemento);
         return true;
     }
 
         //Método eliminar a lista.
-    public Boolean eliminar(Integer clave) throws EElementoNoEncontrado {
-        if(!lista.containsKey(clave)) throw new EElementoNoEncontrado();
+    public Boolean eliminar(Integer clave) throws ElementoNoEncontradoException {
+        if(!lista.containsKey(clave)) throw new ElementoNoEncontradoException();
         lista.remove(clave);
         return true;
     }
 
         //Método buscar en la lista.
-    public T buscarPorId(Integer idBuscar) throws EElementoNoEncontrado{
+    public T buscarPorId(Integer idBuscar) throws ElementoNoEncontradoException {
         if(lista.containsKey(idBuscar)){
             return lista.get(idBuscar);
         }
-        throw new EElementoNoEncontrado();
+        throw new ElementoNoEncontradoException();
     }
 
         //Mostrar lista.
@@ -57,7 +53,7 @@ public class GestorGenerico<T extends IJson> {
         return lista;
     }
 
-    public HashSet exportarASet(HashMap<Integer,T> elementos){
+    public static <T> HashSet exportarASet(HashMap<Integer,T> elementos){
         HashSet<T> set = new HashSet<>();
         for(Map.Entry<Integer,T> entry : elementos.entrySet()){
             set.add(entry.getValue());

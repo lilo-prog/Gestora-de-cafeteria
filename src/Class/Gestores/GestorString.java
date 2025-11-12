@@ -8,12 +8,26 @@ import org.json.JSONObject;
 import java.util.HashSet;
 
 public class GestorString {
+    //Atributos.
+    private String nombre;
     private HashSet<String> lista;
 
+    //Método constructor.
+    public GestorString(String nombre) {
+        this.nombre = nombre;
+        this.lista = new HashSet<>();
+    }
     public GestorString() {
+        this.nombre = "";
         this.lista = new HashSet<>();
     }
 
+    //Getters y Setters.
+    public String getNombre() {return nombre;}
+    public void setNombre(String nombre) {this.nombre = nombre;}
+    public HashSet<String> getLista() {return lista;}
+
+    //Métodos propios.
     public boolean agregar(String s) {
         return lista.add(s.toLowerCase());
     }
@@ -33,7 +47,6 @@ public class GestorString {
         }
         return sb.toString();
     }
-
 
     public JSONArray toJson() {
         JSONArray arreglo = new JSONArray();

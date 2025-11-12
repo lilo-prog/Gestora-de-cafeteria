@@ -1,17 +1,17 @@
 package Class.Gestores;
-
 import Class.Pedidos.Pedido;
 import Class.Personas.Cliente;
 import Class.Personas.Empleado;
 import Class.Productos.Producto;
 import Class.Proveedores.Proveedor;
+import Exceptions.ElementoRepetidoException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashSet;
 
 public class Cafeteria {
+    //Atributos.
     public GestorGenerico<Empleado> listaEmpleados;
     public GestorGenerico<Cliente> listaClientes;
     public GestorGenerico<Producto> listaProductos;
@@ -19,33 +19,69 @@ public class Cafeteria {
     public GestorGenerico<Proveedor> listaProveedores;
     public GestorString listaMarcas;
     public GestorString listaCategorias;
+
+    //Método constructor.
+
+
+    public Cafeteria() {
+        this.listaEmpleados = new GestorGenerico<>();
+        this.listaClientes = new GestorGenerico<>();
+        this.listaProductos = new GestorGenerico<>();
+        this.listaPedidos = new GestorGenerico<>();
+        this.listaProveedores = new GestorGenerico<>();
+        this.listaMarcas = new GestorString("marcas");
+        this.listaCategorias = new GestorString("categorias");
+    }
+
     //convertir a CAFETERIA a JSON
-    public void toJson(){
-        HashSet<Empleado> setEmpleados = listaEmpleados.exportarASet(listaEmpleados.getMap());
+    public void toJsonEmpleado(){
+        HashSet<Empleado> setEmpleados = GestorGenerico.exportarASet(listaEmpleados.getMap());
         GestoraJson.toJson(setEmpleados);
+    }
+    public void toJsonClientes(){
+        HashSet<Cliente> setClientes = GestorGenerico.exportarASet(listaClientes.getMap());
+        GestoraJson.toJson(setClientes);
+    }
+    public void toJsonProductos(){
+        HashSet<Producto> setProductos = GestorGenerico.exportarASet(listaProductos.getMap());
+        GestoraJson.toJson(setProductos);
+    }
+    public void toJsonPedidos(){
+        HashSet<Pedido> setPedidos = GestorGenerico.exportarASet(listaPedidos.getMap());
+        GestoraJson.toJson(setPedidos);
+    }
+    public void toJsonProveedores(){
+        HashSet<Proveedor> setProveedores = GestorGenerico.exportarASet(listaProveedores.getMap());
+        GestoraJson.toJson(setProveedores);
+    }
+    public void toJsonMarcas(){
+        GestoraJson.toJsonString(listaMarcas);
+    }
+    public void toJsonCategorias(){
+        GestoraJson.toJsonString(listaCategorias);
     }
 
     //convertir DE JSON a CAFETERIA
-    public void fromJson(JSONArray cafeteriaJson) {
+    public void fromJson(JSONArray cafeteriaJson) throws ElementoRepetidoException {
         try {
             for(int i = 0 ; i < cafeteriaJson.length(); i++) {
                 JSONObject objetoJson = cafeteriaJson.getJSONObject(i);
                 String clave = objetoJson.toString();
                 switch(clave){
-                    case "empleados":
-                        listaEmpleadosFromJson(objetoJson.getJSONArray("empleados"));
+                    case "class Class.Personas.Empleado":
+                        listaEmpleadosFromJson(objetoJson.getJSONArray("class Class.Personas.Empleado"));
                         break;
-                    case "clientes":
-                        listaClientesFromJson(objetoJson.getJSONArray("clientes"));
+                    case "class Class.Personas.Cliente":
+                        listaClientesFromJson(objetoJson.getJSONArray("class Class.Personas.Cliente"));
                         break;
-                    case "proveedores":
-                        listaProveedoresFromJson(objetoJson.getJSONArray("proveedores"));
+                    case "class Class.Proveedores.Proveedor":
+                        listaProveedoresFromJson(objetoJson.getJSONArray("class Class.Proveedores.Proveedor"));
                         break;
-                    case "productos":
-                        listaProductosFromJson(objetoJson.getJSONArray("productos"));
+                    case "class Class.Productos.Producto":
+                        listaProductosFromJson(objetoJson.getJSONArray("class Class.Productos.Producto"));
                         break;
-                    case "pedidos":
-                        listaPedidosFromJson(objetoJson.getJSONArray("pedidos"));
+                    case "class Class.Pedidos.Pedido":
+                        listaPedidosFromJson(objetoJson.getJSONArray("class Class.Pedidos.Pedido"));
                         break;
                     case "marcas":
                         listaMarcasFromJson(objetoJson.getJSONArray("marcas"));
@@ -60,54 +96,53 @@ public class Cafeteria {
         }
     }
     //convertir JSON a LISTAS
-    private void listaEmpleadosFromJson(JSONArray listaJson){
+    private void listaEmpleadosFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Empleado> lista = GestoraJson.fromJson(listaJson);
         for(Empleado e : lista){
             listaEmpleados.agregar(e.getId(),e);
         }
     }
 
-    private void listaClientesFromJson(JSONArray listaJson){
+    private void listaClientesFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Cliente> lista = GestoraJson.fromJson(listaJson);
         for(Cliente e : lista){
             listaClientes.agregar(e.getId(),e);
         }
     }
 
-    private void listaProductosFromJson(JSONArray listaJson){
+    private void listaProductosFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Producto> lista = GestoraJson.fromJson(listaJson);
         for(Producto e : lista){
             listaProductos.agregar(e.getId(),e);
         }
     }
 
-    private void listaPedidosFromJson(JSONArray listaJson){
+    private void listaPedidosFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Pedido> lista = GestoraJson.fromJson(listaJson);
         for(Pedido e : lista){
             listaPedidos.agregar(e.getId(),e);
         }
     }
 
-    private void listaProveedoresFromJson(JSONArray listaJson){
+    private void listaProveedoresFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Proveedor> lista = GestoraJson.fromJson(listaJson);
         for(Proveedor e : lista){
             listaProveedores.agregar(e.getId(),e);
         }
     }
 
-    private void listaMarcasFromJson(JSONArray listaJson){
+    private void listaMarcasFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<String> lista = GestoraJson.fromJson(listaJson);
         for(String e : lista){
             listaMarcas.agregar(e);
         }
     }
 
-    private void listaCategoriasFromJson(JSONArray listaJson){
+    private void listaCategoriasFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<String> lista = GestoraJson.fromJson(listaJson);
         for(String e : lista){
             listaCategorias.agregar(e);
         }
     }
-
 
 }

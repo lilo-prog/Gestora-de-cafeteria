@@ -1,6 +1,6 @@
 package Class.Pedidos;
-import Exceptions.EElementoNoEncontrado;
-import Exceptions.EElementoRepetido;
+import Exceptions.ElementoNoEncontradoException;
+import Exceptions.ElementoRepetidoException;
 import Class.Productos.Producto;
 
 import Interface.IJson;
@@ -100,9 +100,9 @@ public class Pedido implements IJson {
 
     //Métodos HashMap lista de productos.
         //Método agregar producto a lista de productos dentro del pedido.
-    public Boolean agregar(Producto producto, int cantidad) throws NullPointerException, EElementoRepetido {
+    public Boolean agregar(Producto producto, int cantidad) throws NullPointerException, ElementoRepetidoException {
         if(producto != null) throw new NullPointerException();
-        if(listaProductos.containsKey(producto.getNombre())) throw new EElementoRepetido();
+        if(listaProductos.containsKey(producto.getNombre())) throw new ElementoRepetidoException();
         listaProductos.put(producto, cantidad);
         total = calcularTotal();
         return true;
@@ -118,11 +118,11 @@ public class Pedido implements IJson {
     }
 
         //Método buscar producto a lista de productos dentro del pedido.
-    public Boolean buscar(String nombre) throws EElementoNoEncontrado {
-        if(!listaProductos.containsKey(nombre)) throw new EElementoNoEncontrado();
+    public Boolean buscar(String nombre) throws ElementoNoEncontradoException {
+        if(!listaProductos.containsKey(nombre)) throw new ElementoNoEncontradoException();
         return true;
     }
-    public Producto buscarNombre(Producto producto) throws EElementoNoEncontrado {
+    public Producto buscarNombre(Producto producto) throws ElementoNoEncontradoException {
         if(listaProductos.containsKey(producto.getNombre())) return producto;
         return null;
     }
