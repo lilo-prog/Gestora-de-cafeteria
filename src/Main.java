@@ -1,7 +1,11 @@
 import Controllers.*;
+import Exceptions.CaracteresException;
+import Exceptions.FechaPosteriorException;
+import Exceptions.RequisitoDeEdadException;
 import Models.Personas.Empleado;
 import Exceptions.ElementoRepetidoException;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -9,7 +13,7 @@ public class Main {
     static Cafeteria Mudy = new Cafeteria();
 
     static Scanner sc = new Scanner(System.in);
-    static Boolean bandera = false;
+
     public static void main(String[] args) {
         int opcion;
 
@@ -26,6 +30,7 @@ public class Main {
 
                     try {
                         agregar(opcion);
+
                     } catch (ElementoRepetidoException e) {
                         System.out.println(e.getMessage());
                     }
@@ -83,31 +88,83 @@ public class Main {
 
         }
     }
-    public static Boolean agregarEmpleado() throws ElementoRepetidoException{
+
+    public static void agregarEmpleado() throws ElementoRepetidoException{
         Empleado e = new Empleado();
-        System.out.println("- Ingrese nombre del empleado: ");
-        e.setNombre(sc.nextLine());
+        while(true) {
+            try {
+                System.out.println("- Ingrese nombre del empleado: ");
+                e.setNombre(sc.nextLine());
+                //Si hay una secuencia de caracteres que contiene un numero tira una excepcion.
+                if(e.getNombre().matches(".*\\d.*")) throw new CaracteresException("- El nombre no puede contener números.");
+                if(e.getNombre().length() < 2) throw new CaracteresException("- El nombre debe tener al menos 2 caracteres.");
+                break;
+            }catch(CaracteresException ex){
+                System.out.println("Error: " + ex.getMessage());
+            }
+        }
+        while(true){
+            try{
+                System.out.println("- Ingrese apellido del empleado: ");
+                e.setApellido(sc.nextLine());
+                if(e.getApellido().matches(".*\\d.*")) throw new CaracteresException("- El apellido no puede contener números.");
+                if(e.getApellido().length() < 2) throw new CaracteresException("- El apellido debe tener al menos 2 caracteres.");
+                break;
+            }catch(CaracteresException ex){
+                System.out.println("Error: " + ex.getMessage());
+            }
+        }
 
-        System.out.println("- Ingrese apellido del empleado: ");
-        e.setApellido(sc.nextLine());
+        while (true) {
+            try{
+                System.out.println("- Ingrese fecha de nacimiento del empleado (YYYY-MM-DD) en números: ");
+                String fecha = sc.nextLine();
+                LocalDate temp = LocalDate.parse(fecha);
+                if(temp.isAfter(LocalDate.now())) throw new FechaPosteriorException();
+                e.setFechaNacimiento(temp);
+                int edad = e.calcularEdad();
+                e.setEdad(edad);
+                if(edad < 16) throw new RequisitoDeEdadException();
+                break;
+            } catch(DateTimeParseException x){
+                System.out.println("- El formato de la fecha es erroneo, debe ser YYYY-MM-DD en números.");
+            } catch(FechaPosteriorException | RequisitoDeEdadException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
 
-        System.out.println("- Ingrese edad del empleado: ");
-        e.setEdad(sc.nextInt());
-        sc.nextLine();
+        while(true){
+            try {
+                System.out.println("- Ingrese dni del empleado: ");
+                int dni = sc.nextInt();
+                if(dni < 10000000) throw new CaracteresException("- El dni debe tener 8 dígitos.");
+                e.setDni(dni);
+                break;
+            }catch(InputMismatchException x){
+                System.out.println(x.getMessage() + "- El dni debe ser numérico.");
+                sc.nextLine();
+            }catch(CaracteresException x){
+                System.out.println(x.getMessage());
+            }
+        }
 
-        System.out.println("- Ingrese dni del empleado: ");
-        e.setDni(sc.nextInt());
-        sc.nextLine();
+        while(true){
+            try {
+                System.out.println("- Ingrese teléfono del empleado: ");
+                String telefono = sc.nextLine();
+                e.setTelefono(telefono);
+                sc.nextLine();
+                break;
+            }catch(){
 
-        System.out.println("- Ingrese teléfono del empleado: ");
-        e.setTelefono(sc.nextInt());
-        sc.nextLine();
+            }
+        }
 
         System.out.println("- Ingrese sueldo del empleado: ");
         e.setSueldo(sc.nextDouble());
         sc.nextLine();
 
-        return Mudy.listaEmpleados.agregar(e.getDni(), e);
+        Mudy.listaEmpleados.agregar(e.getDni(), e);
     }
 
 }

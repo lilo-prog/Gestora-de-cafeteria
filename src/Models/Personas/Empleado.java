@@ -3,13 +3,15 @@ package Models.Personas;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDate;
+
 public class Empleado extends Persona{
     //Atributos.
     private Double sueldo;
 
     //Método constructor.
-    public Empleado(String nombre, String apellido, int edad, int dni, int telefono, Double sueldo) {
-        super(nombre, apellido, edad, dni, telefono);
+    public Empleado(String nombre, String apellido, LocalDate fechaNacimiento, int dni, int telefono, Double sueldo) {
+        super(nombre, apellido, fechaNacimiento, dni, telefono);
         this.sueldo = sueldo;
     }
     public Empleado() {
