@@ -1,4 +1,4 @@
-package Class.Proveedores;
+package Models.Proveedores;
 import Interface.IJson;
 import org.json.JSONException;
 import org.json.JSONObject;

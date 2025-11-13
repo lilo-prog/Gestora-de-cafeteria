@@ -1,8 +1,6 @@
-import Class.Gestores.*;
-import Class.Personas.Empleado;
+import Controllers.*;
+import Models.Personas.Empleado;
 import Exceptions.ElementoRepetidoException;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

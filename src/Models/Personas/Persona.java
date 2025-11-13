@@ -1,4 +1,4 @@
-package Class.Personas;
+package Models.Personas;
 import Interface.IJson;
 import org.json.JSONException;
 import org.json.JSONObject;

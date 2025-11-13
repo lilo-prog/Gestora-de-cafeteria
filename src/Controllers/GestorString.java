@@ -1,9 +1,7 @@
-package Class.Gestores;
+package Controllers;
 
-import Interface.IJson;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashSet;
 

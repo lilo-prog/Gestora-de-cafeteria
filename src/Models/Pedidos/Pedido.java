@@ -1,7 +1,7 @@
-package Class.Pedidos;
+package Models.Pedidos;
 import Exceptions.ElementoNoEncontradoException;
 import Exceptions.ElementoRepetidoException;
-import Class.Productos.Producto;
+import Models.Productos.Producto;
 
 import Interface.IJson;
 import Enum.ETipoPago;

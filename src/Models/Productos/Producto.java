@@ -1,5 +1,5 @@
-package Class.Productos;
-import Class.Proveedores.Proveedor;
+package Models.Productos;
+import Models.Proveedores.Proveedor;
 import Interface.IJson;
 import Enum.ETipoProducto;
 import org.json.JSONException;

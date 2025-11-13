@@ -1,9 +1,9 @@
-package Class.Gestores;
-import Class.Pedidos.Pedido;
-import Class.Personas.Cliente;
-import Class.Personas.Empleado;
-import Class.Productos.Producto;
-import Class.Proveedores.Proveedor;
+package Controllers;
+import Models.Pedidos.Pedido;
+import Models.Personas.Cliente;
+import Models.Personas.Empleado;
+import Models.Productos.Producto;
+import Models.Proveedores.Proveedor;
 import Exceptions.ElementoRepetidoException;
 import org.json.JSONArray;
 import java.util.HashSet;
