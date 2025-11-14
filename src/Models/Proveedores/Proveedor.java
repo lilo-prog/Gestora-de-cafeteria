@@ -11,11 +11,11 @@ public class Proveedor implements IJson {
     private int id;
     private static int idGeneral = 0;
     private String nombre;
-    private String cuil;
+    private long cuil;
     private String telefono;
 
     //Métodos constructores.
-    public Proveedor(String nombre, String cuil,String telefono) {
+    public Proveedor(String nombre, long cuil,String telefono) {
         idGeneral++;
         this.id = idGeneral;
         this.nombre = nombre;
@@ -26,7 +26,7 @@ public class Proveedor implements IJson {
         idGeneral++;
         this.id = idGeneral;
         this.nombre = "";
-        this.cuil = "";
+        this.cuil = 0;
         this.telefono = "";
     }
 
@@ -34,8 +34,8 @@ public class Proveedor implements IJson {
     public int getId() {return id;}
     public String getNombre() {return nombre;}
     public void setNombre(String nombre) {this.nombre = nombre;}
-    public String getCuil() {return cuil;}
-    public void setCuil(String cuil) {this.cuil = cuil;}
+    public long getCuil() {return cuil;}
+    public void setCuil(long cuil) {this.cuil = cuil;}
     public String getTelefono() {return telefono;}
     public void setTelefono(String telefono) {this.telefono = telefono;}
 
@@ -65,7 +65,7 @@ public class Proveedor implements IJson {
         try {
             this.id = objetoJSON.getInt("id");
             this.nombre = objetoJSON.getString("nombre");
-            this.cuil = objetoJSON.getString("cuil");
+            this.cuil = objetoJSON.getLong("cuil");
             this.telefono = objetoJSON.getString("telefono");
         } catch (JSONException e){
             e.printStackTrace();

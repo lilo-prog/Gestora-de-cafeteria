@@ -11,7 +11,7 @@ public class Producto implements IJson {
     //Atributos.
     private int id;
     private String nombre;
-    private String upc; //codigo del producto.
+    private long upc; //codigo del producto (tiene 12 digitos).
     private String marca;
     private Double precio;
     private Proveedor proveedor;
@@ -20,7 +20,7 @@ public class Producto implements IJson {
     private ETipoProducto tipoProducto;
     private static int idGeneral = 0;
     //Método constructor.
-    public Producto(String nombre, String upc, String marca, Double precio, Proveedor proveedor, String descripcion, String categoria, ETipoProducto tipoProducto) {
+    public Producto(String nombre, long upc, String marca, Double precio, Proveedor proveedor, String descripcion, String categoria, ETipoProducto tipoProducto) {
         idGeneral++;
         this.id = idGeneral;
         this.nombre = nombre;
@@ -36,7 +36,7 @@ public class Producto implements IJson {
         idGeneral++;
         this.id = idGeneral;
         this.nombre = "";
-        this.upc = "";
+        this.upc = 0;
         this.marca = "";
         this.precio = 0.0;
         this.proveedor = null;
@@ -49,8 +49,8 @@ public class Producto implements IJson {
     public int getId() {return id;}
     public String getNombre() {return nombre;}
     public void setNombre(String nombre) {this.nombre = nombre;}
-    public String getUpc() {return upc;}
-    public void setUpc(String upc) {this.upc = upc;}
+    public long getUpc() {return upc;}
+    public void setUpc(long upc) {this.upc = upc;}
     public String getMarca() {return marca;}
     public void setMarca(String marca) {this.marca = marca;}
     public Double getPrecio() {return precio;}
@@ -90,7 +90,7 @@ public class Producto implements IJson {
         try{
             id = objetoJSON.getInt("id");
             nombre = objetoJSON.getString("nombre");
-            upc = objetoJSON.getString("upc");
+            upc = objetoJSON.getLong("upc");
             marca = objetoJSON.getString("marca");
             precio = objetoJSON.getDouble("precio");
             proveedor.fromJson(objetoJSON.getJSONObject("proveedor"));
