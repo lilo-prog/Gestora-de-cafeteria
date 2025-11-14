@@ -62,7 +62,7 @@ public class Persona implements IJson {
         return periodo.getYears();
     }
     public boolean validarTelefono() {
-        return telefono.matches();
+        return telefono.matches("\\+?[0-9 ]{7,20}"); // permite validar un numero con +,espacios, y entre 7 y 20 numeros
     }
 
     //Métodos JSON.

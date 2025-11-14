@@ -3,13 +3,15 @@ package Models.Personas;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDate;
+
 public class Cliente extends Persona {
     //Atributos.
     private Double gastosTotales;
 
     //Método constructor.
-    public Cliente(String nombre, String apellido, int edad, int dni, int telefono, Double gastosTotales) {
-        super(nombre, apellido, edad, dni, telefono);
+    public Cliente(String nombre, String apellido, LocalDate fechaNacimiento, int dni, String telefono, Double gastosTotales) {
+        super(nombre, apellido, fechaNacimiento, dni, telefono);
         this.gastosTotales = gastosTotales;
     }
     public Cliente() {
@@ -47,6 +49,6 @@ public class Cliente extends Persona {
     }
 
     //Override.
-    @Override public String toString() {return "Cliente{ " + super.toString() + "gastos totales=: " + gastosTotales + " }";}
+    @Override public String toString() {return "Cliente{ " + super.toString() + ", gastos totales=: " + gastosTotales + " }";}
 
 }

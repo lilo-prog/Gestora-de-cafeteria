@@ -10,7 +10,7 @@ public class Empleado extends Persona{
     private Double sueldo;
 
     //Método constructor.
-    public Empleado(String nombre, String apellido, LocalDate fechaNacimiento, int dni, int telefono, Double sueldo) {
+    public Empleado(String nombre, String apellido, LocalDate fechaNacimiento, int dni, String telefono, Double sueldo) {
         super(nombre, apellido, fechaNacimiento, dni, telefono);
         this.sueldo = sueldo;
     }

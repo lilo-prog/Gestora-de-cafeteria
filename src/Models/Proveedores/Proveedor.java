@@ -2,6 +2,8 @@ package Models.Proveedores;
 import Interface.IJson;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import javax.print.DocFlavor;
 import java.util.Objects;
 
 public class Proveedor implements IJson {
@@ -10,10 +12,10 @@ public class Proveedor implements IJson {
     private static int idGeneral = 0;
     private String nombre;
     private String cuil;
-    private int telefono;
+    private String telefono;
 
     //Métodos constructores.
-    public Proveedor(String nombre, String cuil, int telefono) {
+    public Proveedor(String nombre, String cuil,String telefono) {
         idGeneral++;
         this.id = idGeneral;
         this.nombre = nombre;
@@ -25,7 +27,7 @@ public class Proveedor implements IJson {
         this.id = idGeneral;
         this.nombre = "";
         this.cuil = "";
-        this.telefono = 0;
+        this.telefono = "";
     }
 
     //Getters y Setters.
@@ -34,10 +36,13 @@ public class Proveedor implements IJson {
     public void setNombre(String nombre) {this.nombre = nombre;}
     public String getCuil() {return cuil;}
     public void setCuil(String cuil) {this.cuil = cuil;}
-    public int getTelefono() {return telefono;}
-    public void setTelefono(int telefono) {this.telefono = telefono;}
+    public String getTelefono() {return telefono;}
+    public void setTelefono(String telefono) {this.telefono = telefono;}
 
     //Métodos propios.
+    public boolean validarTelefono() {
+        return telefono.matches("\\+?[0-9 ]{7,20}"); // permite validar un numero con +,espacios, y entre 7 y 20 numeros
+    }
     //Métodos JSON.
         //toJson.
     @Override
@@ -61,7 +66,7 @@ public class Proveedor implements IJson {
             this.id = objetoJSON.getInt("id");
             this.nombre = objetoJSON.getString("nombre");
             this.cuil = objetoJSON.getString("cuil");
-            this.telefono = objetoJSON.getInt("telefono");
+            this.telefono = objetoJSON.getString("telefono");
         } catch (JSONException e){
             e.printStackTrace();
         }
