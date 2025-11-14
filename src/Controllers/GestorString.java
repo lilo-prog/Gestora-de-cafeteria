@@ -1,5 +1,6 @@
 package Controllers;
 
+import Exceptions.ElementoNoEncontradoException;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -33,9 +34,10 @@ public class GestorString {
     }
 
         //Método eliminar.
-    public boolean eliminar(String s) {
-        if (lista.contains(s.toLowerCase())) return lista.remove(s);
-        return false;
+    public boolean eliminar(String s) throws ElementoNoEncontradoException {
+        if (!lista.contains(s.toLowerCase())) throw new ElementoNoEncontradoException();
+        return lista.remove(s);
+
     }
 
         //Método buscar.

@@ -501,9 +501,11 @@ public class Main {
                 System.out.println("- Pedido eliminado correctamente!");
                 break;
             case 6:
+                eliminarMarca();
                 System.out.println("- Marca eliminada correctamente!");
                 break;
             case 7:
+                eliminarCategoria();
                 System.out.println("- Categoría eliminada correctamente!");
                 break;
             default:
@@ -571,6 +573,34 @@ public class Main {
                 break;
             }catch(IllegalArgumentException | InputMismatchException x){
                 System.out.println("- Error: " + x.getMessage());
+            }
+        }
+    }
+
+    public static void eliminarMarca() throws ElementoNoEncontradoException{
+        while(true) {
+            try {
+                System.out.println("- Ingrese nombre de la marca para eliminarla: ");
+                String marca = sc.nextLine();
+                if(marca.length() < 2) throw new CaracteresException("- El nombre debe tener al menos 2 caracteres.");
+                Mudy.listaMarcas.eliminar(marca);
+                break;
+            }catch(CaracteresException ex){
+                System.out.println("- Error: " + ex.getMessage());
+            }
+        }
+    }
+
+    public static void eliminarCategoria() throws ElementoNoEncontradoException{
+        while(true) {
+            try {
+                System.out.println("- Ingrese nombre de la categoría para eliminarla: ");
+                String categoria = sc.nextLine();
+                if(categoria.length() < 2) throw new CaracteresException("- El nombre debe tener al menos 2 caracteres.");
+                Mudy.listaCategorias.eliminar(categoria);
+                break;
+            }catch(CaracteresException ex){
+                System.out.println("- Error: " + ex.getMessage());
             }
         }
     }
