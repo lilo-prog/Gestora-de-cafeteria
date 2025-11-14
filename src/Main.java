@@ -445,7 +445,7 @@ public class Main {
     }
 
 
-    
+
         //Métodos eliminar de la lista.
     public static void eliminar(int opcion) throws ElementoNoEncontradoException{
         switch (opcion){
