@@ -19,7 +19,7 @@ public class Main {
         int opcion;
 
         do{
-            menu();
+            menuPrincipal();
             opcion = sc.nextInt();
             sc.nextLine();
             switch(opcion){
@@ -60,7 +60,7 @@ public class Main {
 
     }
 
-    public static void menu(){
+    public static void menuPrincipal(){
         System.out.println("- Menú Principal -");
         System.out.println("1 - Agregar.");
         System.out.println("2 - Eliminar.");
@@ -79,6 +79,7 @@ public class Main {
         System.out.println("7 - Categorias.");
         System.out.println("- Ingrese opción: ");
     }
+
     public static void agregar(int opcion) throws ElementoRepetidoException, InputMismatchException {
         switch(opcion){
             case 1:
@@ -104,7 +105,7 @@ public class Main {
             case 7:
                 break;
             default:
-                System.out.println("Opcion invalida.");
+                System.out.println("- Opción inválida.");
                 break;
         }
     }
@@ -115,7 +116,7 @@ public class Main {
             try {
                 System.out.println("- Ingrese nombre del empleado: ");
                 e.setNombre(sc.nextLine());
-                //Si hay una secuencia de caracteres que contiene un numero tira una excepcion.
+                //Si hay una secuencia de caracteres que contiene un número tira una excepción.
                 if(e.getNombre().matches(".*\\d.*")) throw new CaracteresException("- El nombre no puede contener números.");
                 if(e.getNombre().length() < 2) throw new CaracteresException("- El nombre debe tener al menos 2 caracteres.");
                 break;
@@ -123,6 +124,7 @@ public class Main {
                 System.out.println("Error: " + ex.getMessage());
             }
         }
+
         while(true){
             try{
                 System.out.println("- Ingrese apellido del empleado: ");
@@ -185,15 +187,17 @@ public class Main {
             try {
                 System.out.println("- Ingrese sueldo del empleado: ");
                 double sueldo = sc.nextDouble();
-                if(sueldo <= 0) throw new IllegalArgumentException("El sueldo debe ser mayor que 0.");
+                if(sueldo <= 0) throw new IllegalArgumentException("- El sueldo debe ser mayor que 0.");
                 e.setSueldo(sueldo);
                 break;
             }catch(IllegalArgumentException | InputMismatchException x){
                 System.out.println("Error: " + x.getMessage());
             }
         }
+
         Mudy.listaEmpleados.agregar((long) e.getDni(), e);
     }
+
     public static void agregarCliente() throws ElementoRepetidoException{
         Cliente c = new Cliente();
         while(true) {
@@ -208,6 +212,7 @@ public class Main {
                 System.out.println("Error: " + ex.getMessage());
             }
         }
+
         while(true){
             try{
                 System.out.println("- Ingrese apellido del cliente: ");
@@ -268,6 +273,7 @@ public class Main {
 
         Mudy.listaClientes.agregar((long)c.getDni(), c);
     }
+
     public static void agregarProveedor() throws ElementoRepetidoException{
         Proveedor p = new Proveedor();
         while(true) {
@@ -308,9 +314,9 @@ public class Main {
             }
         }
 
-
         Mudy.listaProveedores.agregar(p.getCuil(), p);
     }
+
     public static void agregarProducto() throws ElementoRepetidoException{
         Producto p = new Producto();
         while(true) {
@@ -325,17 +331,19 @@ public class Main {
                 System.out.println("Error: " + x.getMessage());
             }
         }
+
         while(true) {
             try {
                 System.out.println("- Ingrese upc del producto: ");
                 long upc = sc.nextLong();
-                if(upc < 100000000000L) throw new IllegalArgumentException("El upc debe tener al menos 12 digitos");
+                if(upc < 100000000000L) throw new IllegalArgumentException("- El upc debe tener al menos 12 dígitos.");
                 p.setUpc(upc);
                 break;
             }catch(IllegalArgumentException | InputMismatchException x){
-                System.out.println("Error: " + x.getMessage());
+                System.out.println("- Error: " + x.getMessage());
             }
         }
+
         while(true) {
             try {
                 System.out.println("- Seleccione marca del producto: ");
@@ -344,20 +352,22 @@ public class Main {
                 if(!Mudy.listaMarcas.buscar(marca)) throw new ElementoNoEncontradoException();
                 break;
             }catch(ElementoNoEncontradoException e){
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("- Error: " + e.getMessage());
             }
         }
+
         while(true) {
             try {
                 System.out.println("- Ingrese precio del producto: ");
                 double precio = sc.nextDouble();
-                if(precio<=0) throw new IllegalArgumentException("Un producto no puede ser gratis");
+                if(precio<=0) throw new IllegalArgumentException("- Un producto no puede ser gratis.");
                 p.setPrecio(precio);
                 break;
             }catch(InputMismatchException | IllegalArgumentException e){
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("- Error: " + e.getMessage());
             }
         }
+
         while(true) {
             try {
                 System.out.println("- Seleccione el proveedor del producto por su CUIL: ");
@@ -368,7 +378,7 @@ public class Main {
                 p.setProveedor(proveedor);
                 break;
             } catch (InputMismatchException | ElementoNoEncontradoException e) {
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("- Error: " + e.getMessage());
             }
         }
 
@@ -376,16 +386,17 @@ public class Main {
 
         while(true){
             try {
-                System.out.println("- Seleccione una categoria para el producto: ");
+                System.out.println("- Seleccione una categoría para el producto: ");
                 System.out.println(Mudy.listaCategorias.mostrar());
                 String categoria = sc.nextLine();
                 if(!Mudy.listaCategorias.buscar(categoria)) throw new ElementoNoEncontradoException();
                 p.setCategoria(categoria);
                 break;
             }catch(ElementoNoEncontradoException e){
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("- Error: " + e.getMessage());
             }
         }
+
         while(true){
             try {
                 System.out.println("- Seleccione el tipo de producto: ");
@@ -393,12 +404,13 @@ public class Main {
                 int op = sc.nextInt();
                 if(op == 1) p.setTipoProducto(ETipoProducto.COMESTIBLE);
                 if(op == 2) p.setTipoProducto(ETipoProducto.BEBIBLE);
-                else throw new IllegalArgumentException("Valor invalido");
+                else throw new IllegalArgumentException("- Valor inválido.");
                 break;
             }catch(InputMismatchException | IllegalArgumentException e){
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("- Error: " + e.getMessage());
             }
         }
+
         Mudy.listaProductos.agregar(p.getUpc(),p);
     }
 

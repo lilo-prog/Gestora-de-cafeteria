@@ -51,10 +51,12 @@ public class GestorGenerico<T extends IJson> {
         return sb.toString();
     }
 
+        //Getter.
     public HashMap<Long,T> getMap(){
         return lista;
     }
 
+        //Método exportar a HashSet para luego poder hacer el toJson.
     public static <T> HashSet exportarASet(HashMap<Long,T> elementos){
         HashSet<T> set = new HashSet<>();
         for(Map.Entry<Long,T> entry : elementos.entrySet()){

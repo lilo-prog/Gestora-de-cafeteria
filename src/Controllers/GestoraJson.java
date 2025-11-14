@@ -12,7 +12,10 @@ import org.json.JSONObject;
 import java.util.HashSet;
 
 public class GestoraJson{
-    //metodo FromJSON
+    // Método FromJSON.
+    // Se obtiene por parámetro un JSONArray que, dependiendo de la clase que se obtenga, se crea un objeto del mismo tipo
+    // y se agrega al HashSet, para después retornarlo.
+
     public static <T extends IJson> HashSet fromJson(JSONArray arrJson){
         HashSet<T> lista = new HashSet<>();
         try{
@@ -57,6 +60,10 @@ public class GestoraJson{
         return lista;
     }
 
+    // Método ToJSON.
+    // Se obtiene por parámetro un HasSet que, si tiene elementos, se recorre, se obtiene la clase para guardarlo como nombre del archivo
+    // y se pasa a JSON.
+
     public static <T extends IJson> void toJson(HashSet<T> elementos){
         if(!elementos.isEmpty()) {
             String nombreArchivo = "";
@@ -68,6 +75,10 @@ public class GestoraJson{
             JsonUtiles.grabarUnJson(arregloJSON,nombreArchivo + ".json");
         }
     }
+
+    // Método ToJSON con la diferencia de que éste es para Strings (marcas y categorias). Donde se agarra el nombre de la lista para
+    // así utilizarlo como nombre del archivo.
+
     public static <T extends GestorString> void toJsonString(T elementos){
         if(!elementos.getLista().isEmpty()) {
             String nombreArchivo = "";
