@@ -98,35 +98,35 @@ public class Cafeteria {
     public void listaEmpleadosFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Empleado> lista = GestoraJson.fromJson(listaJson); //pasamos el archivo json a un hashset
         for(Empleado e : lista){ //se recorre el hashset para pasarlo a map y guardarlo en cafeteria.
-            listaEmpleados.agregar(e.getId(),e);
+            listaEmpleados.agregar((long)e.getId(),e);
         }
     }
 
     public void listaClientesFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Cliente> lista = GestoraJson.fromJson(listaJson);
         for(Cliente e : lista){
-            listaClientes.agregar(e.getId(),e);
+            listaClientes.agregar((long)e.getId(),e);
         }
     }
 
     public void listaProductosFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Producto> lista = GestoraJson.fromJson(listaJson);
         for(Producto e : lista){
-            listaProductos.agregar(e.getId(),e);
+            listaProductos.agregar((long)e.getId(),e);
         }
     }
 
     public void listaPedidosFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Pedido> lista = GestoraJson.fromJson(listaJson);
         for(Pedido e : lista){
-            listaPedidos.agregar(e.getId(),e);
+            listaPedidos.agregar((long)e.getId(),e);
         }
     }
 
     public void listaProveedoresFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Proveedor> lista = GestoraJson.fromJson(listaJson);
         for(Proveedor e : lista){
-            listaProveedores.agregar(e.getId(),e);
+            listaProveedores.agregar((long)e.getId(),e);
         }
     }
 
