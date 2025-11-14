@@ -17,58 +17,81 @@ public class Main {
 
     public static void main(String[] args) {
         int opcion;
+        char control = 's';
+        
+        while(control == 's') {
+                menuPrincipal();
+                opcion = sc.nextInt();
+                sc.nextLine();
+                switch (opcion) {
+                    case 0:
+                        control = 'n';
+                        break;
+                    case 1:
+                        System.out.println("- Agregar -");
+                        mostrarListas();
+                        opcion = sc.nextInt();
+                        sc.nextLine();
 
-        do{
-            menuPrincipal();
-            opcion = sc.nextInt();
-            sc.nextLine();
-            switch(opcion){
-                case 1:
-                    System.out.println("- Agregar -");
-                    mostrarListas();
-                    opcion = sc.nextInt();
-                    sc.nextLine();
+                        try {
+                            agregar(opcion);
+                        } catch (ElementoRepetidoException e) {
+                            System.out.println(e.getMessage());
+                        }
 
+                        break;
+                    case 2:
+                        System.out.println("- Eliminar -");
+                        mostrarListas();
+
+                        break;
+                    case 3:
+                        System.out.println("- Buscar -");
+                        mostrarListas();
+
+                        break;
+                    case 4:
+                        System.out.println("- Mostrar -");
+                        mostrarListas();
+                        opcion = sc.nextInt();
+                        sc.nextLine();
+                        mostrar(opcion);
+                        break;
+                    default:
+                        System.out.println("- Opción inválida. Debe elegir entre 1 y 4.");
+                        break;
+                }
+
+            if (control == 's') {
+                while(true) {
                     try {
-                        agregar(opcion);
-
-                    } catch (ElementoRepetidoException e) {
+                        System.out.println("- Continuar?? (s/n): ");
+                        control = sc.next().charAt(0);
+                        if (control != 'n' && control != 's')
+                            throw new CaracteresException("- La opción debe ser 's' o 'n'. ");
+                        break;
+                    } catch (CaracteresException e) {
                         System.out.println(e.getMessage());
+
                     }
-
-                    break;
-                case 2:
-                    System.out.println("- Eliminar -");
-                    mostrarListas();
-
-                    break;
-                case 3:
-                    System.out.println("- Buscar -");
-                    mostrarListas();
-
-                    break;
-                case 4:
-                    System.out.println("- Mostrar -");
-                    mostrarListas();
-
-                    break;
-                default:
-                    break;
+                }
             }
-        }while(opcion > 0 && opcion <= 4);
-
-
+        }
+        System.out.println("- Saliendo de programa...");
     }
 
+        // Método menú principal.
     public static void menuPrincipal(){
         System.out.println("- Menú Principal -");
         System.out.println("1 - Agregar.");
         System.out.println("2 - Eliminar.");
         System.out.println("3 - Buscar.");
         System.out.println("4 - Mostrar.");
+        System.out.println("0 - Salir.");
         System.out.println("- Ingrese opción: ");
     }
 
+        // Método mostrar listas para que el usuario elija qué clase manipular.
     public static void mostrarListas(){
         System.out.println("1 - Empleados.");
         System.out.println("2 - Clientes.");
@@ -76,10 +99,11 @@ public class Main {
         System.out.println("4 - Productos.");
         System.out.println("5 - Pedidos.");
         System.out.println("6 - Marcas.");
-        System.out.println("7 - Categorias.");
+        System.out.println("7 - Categorías.");
         System.out.println("- Ingrese opción: ");
     }
 
+        //Métodos para agregar a listas.
     public static void agregar(int opcion) throws ElementoRepetidoException, InputMismatchException {
         switch(opcion){
             case 1:
@@ -412,6 +436,36 @@ public class Main {
         }
 
         Mudy.listaProductos.agregar(p.getUpc(),p);
+    }
+
+        // Método mostrar listas cargadas.
+    public static void mostrar(int opcion){
+        switch (opcion){
+            case 1:
+                System.out.println(Mudy.listaEmpleados.mostrarLista());
+                break;
+            case 2:
+                System.out.println(Mudy.listaClientes.mostrarLista());
+                break;
+            case 3:
+                System.out.println(Mudy.listaProveedores.mostrarLista());
+                break;
+            case 4:
+                System.out.println(Mudy.listaProductos.mostrarLista());
+                break;
+            case 5:
+                System.out.println(Mudy.listaPedidos.mostrarLista());
+                break;
+            case 6:
+                System.out.println(Mudy.listaMarcas.mostrar());
+                break;
+            case 7:
+                System.out.println(Mudy.listaCategorias.mostrar());
+                break;
+            default:
+                System.out.println("- Opción inválida.");
+                break;
+        }
     }
 
 }
