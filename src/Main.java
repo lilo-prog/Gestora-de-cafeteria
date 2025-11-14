@@ -14,10 +14,10 @@ public class Main {
     static Cafeteria Mudy = new Cafeteria();
 
     static Scanner sc = new Scanner(System.in);
-
+    static char control = 's';
     public static void main(String[] args) {
         int opcion;
-        char control = 's';
+
 
         while(control == 's') {
                 menuPrincipal();
@@ -131,8 +131,12 @@ public class Main {
             case 5:
                 break;
             case 6:
+                agregarMarca();
+                System.out.println("- Marca cargada correctamente!");
                 break;
             case 7:
+                agregarCategoria();
+                System.out.println("- Categoría cargada correctamente!");
                 break;
             default:
                 System.out.println("- Opción inválida.");
@@ -151,7 +155,7 @@ public class Main {
                 if(e.getNombre().length() < 2) throw new CaracteresException("- El nombre debe tener al menos 2 caracteres.");
                 break;
             }catch(CaracteresException ex){
-                System.out.println("Error: " + ex.getMessage());
+                System.out.println("- Error: " + ex.getMessage());
             }
         }
 
@@ -163,7 +167,7 @@ public class Main {
                 if(e.getApellido().length() < 2) throw new CaracteresException("- El apellido debe tener al menos 2 caracteres.");
                 break;
             }catch(CaracteresException ex){
-                System.out.println("Error: " + ex.getMessage());
+                System.out.println("- Error: " + ex.getMessage());
             }
         }
 
@@ -209,7 +213,7 @@ public class Main {
                 if(!e.validarTelefono()) throw new TelefonoInvalidoException();
                 break;
             }catch(TelefonoInvalidoException x){
-                System.out.println("Error: " + x.getMessage());
+                System.out.println("- Error: " + x.getMessage());
             }
         }
 
@@ -221,7 +225,7 @@ public class Main {
                 e.setSueldo(sueldo);
                 break;
             }catch(IllegalArgumentException | InputMismatchException x){
-                System.out.println("Error: " + x.getMessage());
+                System.out.println("- Error: " + x.getMessage());
             }
         }
 
@@ -239,7 +243,7 @@ public class Main {
                 if(c.getNombre().length() < 2) throw new CaracteresException("- El nombre debe tener al menos 2 caracteres.");
                 break;
             }catch(CaracteresException ex){
-                System.out.println("Error: " + ex.getMessage());
+                System.out.println("- Error: " + ex.getMessage());
             }
         }
 
@@ -251,7 +255,7 @@ public class Main {
                 if(c.getApellido().length() < 2) throw new CaracteresException("- El apellido debe tener al menos 2 caracteres.");
                 break;
             }catch(CaracteresException ex){
-                System.out.println("Error: " + ex.getMessage());
+                System.out.println("- Error: " + ex.getMessage());
             }
         }
 
@@ -297,7 +301,7 @@ public class Main {
                 if(!c.validarTelefono()) throw new TelefonoInvalidoException();
                 break;
             }catch(TelefonoInvalidoException x){
-                System.out.println("Error: " + x.getMessage());
+                System.out.println("- Error: " + x.getMessage());
             }
         }
 
@@ -315,7 +319,7 @@ public class Main {
                 if(p.getNombre().length() < 2) throw new CaracteresException("- El nombre debe tener al menos 2 caracteres.");
                 break;
             }catch(CaracteresException ex){
-                System.out.println("Error: " + ex.getMessage());
+                System.out.println("- Error: " + ex.getMessage());
             }
         }
 
@@ -328,7 +332,7 @@ public class Main {
                 sc.nextLine();
                 break;
             }catch(InputMismatchException | IllegalArgumentException x){
-                System.out.println("Error: " + x.getMessage());
+                System.out.println("- Error: " + x.getMessage());
             }
         }
 
@@ -340,7 +344,7 @@ public class Main {
                 if(!p.validarTelefono()) throw new TelefonoInvalidoException();
                 break;
             }catch(TelefonoInvalidoException x){
-                System.out.println("Error: " + x.getMessage());
+                System.out.println("- Error: " + x.getMessage());
             }
         }
 
@@ -358,7 +362,7 @@ public class Main {
                 p.setNombre(nombre);
                 break;
             }catch(CaracteresException x){
-                System.out.println("Error: " + x.getMessage());
+                System.out.println("- Error: " + x.getMessage());
             }
         }
 
@@ -444,7 +448,35 @@ public class Main {
         Mudy.listaProductos.agregar(p.getUpc(),p);
     }
 
+    public static void agregarMarca(){
+        while(true) {
+            try {
+                System.out.println("- Ingrese nombre de la marca: ");
+                String marca = sc.nextLine();
+                if(marca.length() < 2) throw new CaracteresException("- El nombre debe tener al menos 2 caracteres.");
+                Mudy.listaMarcas.agregar(marca);
+                break;
+            }catch(CaracteresException ex){
+                System.out.println("- Error: " + ex.getMessage());
+            }
+        }
+    }
 
+    public static void agregarCategoria(){
+        while(true) {
+            try {
+                System.out.println("- Ingrese nombre de la categoría: ");
+                String categoria = sc.nextLine();
+                //Si hay una secuencia de caracteres que contiene un número tira una excepción.
+                if(categoria.matches(".*\\d.*")) throw new CaracteresException("- El nombre no puede contener números.");
+                if(categoria.length() < 2) throw new CaracteresException("- El nombre debe tener al menos 2 caracteres.");
+                Mudy.listaCategorias.agregar(categoria);
+                break;
+            }catch(CaracteresException ex){
+                System.out.println("- Error: " + ex.getMessage());
+            }
+        }
+    }
 
         //Métodos eliminar de la lista.
     public static void eliminar(int opcion) throws ElementoNoEncontradoException{
