@@ -18,7 +18,7 @@ public class Main {
     public static void main(String[] args) {
         int opcion;
         char control = 's';
-        
+
         while(control == 's') {
                 menuPrincipal();
                 opcion = sc.nextInt();
@@ -38,12 +38,18 @@ public class Main {
                         } catch (ElementoRepetidoException e) {
                             System.out.println(e.getMessage());
                         }
-
                         break;
                     case 2:
                         System.out.println("- Eliminar -");
                         mostrarListas();
+                        opcion = sc.nextInt();
+                        sc.nextLine();
 
+                        try {
+                            eliminar(opcion);
+                        }catch (ElementoNoEncontradoException e){
+                            e.getMessage();
+                        }
                         break;
                     case 3:
                         System.out.println("- Buscar -");
@@ -436,6 +442,105 @@ public class Main {
         }
 
         Mudy.listaProductos.agregar(p.getUpc(),p);
+    }
+
+
+    
+        //Métodos eliminar de la lista.
+    public static void eliminar(int opcion) throws ElementoNoEncontradoException{
+        switch (opcion){
+            case 1:
+                eliminarEmpleado();
+                System.out.println("- Empleado eliminado correctamente!");
+                break;
+            case 2:
+                eliminarCliente();
+                System.out.println("- Cliente eliminado correctamente!");
+                break;
+            case 3:
+                eliminarProveedor();
+                System.out.println("- Proveedor eliminado correctamente!");
+                break;
+            case 4:
+                eliminarProducto();
+                System.out.println("- Producto eliminado correctamente!");
+                break;
+            case 5:
+                System.out.println("- Pedido eliminado correctamente!");
+                break;
+            case 6:
+                System.out.println("- Marca eliminada correctamente!");
+                break;
+            case 7:
+                System.out.println("- Categoría eliminada correctamente!");
+                break;
+            default:
+                System.out.println("- Opción inválida.");
+                break;
+        }
+    }
+
+    public static void eliminarEmpleado() throws ElementoNoEncontradoException{
+        while(true){
+            try {
+                System.out.println("- Ingrese dni del empleado para eliminarlo: ");
+                int dni = sc.nextInt();
+                if(dni < 10000000) throw new CaracteresException("- El dni debe tener 8 dígitos.");
+                Mudy.listaEmpleados.eliminar((long)dni);
+                break;
+            }catch(InputMismatchException x){
+                System.out.println(x.getMessage() + "- El dni debe ser numérico.");
+                sc.nextLine();
+            }catch(CaracteresException x){
+                System.out.println(x.getMessage());
+            }
+        }
+    }
+
+    public static void eliminarCliente() throws ElementoNoEncontradoException{
+        while(true){
+            try {
+                System.out.println("- Ingrese dni del cliente para eliminarlo: ");
+                int dni = sc.nextInt();
+                if(dni < 10000000) throw new CaracteresException("- El dni debe tener 8 dígitos.");
+                Mudy.listaClientes.eliminar((long)dni);
+                break;
+            }catch(InputMismatchException x){
+                System.out.println(x.getMessage() + "- El dni debe ser numérico.");
+                sc.nextLine();
+            }catch(CaracteresException x){
+                System.out.println(x.getMessage());
+            }
+        }
+    }
+
+    public static void eliminarProveedor() throws ElementoNoEncontradoException{
+        while(true){
+            try {
+                System.out.println("- Ingrese cuil del proveedor para eliminarlo: ");
+                long cuil = sc.nextLong();
+                if(cuil < 10000000000L) throw new IllegalArgumentException("- El cuil debe tener 11 dígitos.");
+                sc.nextLine();
+                Mudy.listaProveedores.eliminar(cuil);
+                break;
+            }catch(InputMismatchException | IllegalArgumentException x){
+                System.out.println("Error: " + x.getMessage());
+            }
+        }
+    }
+
+    public static void eliminarProducto() throws ElementoNoEncontradoException{
+        while(true) {
+            try {
+                System.out.println("- Ingrese upc del producto para eliminarlo: ");
+                long upc = sc.nextLong();
+                if(upc < 100000000000L) throw new IllegalArgumentException("- El upc debe tener al menos 12 dígitos.");
+                Mudy.listaProductos.eliminar(upc);
+                break;
+            }catch(IllegalArgumentException | InputMismatchException x){
+                System.out.println("- Error: " + x.getMessage());
+            }
+        }
     }
 
         // Método mostrar listas cargadas.
