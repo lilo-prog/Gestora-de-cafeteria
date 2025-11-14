@@ -15,6 +15,7 @@ public class GestorString {
         this.nombre = nombre;
         this.lista = new HashSet<>();
     }
+
     public GestorString() {
         this.nombre = "";
         this.lista = new HashSet<>();
@@ -26,18 +27,24 @@ public class GestorString {
     public HashSet<String> getLista() {return lista;}
 
     //Métodos propios.
+        //Método agregar.
     public boolean agregar(String s) {
         return lista.add(s.toLowerCase());
     }
 
+        //Método eliminar.
     public boolean eliminar(String s) {
         if (lista.contains(s.toLowerCase())) return lista.remove(s);
         return false;
     }
+
+        //Método buscar.
     public boolean buscar(String s){
         if(lista.contains(s.toLowerCase())) return true;
         return false;
     }
+
+        //Método mostrar.
     public String mostrar() {
         StringBuilder sb = new StringBuilder();
         for (String s : lista) {
@@ -46,6 +53,8 @@ public class GestorString {
         return sb.toString();
     }
 
+    //Métodos JSON.
+        //Método toJSON.
     public JSONArray toJson() {
         JSONArray arreglo = new JSONArray();
         for(String s : lista){
@@ -54,6 +63,7 @@ public class GestorString {
         return arreglo;
     }
 
+        //Método fromJson.
     public void fromJson(JSONArray arreglo) {
         try{
             for(int i = 0; i<arreglo.length(); i++){

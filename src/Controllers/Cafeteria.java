@@ -19,8 +19,6 @@ public class Cafeteria {
     public GestorString listaCategorias;
 
     //Método constructor.
-
-
     public Cafeteria() {
         this.listaEmpleados = new GestorGenerico<>();
         this.listaClientes = new GestorGenerico<>();
@@ -31,7 +29,10 @@ public class Cafeteria {
         this.listaCategorias = new GestorString("categorias");
     }
 
-    //convertir a CAFETERIA a JSON
+    //Convertir a CAFETERIA a JSON.
+    //Se llama al método de GestorGenerico.exportarASet pasandole por parámetro cada lista para que éste método lo pase de Map a HashSet
+    //y así pasarlo a JSON.
+
     public void toJsonEmpleado(){
         HashSet<Empleado> setEmpleados = GestorGenerico.exportarASet(listaEmpleados.getMap());
         GestoraJson.toJson(setEmpleados);
@@ -59,45 +60,13 @@ public class Cafeteria {
         GestoraJson.toJsonString(listaCategorias);
     }
 
-    //convertir DE JSON a CAFETERIA
-//    public void fromJson(JSONArray cafeteriaJson) throws ElementoRepetidoException {
-//        try {
-//            for(int i = 0 ; i < cafeteriaJson.length(); i++) {
-//                JSONObject objetoJson = cafeteriaJson.getJSONObject(i);
-//                String clave = objetoJson.toString();
-//                switch(clave){
-//                    case "class Class.Personas.Empleado":
-//                        listaEmpleadosFromJson(objetoJson.getJSONArray("class Class.Personas.Empleado"));
-//                        break;
-//                    case "class Class.Personas.Cliente":
-//                        listaClientesFromJson(objetoJson.getJSONArray("class Class.Personas.Cliente"));
-//                        break;
-//                    case "class Class.Proveedores.Proveedor":
-//                        listaProveedoresFromJson(objetoJson.getJSONArray("class Class.Proveedores.Proveedor"));
-//                        break;
-//                    case "class Class.Productos.Producto":
-//                        listaProductosFromJson(objetoJson.getJSONArray("class Class.Productos.Producto"));
-//                        break;
-//                    case "class Class.Pedidos.Pedido":
-//                        listaPedidosFromJson(objetoJson.getJSONArray("class Class.Pedidos.Pedido"));
-//                        break;
-//                    case "marcas":
-//                        listaMarcasFromJson(objetoJson.getJSONArray("marcas"));
-//                        break;
-//                    case "categorias":
-//                        listaCategoriasFromJson(objetoJson.getJSONArray("categorias"));
-//                        break;
-//                }
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
-    //convertir JSON a LISTAS
+    //Convertir JSON a LISTAS.
+    //Pasamos el archivo JSON a un HashSet. Luego se recorre el HashSet para pasarlo a Map y guardarlo en cafeteria.
+
     public void listaEmpleadosFromJson(JSONArray listaJson) throws ElementoRepetidoException {
-        HashSet<Empleado> lista = GestoraJson.fromJson(listaJson); //pasamos el archivo json a un hashset
-        for(Empleado e : lista){ //se recorre el hashset para pasarlo a map y guardarlo en cafeteria.
+        HashSet<Empleado> lista = GestoraJson.fromJson(listaJson);
+        for(Empleado e : lista){
             listaEmpleados.agregar((long)e.getId(),e);
         }
     }
@@ -137,5 +106,40 @@ public class Cafeteria {
     public void listaCategoriasFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         listaCategorias.fromJson(listaJson);
     }
+
+    //convertir DE JSON a CAFETERIA
+//    public void fromJson(JSONArray cafeteriaJson) throws ElementoRepetidoException {
+//        try {
+//            for(int i = 0 ; i < cafeteriaJson.length(); i++) {
+//                JSONObject objetoJson = cafeteriaJson.getJSONObject(i);
+//                String clave = objetoJson.toString();
+//                switch(clave){
+//                    case "class Class.Personas.Empleado":
+//                        listaEmpleadosFromJson(objetoJson.getJSONArray("class Class.Personas.Empleado"));
+//                        break;
+//                    case "class Class.Personas.Cliente":
+//                        listaClientesFromJson(objetoJson.getJSONArray("class Class.Personas.Cliente"));
+//                        break;
+//                    case "class Class.Proveedores.Proveedor":
+//                        listaProveedoresFromJson(objetoJson.getJSONArray("class Class.Proveedores.Proveedor"));
+//                        break;
+//                    case "class Class.Productos.Producto":
+//                        listaProductosFromJson(objetoJson.getJSONArray("class Class.Productos.Producto"));
+//                        break;
+//                    case "class Class.Pedidos.Pedido":
+//                        listaPedidosFromJson(objetoJson.getJSONArray("class Class.Pedidos.Pedido"));
+//                        break;
+//                    case "marcas":
+//                        listaMarcasFromJson(objetoJson.getJSONArray("marcas"));
+//                        break;
+//                    case "categorias":
+//                        listaCategoriasFromJson(objetoJson.getJSONArray("categorias"));
+//                        break;
+//                }
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }
