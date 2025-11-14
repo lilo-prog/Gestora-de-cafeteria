@@ -5,6 +5,9 @@ import Models.Personas.Empleado;
 import Models.Productos.Producto;
 import Models.Proveedores.Proveedor;
 import Enum.ETipoProducto;
+import jdk.jshell.SourceCodeAnalysis;
+import jdk.jshell.spi.ExecutionControl;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
@@ -48,13 +51,20 @@ public class Main {
                         try {
                             eliminar(opcion);
                         }catch (ElementoNoEncontradoException e){
-                            e.getMessage();
+                            System.out.println(e.getMessage());
                         }
                         break;
                     case 3:
                         System.out.println("- Buscar -");
                         mostrarListas();
+                        opcion = sc.nextInt();
+                        sc.nextLine();
 
+                        try{
+                            buscar(opcion);
+                        } catch(ElementoNoEncontradoException e){
+                            System.out.println(e.getMessage());
+                        }
                         break;
                     case 4:
                         System.out.println("- Mostrar -");
@@ -333,6 +343,7 @@ public class Main {
                 break;
             }catch(InputMismatchException | IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
+                sc.nextLine();
             }
         }
 
@@ -370,11 +381,13 @@ public class Main {
             try {
                 System.out.println("- Ingrese upc del producto: ");
                 long upc = sc.nextLong();
+                sc.nextLine();
                 if(upc < 100000000000L) throw new IllegalArgumentException("- El upc debe tener al menos 12 dígitos.");
                 p.setUpc(upc);
                 break;
             }catch(IllegalArgumentException | InputMismatchException x){
                 System.out.println("- Error: " + x.getMessage());
+                sc.nextLine();
             }
         }
 
@@ -399,6 +412,7 @@ public class Main {
                 break;
             }catch(InputMismatchException | IllegalArgumentException e){
                 System.out.println("- Error: " + e.getMessage());
+                sc.nextLine();
             }
         }
 
@@ -407,12 +421,14 @@ public class Main {
                 System.out.println("- Seleccione el proveedor del producto por su CUIL: ");
                 System.out.println(Mudy.listaProveedores.mostrarLista());
                 long cuilABuscar =  sc.nextLong();
+                sc.nextLine();
                 Proveedor proveedor = Mudy.listaProveedores.buscarPorId(cuilABuscar);
                 if(proveedor==null) throw new  ElementoNoEncontradoException();
                 p.setProveedor(proveedor);
                 break;
             } catch (InputMismatchException | ElementoNoEncontradoException e) {
                 System.out.println("- Error: " + e.getMessage());
+                sc.nextLine();
             }
         }
 
@@ -436,12 +452,14 @@ public class Main {
                 System.out.println("- Seleccione el tipo de producto: ");
                 System.out.println("1 - COMESTIBLE , 2 - BEBIBLE ");
                 int op = sc.nextInt();
+                sc.nextLine();
                 if(op == 1) p.setTipoProducto(ETipoProducto.COMESTIBLE);
                 if(op == 2) p.setTipoProducto(ETipoProducto.BEBIBLE);
                 else throw new IllegalArgumentException("- Valor inválido.");
                 break;
             }catch(InputMismatchException | IllegalArgumentException e){
                 System.out.println("- Error: " + e.getMessage());
+                sc.nextLine();
             }
         }
 
@@ -558,7 +576,7 @@ public class Main {
                 Mudy.listaProveedores.eliminar(cuil);
                 break;
             }catch(InputMismatchException | IllegalArgumentException x){
-                System.out.println("Error: " + x.getMessage());
+                System.out.println("- Error: " + x.getMessage());
             }
         }
     }
@@ -573,6 +591,7 @@ public class Main {
                 break;
             }catch(IllegalArgumentException | InputMismatchException x){
                 System.out.println("- Error: " + x.getMessage());
+                sc.nextLine();
             }
         }
     }
@@ -605,7 +624,128 @@ public class Main {
         }
     }
 
-        // Método mostrar listas cargadas.
+        //  Métodos buscar en las listas.
+    public static void buscar(int opcion) throws ElementoNoEncontradoException{
+        switch (opcion){
+            case 1:
+                Empleado e = buscarEmpleado();
+                System.out.println(e);
+                break;
+            case 2:
+                Cliente c = buscarCliente();
+                System.out.println(c);
+                break;
+            case 3:
+                Proveedor p = buscarProveedor();
+                System.out.println(p);
+                break;
+            case 4:
+                Producto pr = buscarProducto();
+                System.out.println(pr);
+                break;
+            case 5:
+                break;
+            case 6:
+                String marca = buscarMarca();
+                System.out.println("- La marca " + marca + " se encuntra en la lista de marcas.");
+                break;
+            case 7:
+                String categoria =buscarCategoria();
+                System.out.println("- La categoría " + categoria + " se encuntra en la lista de categorias.");
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static Empleado buscarEmpleado() throws ElementoNoEncontradoException{
+        while(true){
+            try {
+                System.out.println("- Ingrese dni del empleado para buscarlo: ");
+                int dni = sc.nextInt();
+                if(dni < 10000000) throw new CaracteresException("- El dni debe tener 8 dígitos.");
+                return Mudy.listaEmpleados.buscarPorId((long)dni);
+            }catch(InputMismatchException x){
+                System.out.println(x.getMessage() + "- El dni debe ser numérico.");
+                sc.nextLine();
+            }catch(CaracteresException x){
+                System.out.println(x.getMessage());
+            }
+        }
+    }
+
+    public static Cliente buscarCliente() throws ElementoNoEncontradoException{
+        while(true){
+            try {
+                System.out.println("- Ingrese dni del cliente para buscarlo: ");
+                int dni = sc.nextInt();
+                if(dni < 10000000) throw new CaracteresException("- El dni debe tener 8 dígitos.");
+                return Mudy.listaClientes.buscarPorId((long)dni);
+            }catch(InputMismatchException x){
+                System.out.println(x.getMessage() + "- El dni debe ser numérico.");
+                sc.nextLine();
+            }catch(CaracteresException x){
+                System.out.println(x.getMessage());
+            }
+        }
+    }
+
+    public static Proveedor buscarProveedor() throws ElementoNoEncontradoException{
+        while(true){
+            try {
+                System.out.println("- Ingrese cuil del proveedor para buscarlo: ");
+                long cuil = sc.nextLong();
+                if(cuil < 10000000000L) throw new IllegalArgumentException("- El cuil debe tener 11 dígitos.");
+                sc.nextLine();
+                return Mudy.listaProveedores.buscarPorId(cuil);
+            }catch(InputMismatchException | IllegalArgumentException x){
+                System.out.println("- Error: " + x.getMessage());
+                sc.nextLine();
+            }
+        }
+    }
+
+    public static Producto buscarProducto() throws ElementoNoEncontradoException{
+        while(true) {
+            try {
+                System.out.println("- Ingrese upc del producto para buscarlo: ");
+                long upc = sc.nextLong();
+                if(upc < 100000000000L) throw new IllegalArgumentException("- El upc debe tener al menos 12 dígitos.");
+                return Mudy.listaProductos.buscarPorId(upc);
+            }catch(IllegalArgumentException | InputMismatchException x){
+                System.out.println("- Error: " + x.getMessage());
+                sc.nextLine();
+            }
+        }
+    }
+
+    public static String buscarMarca() throws ElementoNoEncontradoException{
+        while(true) {
+            try {
+                System.out.println("- Ingrese nombre de la marca para buscarla: ");
+                String marca = sc.nextLine();
+                if(marca.length() < 2) throw new CaracteresException("- El nombre debe tener al menos 2 caracteres.");
+                if(Mudy.listaMarcas.buscar(marca)) return marca;
+            }catch(CaracteresException ex){
+                System.out.println("- Error: " + ex.getMessage());
+            }
+        }
+    }
+
+    public static String buscarCategoria() throws ElementoNoEncontradoException{
+        while(true) {
+            try {
+                System.out.println("- Ingrese nombre de la categoría para buscarla: ");
+                String categoria = sc.nextLine();
+                if(categoria.length() < 2) throw new CaracteresException("- El nombre debe tener al menos 2 caracteres.");
+                if(Mudy.listaCategorias.buscar(categoria)) return categoria;
+            }catch(CaracteresException ex){
+                System.out.println("- Error: " + ex.getMessage());
+            }
+        }
+    }
+
+        // Métodos mostrar listas cargadas.
     public static void mostrar(int opcion){
         switch (opcion){
             case 1:

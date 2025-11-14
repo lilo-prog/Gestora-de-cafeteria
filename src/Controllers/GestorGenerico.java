@@ -36,10 +36,8 @@ public class GestorGenerico<T extends IJson> {
 
         //Método buscar en la lista.
     public T buscarPorId(Long idBuscar) throws ElementoNoEncontradoException {
-        if(lista.containsKey(idBuscar)){
-            return lista.get(idBuscar);
-        }
-        throw new ElementoNoEncontradoException();
+        if(!lista.containsKey(idBuscar)) throw new ElementoNoEncontradoException();
+        return lista.get(idBuscar);
     }
 
         //Mostrar lista.

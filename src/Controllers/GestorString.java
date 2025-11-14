@@ -1,6 +1,7 @@
 package Controllers;
 
 import Exceptions.ElementoNoEncontradoException;
+import Exceptions.ElementoRepetidoException;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -41,9 +42,9 @@ public class GestorString {
     }
 
         //Método buscar.
-    public boolean buscar(String s){
-        if(lista.contains(s.toLowerCase())) return true;
-        return false;
+    public Boolean buscar(String s) throws ElementoNoEncontradoException {
+        if(!lista.contains(s.toLowerCase())) throw new ElementoNoEncontradoException();
+        return true;
     }
 
         //Método mostrar.
