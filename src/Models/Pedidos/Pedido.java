@@ -24,7 +24,7 @@ public class Pedido implements IJson {
     private ETipoPago tipoPago;
     private int dniCliente;
 
-    //MétoodO constructor.
+    //Método constructor.
     public Pedido(ETipoPago tipoPago, int dniCliente) {
         idGeneral++;
         this.id = idGeneral;

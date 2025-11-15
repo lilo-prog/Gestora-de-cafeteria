@@ -72,6 +72,13 @@ public class Main {
         Mudy.listaEmpleados.agregar((long)empleado1.getDni(),empleado1);
         Empleado empleado2 = new Empleado("Bruno", "Trola", LocalDate.parse("2004-06-24"), 47089846, "2236182257", 230000.0);
         Mudy.listaEmpleados.agregar((long)empleado2.getDni(),empleado2);
+
+        Cliente cliente1 = new Cliente("Abril", "Derdoy", LocalDate.parse("2004-11-02"), 46277898, "2236695548", 10000.50);
+        Mudy.listaClientes.agregar((long)cliente1.getDni(),cliente1);
+        Cliente cliente2 = new Cliente("Pichicho", "Derdoy", LocalDate.parse("2000-03-11"), 464544432, "2236969696", 6000.50);
+        Mudy.listaClientes.agregar((long)cliente2.getDni(),cliente2);
+
+
         while(control == 's') {
                 menuPrincipal();
                 opcion = sc.nextInt();
@@ -978,16 +985,28 @@ public class Main {
                     System.out.println("- Se actualizó el empleado correctamente!");
                     break;
                 case 2:
+                    modificarCliente();
+                    System.out.println("- Se actualizó el cliente correctamente!");
                     break;
                 case 3:
+                    modificarPedido();
+                    System.out.println("- Se actualizó el pedido correctamente!");
                     break;
                 case 4:
+                    //modificarProducto();
+                    //System.out.println("- Se actualizó el producto correctamente!");
                     break;
                 case 5:
+                    //modificarProveedor();
+                    //System.out.println("- Se actualizó el proveedor correctamente!");
                     break;
                 case 6:
+                    //modificarMarcas();
+                    //System.out.println("- Se actualizó la marca correctamente!");
                     break;
                 case 7:
+                    //modificarCategoria();
+                    //System.out.println("- Se actualizó la categoria correctamente!");
                     break;
                 default:
                     break;
@@ -1136,6 +1155,263 @@ public class Main {
                     control=continuar("modificando datos del empleado");
                 }
             }catch(IllegalArgumentException x){
+                System.out.println(x.getMessage());
+            }
+        }
+    }
+
+    public static void modificarCliente() throws ElementoNoEncontradoException, ListaNoCargadaException {
+        if (Mudy.listaClientes.getMap().isEmpty())
+            throw new ListaNoCargadaException("- No hay clientes para modificar.");
+
+        char control = 's';
+        Cliente c = buscarCliente();
+        System.out.println(c);
+        long dni = c.getDni();
+
+        while (control == 's') {
+            System.out.println("- Seleccione el campo a modificar: ");
+            System.out.println("- 1. DNI");
+            System.out.println("- 2. Nombre");
+            System.out.println("- 3. Apellido");
+            System.out.println("- 4. Fecha de nacimiento");
+            System.out.println("- 5. Teléfono");
+            System.out.println("- 6. Gastos totales");
+            System.out.println("- 0. Salir");
+
+            int opcion = sc.nextInt();
+            sc.nextLine();
+
+            switch (opcion) {
+                case 0:
+                    control = 'n';
+                    break;
+
+                case 1:
+                    while (true) {
+                        try {
+                            System.out.println("- Ingrese el DNI nuevo del cliente: ");
+                            int dniNuevo = sc.nextInt();
+                            sc.nextLine();
+                            if (dniNuevo < 10000000L) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
+                            if (Mudy.listaClientes.getMap().containsKey((long)dniNuevo)) throw new ElementoRepetidoException();
+                            Mudy.listaClientes.getMap().get(dni).setDni(dniNuevo);
+                            break;
+                        } catch (InputMismatchException x) {
+                            System.out.println("- Error: el DNI debe ser numérico");
+                            sc.nextLine();
+                        } catch (IllegalArgumentException x) {
+                            System.out.println("- Error: " + x.getMessage());
+                        } catch (ElementoRepetidoException x) {
+                            System.out.println(x.getMessage());
+                        }
+                    }
+                    break;
+
+                case 2:
+                    while (true) {
+                        try {
+                            System.out.println("- Ingrese nuevo nombre del cliente: ");
+                            Mudy.listaClientes.getMap().get(dni).setNombre(sc.nextLine());
+                            if (Mudy.listaEmpleados.getMap().get(dni).getNombre().matches(".*\\d.*")) throw new IllegalArgumentException("- El nombre no puede contener números.");
+                            if (Mudy.listaEmpleados.getMap().get(dni).getNombre().length() < 2) throw new IllegalArgumentException("- El nombre debe tener al menos 2 caracteres.");
+                            break;
+                        } catch (IllegalArgumentException ex) {
+                            System.out.println("- Error: " + ex.getMessage());
+                        }
+                    }
+
+                    break;
+
+                case 3:
+                    while (true) {
+                        try {
+                            System.out.println("- Ingrese nuevo apellido del cliente: ");
+                            Mudy.listaClientes.getMap().get(dni).setApellido(sc.nextLine());
+                            if (Mudy.listaEmpleados.getMap().get(dni).getNombre().matches(".*\\d.*"))
+                                throw new IllegalArgumentException("- El apellido no puede contener números.");
+                            if (Mudy.listaEmpleados.getMap().get(dni).getNombre().length() < 2)
+                                throw new IllegalArgumentException("- El apellido debe tener al menos 2 caracteres.");
+
+                            break;
+                        } catch (IllegalArgumentException ex) {
+                            System.out.println("- Error: " + ex.getMessage());
+                        }
+                    }
+                    break;
+
+                case 4:
+                    while (true) {
+                        try {
+                            System.out.println("- Ingrese la nueva fecha de nacimiento del cliente (YYYY-MM-DD): ");
+                            String fecha = sc.nextLine();
+                            LocalDate temp = LocalDate.parse(fecha);
+                            if (temp.isAfter(LocalDate.now())) throw new IllegalArgumentException("La fecha no debe ser posterior al día de hoy.");
+                            Mudy.listaClientes.getMap().get(dni).setFechaNacimiento(temp);
+                            break;
+
+                        } catch (DateTimeParseException x) {
+                            System.out.println("- El formato de fecha es incorrecto. Debe ser YYYY-MM-DD.");
+                        } catch (IllegalArgumentException ex) {
+                            System.out.println("- Error: " + ex.getMessage());
+                        }
+                    }
+                    break;
+
+                case 5:
+                    while (true) {
+                        try {
+                            System.out.println("- Ingrese nuevo teléfono del cliente: ");
+                            String telefono = sc.nextLine();
+                            Mudy.listaClientes.getMap().get(dni).setTelefono(telefono);
+                            if (!Mudy.listaClientes.getMap().get(dni).validarTelefono()) throw new IllegalArgumentException("El teléfono ingresado no es válido.");
+                            break;
+                        } catch (IllegalArgumentException ex) {
+                            System.out.println("- Error: " + ex.getMessage());
+                        }
+                    }
+                    break;
+
+                case 6:
+                    while (true) {
+                        try {
+                            System.out.println("- Ingrese nuevos gastos totales del cliente: ");
+                            double gastos = sc.nextDouble();
+                            sc.nextLine();
+                            if (gastos < 0) throw new IllegalArgumentException("Los gastos totales no pueden ser negativos.");
+                            Mudy.listaClientes.getMap().get(dni).setGastosTotales(gastos);
+                            break;
+
+                        } catch (InputMismatchException ex) {
+                            System.out.println("- Error: debe ingresar un número válido");
+                            sc.nextLine();
+                        } catch (IllegalArgumentException ex) {
+                            System.out.println("- Error: " + ex.getMessage());
+                        }
+                    }
+                    break;
+
+                default:
+                    System.out.println("- Opción inválida.");
+            }
+
+            try {
+                if (control == 's')
+                    control = continuar("modificando datos del cliente");
+            } catch (IllegalArgumentException x) {
+                System.out.println(x.getMessage());
+            }
+        }
+    }
+
+    public static void modificarPedido() throws ElementoNoEncontradoException, ListaNoCargadaException {
+
+        if (Mudy.listaPedidos.getMap().isEmpty())
+            throw new ListaNoCargadaException("- No hay pedidos para modificar.");
+
+        char control = 's';
+        Pedido p = buscarPedido();
+        System.out.println(p);
+
+        int id = p.getId();
+
+        while (control == 's') {
+
+            System.out.println("- Seleccione el campo a modificar:");
+            System.out.println("1. Tipo de pago");
+            System.out.println("2. DNI del cliente");
+            System.out.println("3. Total");
+            System.out.println("0. Salir");
+
+            int opcion = sc.nextInt();
+            sc.nextLine();
+
+            switch (opcion) {
+
+                case 0:
+                    control = 'n';
+                    break;
+
+                case 1:
+                    while (true) {
+                        try {
+                            System.out.println("- Ingrese el nuevo tipo de pago (EFECTIVO / TARJETA / TRANSFERENCIA):");
+                            String forma = sc.nextLine().toUpperCase();
+
+                            ETipoPago tipo = ETipoPago.valueOf(forma);
+
+                            Mudy.listaPedidos.getMap().get((long)id).setTipoPago(tipo);
+                            break;
+
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("- Error: tipo de pago inválido.");
+                        }
+                    }
+                    break;
+
+                case 2: //Lo pense que como vas a modificar un dni de un pedido y necesitas el dni del cliente, se supone que deberia de estar cargado, asi que recorres y seleccionas el dni que queres.
+                    //no tiene sentido cargar un dni desde cero en modificar pedidos.
+                    while (true) {
+                        try {
+                            System.out.println("- Lista de clientes: ");
+
+                            for (Cliente cli : Mudy.listaClientes.getMap().values()) {
+                                System.out.println("  DNI: " + cli.getDni() + " - " +
+                                        cli.getNombre() + " " + cli.getApellido());
+                            }
+
+                            System.out.println("- Ingrese el DNI del cliente que desea asignar al pedido:");
+                            long dniNuevo = sc.nextLong();
+                            sc.nextLine();
+
+                            if (!Mudy.listaClientes.getMap().containsKey(dniNuevo)) throw new ElementoNoEncontradoException();
+
+                            Mudy.listaPedidos.getMap().get((long)id).setDniCliente((int) dniNuevo);
+                            break;
+
+                        } catch (InputMismatchException x) {
+                            System.out.println("- Error: el DNI debe ser numérico.");
+                            sc.nextLine();
+
+                        } catch (IllegalArgumentException | ElementoNoEncontradoException x) {
+                            System.out.println("- Error: " + x.getMessage());
+                        }
+                    }
+                    break;
+
+                case 3:
+                    while (true) {
+                        try {
+                            System.out.println("- Ingrese el nuevo total del pedido:");
+                            double total = sc.nextDouble();
+                            sc.nextLine();
+
+                            if (total < 0)
+                                throw new IllegalArgumentException("El total no puede ser negativo.");
+
+                            Mudy.listaPedidos.getMap().get((long)id).setTotal(total);
+                            break;
+
+                        } catch (InputMismatchException x) {
+                            System.out.println("- Error: el total debe ser numérico.");
+                            sc.nextLine();
+
+                        } catch (IllegalArgumentException x) {
+                            System.out.println("- Error: " + x.getMessage());
+                        }
+                    }
+                    break;
+
+                default:
+                    System.out.println("- Opción inválida.");
+                    break;
+            }
+
+            try {
+                if (control == 's') {
+                    control = continuar("modificando datos del pedido");
+                }
+            } catch (IllegalArgumentException x) {
                 System.out.println(x.getMessage());
             }
         }

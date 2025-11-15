@@ -1,0 +1,24 @@
+[
+    {
+        "gastos_totales": 6000.5,
+        "fechaNacimiento": "2000-03-11",
+        "apellido": "Derdoy",
+        "id": 6,
+        "telefono": "2236969696",
+        "nombre": "Pichicho",
+        "edad": 25,
+        "dni": 464544432,
+        "clase": "Cliente"
+    },
+    {
+        "gastos_totales": 10000.5,
+        "fechaNacimiento": "2004-11-02",
+        "apellido": "Derdoy",
+        "id": 5,
+        "telefono": "2236695548",
+        "nombre": "Abril",
+        "edad": 21,
+        "dni": 46277898,
+        "clase": "Cliente"
+    }
+]
