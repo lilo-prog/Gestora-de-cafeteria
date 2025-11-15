@@ -1,4 +1,5 @@
 package Controllers;
+import Exceptions.ElementoNoEncontradoException;
 import Models.Pedidos.Pedido;
 import Models.Personas.Cliente;
 import Models.Personas.Empleado;
@@ -8,6 +9,7 @@ import Exceptions.ElementoRepetidoException;
 import Enum.ETipoProducto;
 import org.json.JSONArray;
 import java.util.HashSet;
+import java.util.Map;
 
 public class Cafeteria {
     //Atributos.
@@ -29,6 +31,18 @@ public class Cafeteria {
         this.listaMarcas = new GestorString("marcas");
         listaMarcas.agregar("sin marca",ETipoProducto.VACIO);
         this.listaCategorias = new GestorString("categorias");
+    }
+
+    public void calcularGastoTotalDeCliente(int dni) throws ElementoNoEncontradoException {
+        Cliente c;
+        c = listaClientes.buscarPorId((long)dni);
+        double total = 0;
+        for(Map.Entry<Long,Pedido> entry : listaPedidos.getMap().entrySet()){
+            if(entry.getValue().getDniCliente()==dni){
+                    total+=entry.getValue().getTotal();
+            }
+        }
+        c.setGastosTotales(total);
     }
 
     //Convertir a CAFETERIA a JSON.

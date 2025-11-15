@@ -20,7 +20,6 @@ public class Main {
     public static void main(String[] args) {
         int opcion;
         char control = 's';
-
         while(control == 's') {
                 menuPrincipal();
                 opcion = sc.nextInt();
@@ -425,6 +424,7 @@ public class Main {
                 System.out.println(Mudy.listaMarcas.mostrar());
                 String marca = sc.nextLine();
                 if(!Mudy.listaMarcas.buscar(marca)) throw new ElementoNoEncontradoException();
+                p.setMarca(marca);
                 break;
             }catch(ElementoNoEncontradoException e){
                 System.out.println("- Error: " + e.getMessage());
@@ -472,7 +472,8 @@ public class Main {
                 System.out.println("- Error: " + e.getMessage());
             }
         }
-
+        ETipoProducto et = Mudy.listaCategorias.getMap().get(p.getCategoria());
+        p.setTipoProducto(et);
         Mudy.listaProductos.agregar(p.getUpc(),p);
     }
 

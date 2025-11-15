@@ -22,15 +22,17 @@ public class Pedido implements IJson {
     private Double total;
     private LocalDateTime fecha;
     private ETipoPago tipoPago;
+    private int dniCliente;
 
     //MétoodO constructor.
-    public Pedido(ETipoPago tipoPago) {
+    public Pedido(ETipoPago tipoPago, int dniCliente) {
         idGeneral++;
         this.id = idGeneral;
         this.listaProductos = new HashMap<>();
         this.total = 0.0;
         this.fecha = LocalDateTime.now();
         this.tipoPago = tipoPago;
+        this.dniCliente = dniCliente;
     }
     public Pedido() {
         idGeneral++;
@@ -39,12 +41,15 @@ public class Pedido implements IJson {
         this.total = 0.0;
         this.fecha = LocalDateTime.now();
         this.tipoPago = ETipoPago.VACIO;
+        this.dniCliente = 0;
     }
 
     //Getters y Setters.
     public int getId() {return id;}
     public void setId(int id) {this.id = id;}
     public Double getTotal() {return total;}
+    public int getDniCliente(){return dniCliente;}
+    public void setDniCliente(int dniCliente) {this.dniCliente = dniCliente;}
     public void setTotal(Double total) {this.total = total;}
     public LocalDateTime getFecha() {return fecha;}
     public void setFecha(LocalDateTime fecha) {this.fecha = fecha;}

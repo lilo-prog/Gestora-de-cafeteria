@@ -15,12 +15,11 @@ public class Producto implements IJson {
     private String marca;
     private Double precio;
     private Proveedor proveedor;
-    private String descripcion;
     private String categoria;
     private ETipoProducto tipoProducto;
     private static int idGeneral = 0;
     //Método constructor.
-    public Producto(String nombre, long upc, String marca, Double precio, Proveedor proveedor, String descripcion, String categoria, ETipoProducto tipoProducto) {
+    public Producto(String nombre, long upc, String marca, Double precio, Proveedor proveedor, String categoria, ETipoProducto tipoProducto) {
         idGeneral++;
         this.id = idGeneral;
         this.nombre = nombre;
@@ -28,7 +27,6 @@ public class Producto implements IJson {
         this.marca = marca;
         this.precio = precio;
         this.proveedor = proveedor;
-        this.descripcion = descripcion;
         this.categoria = categoria.toLowerCase();
         this.tipoProducto = tipoProducto;
     }
@@ -40,7 +38,6 @@ public class Producto implements IJson {
         this.marca = "";
         this.precio = 0.0;
         this.proveedor = null;
-        this.descripcion = "";
         this.categoria = "";
         this.tipoProducto = ETipoProducto.VACIO;
     }
@@ -57,8 +54,6 @@ public class Producto implements IJson {
     public void setPrecio(Double precio) {this.precio = precio;}
     public Proveedor getProveedor() {return proveedor;}
     public void setProveedor(Proveedor proveedor) {this.proveedor = proveedor;}
-    public String getDescripcion() {return descripcion;}
-    public void setDescripcion(String descripcion) {this.descripcion = descripcion;}
     public String getCategoria() {return categoria;}
     public void setCategoria(String categoria) {this.categoria = categoria.toLowerCase();}
     public ETipoProducto getTipoProducto() {return tipoProducto;}
@@ -76,7 +71,6 @@ public class Producto implements IJson {
             json.put("marca",marca);
             json.put("precio",precio);
             json.put("proveedor",proveedor);
-            json.put("descripcion",descripcion);
             json.put("categoria",categoria);
             json.put("tipoProducto",tipoProducto.name());
             json.put("clase",this.getClass().getSimpleName());
@@ -94,7 +88,6 @@ public class Producto implements IJson {
             marca = objetoJSON.getString("marca");
             precio = objetoJSON.getDouble("precio");
             proveedor.fromJson(objetoJSON.getJSONObject("proveedor"));
-            descripcion = objetoJSON.getString("descripcion");
             categoria = objetoJSON.getString("categoria");
             tipoProducto = ETipoProducto.valueOf(objetoJSON.getString("tipoProducto"));
         }catch(JSONException e){
@@ -109,6 +102,6 @@ public class Producto implements IJson {
     }
     @Override public int hashCode() {return Objects.hashCode(upc);}
 
-    @Override public String toString() {return "Producto{ " + "ID: " + id + "nombre: '" + nombre + '\'' + ", upc: '" + upc + '\'' + ", marca: '" + marca + '\'' + ", precio: " + precio + ", proveedor: " + proveedor + ", descripción: '" + descripcion + '\'' + ", categoría: '" + categoria + '\'' + ", tipo de producto: " + tipoProducto + " }";}
+    @Override public String toString() {return "Producto{ " + "ID: " + id + ", nombre: '" + nombre + '\'' + ", upc: '" + upc + '\'' + ", marca: '" + marca + '\'' + ", precio: " + precio + ", proveedor: " + proveedor  + ", categoría: '" + categoria + '\'' + ", tipo de producto: " + tipoProducto + " }";}
 
 }
