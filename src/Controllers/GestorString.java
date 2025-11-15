@@ -1,67 +1,88 @@
 package Controllers;
 
 import Exceptions.ElementoNoEncontradoException;
-import Exceptions.ElementoRepetidoException;
+import Enum.ETipoProducto;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class GestorString {
     //Atributos.
     private String nombre;
-    private HashSet<String> lista;
+    private HashMap<String,ETipoProducto> lista;
 
     //Método constructor.
     public GestorString(String nombre) {
         this.nombre = nombre;
-        this.lista = new HashSet<>();
+        this.lista = new HashMap<>();
     }
 
     public GestorString() {
         this.nombre = "";
-        this.lista = new HashSet<>();
+        this.lista = new HashMap<>();
     }
 
     //Getters y Setters.
     public String getNombre() {return nombre;}
     public void setNombre(String nombre) {this.nombre = nombre;}
-    public HashSet<String> getLista() {return lista;}
+    public HashMap<String,ETipoProducto> getMap() {return lista;}
 
     //Métodos propios.
         //Método agregar.
-    public boolean agregar(String s) {
-        return lista.add(s.toLowerCase());
+    public void agregar(String s,ETipoProducto e) {
+        lista.put(s.toLowerCase(),e);
     }
 
         //Método eliminar.
     public boolean eliminar(String s) throws ElementoNoEncontradoException {
-        if (!lista.contains(s.toLowerCase())) throw new ElementoNoEncontradoException();
-        return lista.remove(s);
+        if (!lista.containsKey(s.toLowerCase())) throw new ElementoNoEncontradoException();
+        return lista.remove(s.toLowerCase()) != null;
 
     }
 
         //Método buscar.
     public Boolean buscar(String s) throws ElementoNoEncontradoException {
-        if(!lista.contains(s.toLowerCase())) throw new ElementoNoEncontradoException();
+        if(!lista.containsKey(s.toLowerCase())) throw new ElementoNoEncontradoException();
         return true;
     }
 
         //Método mostrar.
     public String mostrar() {
         StringBuilder sb = new StringBuilder();
-        for (String s : lista) {
-            sb.append(s + "\n");
+        for (Map.Entry<String, ETipoProducto> entry : lista.entrySet()) {
+            sb.append(entry.getKey()).append("\n");
         }
         return sb.toString();
+    }
+
+    public static <T extends GestorString> HashSet exportarASet(T elementos) {
+        HashSet<GestorString> set = new HashSet<>();
+        for (Map.Entry<String, ETipoProducto> entry : elementos.getMap().entrySet()) {
+            GestorString gs = new GestorString();
+            gs.setNombre(elementos.getNombre());
+            gs.agregar(entry.getKey(), entry.getValue());
+            set.add(gs);
+        }
+        return set;
     }
 
     //Métodos JSON.
         //Método toJSON.
     public JSONArray toJson() {
         JSONArray arreglo = new JSONArray();
-        for(String s : lista){
-            arreglo.put(s);
+        try {
+            for(Map.Entry<String, ETipoProducto> entry : lista.entrySet()) {
+                JSONObject objeto = new JSONObject();
+                objeto.put("nombre",entry.getKey());
+                objeto.put("tipo_producto",entry.getValue().name());
+                arreglo.put(objeto);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return arreglo;
     }
@@ -70,12 +91,11 @@ public class GestorString {
     public void fromJson(JSONArray arreglo) {
         try{
             for(int i = 0; i<arreglo.length(); i++){
-                String aux = arreglo.getString(i);
-                lista.add(aux);
+                JSONObject objeto = arreglo.getJSONObject(i);
+                lista.put(objeto.getString("nombre"),ETipoProducto.valueOf(objeto.getString("tipo_producto")));
             }
         }catch(JSONException e){
             e.printStackTrace();
         }
     }
-
 }

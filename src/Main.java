@@ -80,20 +80,13 @@ public class Main {
                         System.out.println("- Opción inválida. Debe elegir entre 1 y 4.");
                         break;
                 }
-
-            if (control == 's') {
-                while(true) {
-                    try {
-                        System.out.println("- Continuar?? (s/n): ");
-                        control = sc.next().charAt(0);
-                        if (control != 'n' && control != 's')
-                            throw new IllegalArgumentException("- La opción debe ser 's' o 'n'. ");
-                        break;
-                    } catch (IllegalArgumentException e) {
-                        System.out.println(e.getMessage());
-
-                    }
+            try{
+                if(control=='s') {
+                    control = continuar("principal");
                 }
+            }catch(IllegalArgumentException e){
+                System.out.println(e.getMessage());
+                sc.nextLine();
             }
         }
         System.out.println("- Saliendo de programa...");
@@ -121,6 +114,18 @@ public class Main {
         System.out.println("7 - Categorías.");
         System.out.println("0 - Salir.");
         System.out.println("- Ingrese opción: ");
+    }
+
+    public static char continuar(String nombreMenu){
+        char c;
+        while (true) {
+            System.out.println("- Continuar en el menu " + nombreMenu + "?? (s/n): ");
+            c = sc.next().charAt(0);
+            sc.nextLine();
+            if (c != 'n' && c != 's') throw new IllegalArgumentException("- La opción debe ser 's' o 'n'. ");
+            break;
+        }
+        return c;
     }
 
         //Métodos para agregar a listas.
@@ -163,13 +168,13 @@ public class Main {
                     System.out.println("- Opción inválida.");
                     break;
             }
-            if(control=='s'){
-                System.out.println("Quiere continuar? (s/n)");
-                control = sc.next().charAt(0);
-            }
-            if(control=='n'){
-                System.out.println("Dejando de agregar...");
-                break;
+            try{
+                if(control=='s') {
+                    control = continuar("agregar");
+                }
+            }catch(IllegalArgumentException e){
+                System.out.println(e.getMessage());
+                sc.nextLine();
             }
         }
     }
@@ -383,8 +388,8 @@ public class Main {
     }
 
     public static void agregarProducto() throws ElementoRepetidoException,ListaNoCargadaException{
-        if(Mudy.listaMarcas.getLista().isEmpty()) throw new ListaNoCargadaException("No hay Marcas de productos");
-        if(Mudy.listaCategorias.getLista().isEmpty()) throw new ListaNoCargadaException("No hay Categorias");
+        if(Mudy.listaMarcas.getMap().isEmpty()) throw new ListaNoCargadaException("No hay Marcas de productos");
+        if(Mudy.listaCategorias.getMap().isEmpty()) throw new ListaNoCargadaException("No hay Categorias");
         if(Mudy.listaProveedores.getMap().isEmpty()) throw new ListaNoCargadaException("No hay Proveedores ingresados ");
         Producto p = new Producto();
         while(true) {
@@ -455,8 +460,6 @@ public class Main {
             }
         }
 
-        // DESCRIPCION PENDIENTE POR DISEÑO (ABSTRACCION).
-
         while(true){
             try {
                 System.out.println("- Seleccione una categoría para el producto: ");
@@ -467,22 +470,6 @@ public class Main {
                 break;
             }catch(ElementoNoEncontradoException e){
                 System.out.println("- Error: " + e.getMessage());
-            }
-        }
-
-        while(true){
-            try {
-                System.out.println("- Seleccione el tipo de producto: ");
-                System.out.println("1 - COMESTIBLE , 2 - BEBIBLE ");
-                int op = sc.nextInt();
-                sc.nextLine();
-                if(op == 1) p.setTipoProducto(ETipoProducto.COMESTIBLE);
-                if(op == 2) p.setTipoProducto(ETipoProducto.BEBIBLE);
-                else throw new IllegalArgumentException("- Valor inválido.");
-                break;
-            }catch(InputMismatchException | IllegalArgumentException e){
-                System.out.println("- Error: " + e.getMessage());
-                sc.nextLine();
             }
         }
 
@@ -513,7 +500,7 @@ public class Main {
         }
         p.setTotal(p.calcularTotal());
         p.setFecha(LocalDateTime.now());
-        int op = 0;
+        int op;
         while(true){
             try{
                 System.out.println("- Seleccione el tipo de pago");
@@ -537,10 +524,11 @@ public class Main {
                 System.out.println("- Ingrese nombre de la marca: ");
                 String marca = sc.nextLine();
                 if(marca.length() < 2) throw new IllegalArgumentException("El nombre debe tener al menos 2 caracteres.");
-                Mudy.listaMarcas.agregar(marca);
+                Mudy.listaMarcas.agregar(marca,ETipoProducto.VACIO);
                 break;
             }catch(IllegalArgumentException ex){
                 System.out.println("- Error: " + ex.getMessage());
+                sc.nextLine();
             }
         }
     }
@@ -553,10 +541,19 @@ public class Main {
                 //Si hay una secuencia de caracteres que contiene un número tira una excepción.
                 if(categoria.matches(".*\\d.*")) throw new IllegalArgumentException("El nombre no puede contener números.");
                 if(categoria.length() < 2) throw new IllegalArgumentException("El nombre debe tener al menos 2 caracteres.");
-                Mudy.listaCategorias.agregar(categoria);
+                System.out.println("- Seleccione el tipo de producto que tiene esta categoria: ");
+                System.out.println("1 - COMESTIBLE , 2 - BEBIBLE ");
+                int op = sc.nextInt();
+                sc.nextLine();
+                ETipoProducto et;
+                if(op == 1) et = ETipoProducto.COMESTIBLE;
+                else if(op == 2) et = ETipoProducto.BEBIBLE;
+                else throw new IllegalArgumentException("- Valor inválido.");
+                Mudy.listaCategorias.agregar(categoria,et);
                 break;
             }catch(IllegalArgumentException ex){
                 System.out.println("- Error: " + ex.getMessage());
+                sc.nextLine();
             }
         }
     }
@@ -599,13 +596,13 @@ public class Main {
                     System.out.println("- Pedido eliminado correctamente!");
                     break;
                 case 6:
-                    if (Mudy.listaMarcas.getLista().isEmpty())
+                    if (Mudy.listaMarcas.getMap().isEmpty())
                         throw new ListaNoCargadaException("No hay marcas para eliminar");
                     eliminarMarca();
                     System.out.println("- Marca eliminada correctamente!");
                     break;
                 case 7:
-                    if (Mudy.listaCategorias.getLista().isEmpty())
+                    if (Mudy.listaCategorias.getMap().isEmpty())
                         throw new ListaNoCargadaException("No hay categorias para eliminar");
                     eliminarCategoria();
                     System.out.println("- Categoría eliminada correctamente!");
@@ -614,13 +611,13 @@ public class Main {
                     System.out.println("- Opción inválida.");
                     break;
             }
-            if(control=='s'){
-                System.out.println("Quiere seguir eliminando? (s/n)");
-                control = sc.next().charAt(0);
-            }
-            if(control=='n'){
-                System.out.println("Dejando de eliminar");
-                break;
+            try{
+                if(control=='s') {
+                    control = continuar("eliminar");
+                }
+            }catch(IllegalArgumentException e){
+                System.out.println(e.getMessage());
+                sc.nextLine();
             }
         }
     }
@@ -760,13 +757,13 @@ public class Main {
                     System.out.println(pe);
                     break;
                 case 6:
-                    if (Mudy.listaMarcas.getLista().isEmpty())
+                    if (Mudy.listaMarcas.getMap().isEmpty())
                         throw new ListaNoCargadaException("No hay marcas para buscar");
                     String marca = buscarMarca();
                     System.out.println("- La marca " + marca + " se encuntra en la lista de marcas.");
                     break;
                 case 7:
-                    if (Mudy.listaCategorias.getLista().isEmpty())
+                    if (Mudy.listaCategorias.getMap().isEmpty())
                         throw new ListaNoCargadaException("No hay categorias para buscar");
                     String categoria = buscarCategoria();
                     System.out.println("- La categoría " + categoria + " se encuntra en la lista de categorias.");
@@ -775,13 +772,13 @@ public class Main {
                     System.out.println("Opcion invalida");
                     break;
             }
-            if(control=='s'){
-                System.out.println("Quiere seguir buscando? (s/n)");
-                control=sc.next().charAt(0);
-            }
-            if(control=='n'){
-                System.out.println("Dejando de buscar...");
-                break;
+            try{
+                if(control=='s') {
+                    control = continuar("buscar");
+                }
+            }catch(IllegalArgumentException e){
+                System.out.println(e.getMessage());
+                sc.nextLine();
             }
         }
     }
@@ -927,12 +924,12 @@ public class Main {
                     System.out.println(Mudy.listaPedidos.mostrarLista());
                     break;
                 case 6:
-                    if (Mudy.listaMarcas.getLista().isEmpty())
+                    if (Mudy.listaMarcas.getMap().isEmpty())
                         throw new ListaNoCargadaException("No hay marcas para mostrar");
                     System.out.println(Mudy.listaMarcas.mostrar());
                     break;
                 case 7:
-                    if (Mudy.listaCategorias.getLista().isEmpty())
+                    if (Mudy.listaCategorias.getMap().isEmpty())
                         throw new ListaNoCargadaException("No hay categorias para mostrar");
                     System.out.println(Mudy.listaCategorias.mostrar());
                     break;
@@ -940,13 +937,13 @@ public class Main {
                     System.out.println("- Opción inválida.");
                     break;
             }
-            if(control == 's'){
-                System.out.println("Quiere continuar mostrando? (s/n)");
-                control=sc.next().charAt(0);
-            }
-            if(control == 'n'){
-                System.out.println("Dejando de mostrar...");
-                break;
+            try{
+                if(control=='s') {
+                    control = continuar("mostrar");
+                }
+            }catch(IllegalArgumentException e){
+                System.out.println(e.getMessage());
+                sc.nextLine();
             }
         }
     }

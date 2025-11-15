@@ -80,7 +80,7 @@ public class GestoraJson{
     // así utilizarlo como nombre del archivo.
 
     public static <T extends GestorString> void toJsonString(T elementos){
-        if(!elementos.getLista().isEmpty()) {
+        if(!elementos.getMap().isEmpty()) {
             String nombreArchivo = "";
             nombreArchivo = elementos.getNombre();
             JSONArray arregloJSON = elementos.toJson();

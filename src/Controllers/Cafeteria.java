@@ -5,6 +5,7 @@ import Models.Personas.Empleado;
 import Models.Productos.Producto;
 import Models.Proveedores.Proveedor;
 import Exceptions.ElementoRepetidoException;
+import Enum.ETipoProducto;
 import org.json.JSONArray;
 import java.util.HashSet;
 
@@ -26,6 +27,7 @@ public class Cafeteria {
         this.listaPedidos = new GestorGenerico<>();
         this.listaProveedores = new GestorGenerico<>();
         this.listaMarcas = new GestorString("marcas");
+        listaMarcas.agregar("sin marca",ETipoProducto.VACIO);
         this.listaCategorias = new GestorString("categorias");
     }
 
@@ -107,39 +109,5 @@ public class Cafeteria {
         listaCategorias.fromJson(listaJson);
     }
 
-    //convertir DE JSON a CAFETERIA
-//    public void fromJson(JSONArray cafeteriaJson) throws ElementoRepetidoException {
-//        try {
-//            for(int i = 0 ; i < cafeteriaJson.length(); i++) {
-//                JSONObject objetoJson = cafeteriaJson.getJSONObject(i);
-//                String clave = objetoJson.toString();
-//                switch(clave){
-//                    case "class Class.Personas.Empleado":
-//                        listaEmpleadosFromJson(objetoJson.getJSONArray("class Class.Personas.Empleado"));
-//                        break;
-//                    case "class Class.Personas.Cliente":
-//                        listaClientesFromJson(objetoJson.getJSONArray("class Class.Personas.Cliente"));
-//                        break;
-//                    case "class Class.Proveedores.Proveedor":
-//                        listaProveedoresFromJson(objetoJson.getJSONArray("class Class.Proveedores.Proveedor"));
-//                        break;
-//                    case "class Class.Productos.Producto":
-//                        listaProductosFromJson(objetoJson.getJSONArray("class Class.Productos.Producto"));
-//                        break;
-//                    case "class Class.Pedidos.Pedido":
-//                        listaPedidosFromJson(objetoJson.getJSONArray("class Class.Pedidos.Pedido"));
-//                        break;
-//                    case "marcas":
-//                        listaMarcasFromJson(objetoJson.getJSONArray("marcas"));
-//                        break;
-//                    case "categorias":
-//                        listaCategoriasFromJson(objetoJson.getJSONArray("categorias"));
-//                        break;
-//                }
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
 }
