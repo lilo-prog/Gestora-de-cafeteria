@@ -4,10 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONTokener;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -25,16 +22,26 @@ public class JsonUtiles {
     }
 
     public static JSONTokener leerUnJson(String archivo) {
-        JSONTokener tokener = null;
-
-        try{
-            tokener = new JSONTokener(new FileReader(archivo));
-
-        }catch (FileNotFoundException e){
-            e.printStackTrace();
+        // ➤ Siempre agregar ".json" si no viene
+        if (!archivo.endsWith(".json")) {
+            archivo = archivo + ".json";
         }
 
-        return tokener;
+        File f = new File(archivo);
+
+        // ➤ Si no existe, no intentar leerlo
+        if (!f.exists()) {
+            System.out.print("");
+            return null;
+        }
+
+        try {
+            return new JSONTokener(new FileReader(f));
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Error al abrir el archivo JSON.");
+            return null;
+        }
     }
 
     //Otra forma

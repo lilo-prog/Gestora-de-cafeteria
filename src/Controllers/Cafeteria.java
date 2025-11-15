@@ -42,7 +42,8 @@ public class Cafeteria {
                     total+=entry.getValue().getTotal();
             }
         }
-        c.setGastosTotales(total);
+        listaClientes.getMap().get(dni).setGastosTotales(total);
+
     }
 
     //Convertir a CAFETERIA a JSON.

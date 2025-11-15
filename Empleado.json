@@ -1,10 +1,24 @@
-[{
-    "apellido": "Trola",
-    "sueldo": 333.33,
-    "id": 1,
-    "telefono": 1234,
-    "nombre": "Lilo",
-    "edad": 21,
-    "dni": 1,
-    "clase": "Empleado"
-}]
+[
+    {
+        "fechaNacimiento": "2004-06-24",
+        "apellido": "Trola",
+        "sueldo": 230000,
+        "id": 2,
+        "telefono": "2236182257",
+        "nombre": "Bruno",
+        "edad": 21,
+        "dni": 47089846,
+        "clase": "Empleado"
+    },
+    {
+        "fechaNacimiento": "2004-06-24",
+        "apellido": "Trola",
+        "sueldo": 230000,
+        "id": 1,
+        "telefono": "2236182257",
+        "nombre": "Lilo",
+        "edad": 21,
+        "dni": 45993056,
+        "clase": "Empleado"
+    }
+]

@@ -7,19 +7,71 @@ import Models.Productos.Producto;
 import Models.Proveedores.Proveedor;
 import Enum.ETipoProducto;
 import Enum.ETipoPago;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONTokener;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     static Cafeteria Mudy = new Cafeteria();
-
     static Scanner sc = new Scanner(System.in);
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws ElementoRepetidoException {
+        JSONTokener tok1 = JsonUtiles.leerUnJson("Empleado.json");
+        JSONTokener tok2 = JsonUtiles.leerUnJson("Cliente.json");
+        JSONTokener tok3 = JsonUtiles.leerUnJson("Proveedor.json");
+        JSONTokener tok4 = JsonUtiles.leerUnJson("Producto.json");
+        JSONTokener tok5 = JsonUtiles.leerUnJson("Pedido.json");
+        JSONTokener tok6 = JsonUtiles.leerUnJson("marcas.json");
+        JSONTokener tok7 = JsonUtiles.leerUnJson("categorias.json");
+        try {
+            if (tok1 != null) {
+                JSONArray array = new JSONArray(tok1);
+                Mudy.listaEmpleadosFromJson(array);
+            }
+            if (tok2 != null) {
+                JSONArray array = new JSONArray(tok2);
+                Mudy.listaClientesFromJson(array);
+            }
+            if (tok3 != null) {
+                JSONArray array = new JSONArray(tok3);
+                Mudy.listaProveedoresFromJson(array);
+            }
+            if (tok4 != null) {
+                JSONArray array = new JSONArray(tok4);
+                Mudy.listaProductosFromJson(array);
+            }
+            if (tok5 != null) {
+                JSONArray array = new JSONArray(tok5);
+                Mudy.listaPedidosFromJson(array);
+            }
+            if (tok6 != null) {
+                JSONArray array = new JSONArray(tok6);
+                Mudy.listaMarcasFromJson(array);
+            }
+            if (tok7 != null) {
+                JSONArray array = new JSONArray(tok7);
+                Mudy.listaCategoriasFromJson(array);
+            }
+        } catch (JSONException  e) {
+            System.out.print("");
+        }
+
         int opcion;
         char control = 's';
+        Empleado empleado1 = new Empleado("Lilo", "Trola", LocalDate.parse("2004-06-24"), 45993056, "2236182257", 230000.0);
+        Mudy.listaEmpleados.agregar((long)empleado1.getDni(),empleado1);
+        Empleado empleado2 = new Empleado("Bruno", "Trola", LocalDate.parse("2004-06-24"), 47089846, "2236182257", 230000.0);
+        Mudy.listaEmpleados.agregar((long)empleado2.getDni(),empleado2);
         while(control == 's') {
                 menuPrincipal();
                 opcion = sc.nextInt();
@@ -65,6 +117,18 @@ public class Main {
                         }
                         break;
                     case 4:
+                        System.out.println("- Modificar -");
+                        mostrarListas();
+                        opcion = sc.nextInt();
+                        sc.nextLine();
+
+                        try{
+                            modificar(opcion);
+                        } catch(InputMismatchException | ElementoNoEncontradoException | ListaNoCargadaException e){
+                            System.out.println(e.getMessage());
+                        }
+                        break;
+                    case 5:
                         System.out.println("- Mostrar -");
                         mostrarListas();
                         opcion = sc.nextInt();
@@ -81,13 +145,20 @@ public class Main {
                 }
             try{
                 if(control=='s') {
-                    control = continuar("principal");
+                    control = continuar( "en el menu principal");
                 }
             }catch(IllegalArgumentException e){
                 System.out.println(e.getMessage());
                 sc.nextLine();
             }
         }
+        if(!Mudy.listaEmpleados.getMap().isEmpty()) Mudy.toJsonEmpleado();
+        if(!Mudy.listaClientes.getMap().isEmpty()) Mudy.toJsonClientes();
+        if(!Mudy.listaProveedores.getMap().isEmpty()) Mudy.toJsonProveedores();
+        if(!Mudy.listaProductos.getMap().isEmpty()) Mudy.toJsonProductos();
+        if(!Mudy.listaPedidos.getMap().isEmpty()) Mudy.toJsonPedidos();
+        if(!Mudy.listaMarcas.getMap().isEmpty()) Mudy.toJsonMarcas();
+        if(!Mudy.listaCategorias.getMap().isEmpty()) Mudy.toJsonCategorias();
         System.out.println("- Saliendo de programa...");
     }
 
@@ -97,7 +168,8 @@ public class Main {
         System.out.println("1 - Agregar.");
         System.out.println("2 - Eliminar.");
         System.out.println("3 - Buscar.");
-        System.out.println("4 - Mostrar.");
+        System.out.println("4 - Modificar.");
+        System.out.println("5 - Mostrar.");
         System.out.println("0 - Salir.");
         System.out.println("- Ingrese opción: ");
     }
@@ -118,7 +190,7 @@ public class Main {
     public static char continuar(String nombreMenu){
         char c;
         while (true) {
-            System.out.println("- Continuar en el menu " + nombreMenu + "?? (s/n): ");
+            System.out.println("- Continuar " + nombreMenu + "?? (s/n): ");
             c = sc.next().charAt(0);
             sc.nextLine();
             if (c != 'n' && c != 's') throw new IllegalArgumentException("- La opción debe ser 's' o 'n'. ");
@@ -169,7 +241,7 @@ public class Main {
             }
             try{
                 if(control=='s') {
-                    control = continuar("agregar");
+                    control = continuar("agregando");
                 }
             }catch(IllegalArgumentException e){
                 System.out.println(e.getMessage());
@@ -255,11 +327,13 @@ public class Main {
             try {
                 System.out.println("- Ingrese sueldo del empleado: ");
                 double sueldo = sc.nextDouble();
-                if(sueldo <= 0) throw new IllegalArgumentException("- El sueldo debe ser mayor que 0.");
+                if(sueldo <= 0) throw new IllegalArgumentException("El sueldo debe ser mayor que 0.");
                 e.setSueldo(sueldo);
                 break;
-            }catch(IllegalArgumentException | InputMismatchException x){
+            }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
+            }catch(InputMismatchException x){
+                System.out.println("- Error: El sueldo debe ser numerico ");
             }
         }
 
@@ -614,7 +688,7 @@ public class Main {
             }
             try{
                 if(control=='s') {
-                    control = continuar("eliminar");
+                    control = continuar("eliminando");
                 }
             }catch(IllegalArgumentException e){
                 System.out.println(e.getMessage());
@@ -775,7 +849,7 @@ public class Main {
             }
             try{
                 if(control=='s') {
-                    control = continuar("buscar");
+                    control = continuar("buscando");
                 }
             }catch(IllegalArgumentException e){
                 System.out.println(e.getMessage());
@@ -891,6 +965,183 @@ public class Main {
         }
     }
 
+        // Métodos modificar listas.
+    public static void modificar(int opcion) throws ElementoNoEncontradoException, ListaNoCargadaException{
+        char control = 's';
+        while(control == 's'){
+            switch(opcion){
+                case 0:
+                    control = 'n';
+                    break;
+                case 1:
+                    modificarEmpleado();
+                    System.out.println("- Se actualizó el empleado correctamente!");
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+                default:
+                    break;
+            }
+            try{
+                if(control=='s') {
+                    control = continuar("modificando");
+                }
+            }catch(IllegalArgumentException e){
+                System.out.println(e.getMessage());
+                sc.nextLine();
+            }
+        }
+    }
+
+    public static void modificarEmpleado() throws ElementoNoEncontradoException, ListaNoCargadaException {
+        if(Mudy.listaEmpleados.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay empleados para modificar.");
+        char control = 's';
+        Empleado e = buscarEmpleado();
+        System.out.println(e);
+        long dni = e.getDni();
+        while(control == 's') {
+            System.out.println("- Seleccione el campo a modificar: ");
+            System.out.println("- 1. DNI. ");
+            System.out.println("- 2. Nombre. ");
+            System.out.println("- 3. Apellido. ");
+            System.out.println("- 4. Fecha de nacimiento. ");
+            System.out.println("- 5. Teléfono. ");
+            System.out.println("- 6. Sueldo. ");
+            System.out.println("- 0. Salir. ");
+            int opcion = sc.nextInt();
+            switch (opcion) {
+                case 0:
+                    control = 'n';
+                    break;
+                case 1:
+                    while (true) {
+                        try {
+                            System.out.println("- Ingrese el DNI nuevo del empleado: ");
+                            int dniNuevo = sc.nextInt();
+                            sc.nextLine();
+                            if (dniNuevo < 10000000L) throw new IllegalArgumentException("El DNI debe tener 8 dígitos");
+                            if(Mudy.listaEmpleados.getMap().containsKey((long)dniNuevo)) throw new ElementoRepetidoException();
+                            Mudy.listaEmpleados.getMap().get(dni).setDni(dniNuevo);
+                            break;
+                        } catch (InputMismatchException x) {
+                            System.out.println("- Error: el dni debe ser numerico");
+                            sc.nextLine();
+                        } catch (IllegalArgumentException x) {
+                            System.out.println("- Error: " + x.getMessage());
+                            sc.nextLine();
+                        } catch (ElementoRepetidoException x){
+                            System.out.println(x.getMessage());
+                        }
+                    }
+                    break;
+                case 2:
+                    while (true) {
+                        try {
+                            System.out.println("- Ingrese nuevo nombre del empleado: ");
+                            Mudy.listaEmpleados.getMap().get(dni).setNombre(sc.nextLine());
+                            //Si hay una secuencia de caracteres que contiene un número tira una excepción.
+                            if (Mudy.listaEmpleados.getMap().get(dni).getNombre().matches(".*\\d.*"))
+                                throw new IllegalArgumentException("- El nombre no puede contener números.");
+                            if (Mudy.listaEmpleados.getMap().get(dni).getNombre().length() < 2)
+                                throw new IllegalArgumentException("- El nombre debe tener al menos 2 caracteres.");
+                            break;
+                        } catch (IllegalArgumentException ex) {
+                            System.out.println("- Error: " + ex.getMessage());
+                        }
+                    }
+                    break;
+                case 3:
+                    while (true) {
+                        try {
+                            System.out.println("- Ingrese nuevo apellido del empleado: ");
+                            Mudy.listaEmpleados.getMap().get(dni).setApellido(sc.nextLine());
+                            //Si hay una secuencia de caracteres que contiene un número tira una excepción.
+                            if (Mudy.listaEmpleados.getMap().get(dni).getApellido().matches(".*\\d.*"))
+                                throw new IllegalArgumentException("El apellido no puede contener números.");
+                            if (Mudy.listaEmpleados.getMap().get(dni).getApellido().length() < 2)
+                                throw new IllegalArgumentException("El apellido debe tener al menos 2 caracteres.");
+                            break;
+                        } catch (IllegalArgumentException ex) {
+                            System.out.println("- Error: " + ex.getMessage());
+                        }
+                    }
+                    break;
+                case 4:
+                    while (true) {
+                        try {
+                            System.out.println("- Ingrese la nueva fecha de nacimiento del empleado (YYYY-MM-DD) en números: ");
+                            String fecha = sc.nextLine();
+                            LocalDate temp = LocalDate.parse(fecha);
+                            if (temp.isAfter(LocalDate.now()))
+                                throw new IllegalArgumentException("La fecha no debe ser posterior al dia de hoy");
+                            Mudy.listaEmpleados.getMap().get(dni).setFechaNacimiento(temp);
+                            int edad = e.calcularEdad();
+                            Mudy.listaEmpleados.getMap().get(dni).setEdad(edad);
+                            if (edad < 16)
+                                throw new IllegalArgumentException("La edad debe ser mayor o igual a 16 años.");
+                            break;
+                        } catch (DateTimeParseException x) {
+                            System.out.println("- El formato de la fecha es erroneo, debe ser YYYY-MM-DD en números.");
+                        } catch (IllegalArgumentException ex) {
+                            System.out.println("- Error: " + ex.getMessage());
+                        }
+                    }
+                    break;
+                case 5:
+                    while (true) {
+                        try {
+                            System.out.println("- Ingrese el nuevo teléfono del empleado: ");
+                            String telefono = sc.nextLine();
+                            Mudy.listaEmpleados.getMap().get(dni).setTelefono(telefono);
+                            if (!Mudy.listaEmpleados.getMap().get(dni).validarTelefono())
+                                throw new IllegalArgumentException("El teléfono ingresado no es válido");
+                            break;
+                        } catch (IllegalArgumentException x) {
+                            System.out.println("- Error: " + x.getMessage());
+                        }
+                    }
+                    break;
+                case 6:
+                    while (true) {
+                        try {
+                            System.out.println("- Ingrese nuevo sueldo del empleado: ");
+                            double sueldo = sc.nextDouble();
+                            Mudy.listaEmpleados.getMap().get(dni).setSueldo(sueldo);
+                            if (Mudy.listaEmpleados.getMap().get(dni).getSueldo() <= 0)
+                                throw new IllegalArgumentException("El sueldo debe ser mayor que 0.");
+                            break;
+                        } catch (IllegalArgumentException x) {
+                            System.out.println("- Error: " + x.getMessage());
+                        } catch (InputMismatchException x) {
+                            System.out.println("- Error: el sueldo debe ser numérico");
+                        }
+                    }
+                    break;
+                default:
+                    System.out.println("- Opción inválida.");
+                    break;
+            }
+            try{
+                if(control=='s') {
+                    control=continuar("modificando datos del empleado");
+                }
+            }catch(IllegalArgumentException x){
+                System.out.println(x.getMessage());
+            }
+        }
+    }
+
+
         // Métodos mostrar listas cargadas.
     public static void mostrar(int opcion) throws ListaNoCargadaException{
         char control = 's';
@@ -940,7 +1191,7 @@ public class Main {
             }
             try{
                 if(control=='s') {
-                    control = continuar("mostrar");
+                    control = continuar("mostrando");
                 }
             }catch(IllegalArgumentException e){
                 System.out.println(e.getMessage());
