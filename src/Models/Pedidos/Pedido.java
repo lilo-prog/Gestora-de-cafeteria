@@ -123,13 +123,9 @@ public class Pedido implements IJson {
     }
 
         //Método buscar producto a lista de productos dentro del pedido.
-    public Boolean buscar(String nombre) throws ElementoNoEncontradoException {
+    public Boolean existe(String nombre) throws ElementoNoEncontradoException {
         if(!listaProductos.containsKey(nombre)) throw new ElementoNoEncontradoException();
         return true;
-    }
-    public Producto buscarNombre(Producto producto) throws ElementoNoEncontradoException {
-        if(listaProductos.containsKey(producto.getNombre())) return producto;
-        return null;
     }
     public double calcularTotal(){
         for(Map.Entry<Producto, Integer> lista : listaProductos.entrySet()){

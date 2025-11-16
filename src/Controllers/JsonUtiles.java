@@ -22,16 +22,15 @@ public class JsonUtiles {
     }
 
     public static JSONTokener leerUnJson(String archivo) {
-        // ➤ Siempre agregar ".json" si no viene
+        // Siempre agregar ".json" si no viene
         if (!archivo.endsWith(".json")) {
             archivo = archivo + ".json";
         }
 
         File f = new File(archivo);
 
-        // ➤ Si no existe, no intentar leerlo
+        // Si no existe, no intentar leerlo
         if (!f.exists()) {
-            System.out.print("");
             return null;
         }
 
