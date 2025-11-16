@@ -11,14 +11,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONTokener;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.NoSuchFileException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -26,6 +22,7 @@ public class Main {
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) throws ElementoRepetidoException {
+        // Trae los datos de los JSON,si es que existen
         JSONTokener tok1 = JsonUtiles.leerUnJson("Empleado.json");
         JSONTokener tok2 = JsonUtiles.leerUnJson("Cliente.json");
         JSONTokener tok3 = JsonUtiles.leerUnJson("Proveedor.json");
@@ -80,84 +77,116 @@ public class Main {
 
 
         while(control == 's') {
-                menuPrincipal();
-                opcion = sc.nextInt();
-                sc.nextLine();
+                while(true) {
+                    menuPrincipal();
+                    try {
+                        opcion = sc.nextInt();
+                        break;
+                    } catch (InputMismatchException e) {
+                        System.out.println("La opcion debe ser numerica");
+                        sc.nextLine();
+                    }
+                }
                 switch (opcion) {
                     case 0:
                         control = 'n';
                         break;
                     case 1:
-                        System.out.println("- Agregar -");
-                        mostrarListas();
-                        opcion = sc.nextInt();
-                        sc.nextLine();
-
-                        try {
-                            agregar(opcion);
-                        } catch (ElementoRepetidoException | ListaNoCargadaException e) {
-                            System.out.println(e.getMessage());
+                        while (true) {
+                            System.out.println("- Agregar -");
+                            mostrarListas();
+                            try {
+                                opcion = sc.nextInt();
+                                agregar(opcion);
+                                break;
+                            } catch (InputMismatchException e) {
+                                System.out.println("- La opcion debe ser numerica");
+                                sc.nextLine();
+                            } catch (ElementoRepetidoException | ListaNoCargadaException e) {
+                                System.out.println(e.getMessage());
+                            }
                         }
                         break;
                     case 2:
-                        System.out.println("- Eliminar -");
-                        mostrarListas();
-                        opcion = sc.nextInt();
-                        sc.nextLine();
-
-                        try {
-                            eliminar(opcion);
-                        }catch (ElementoNoEncontradoException | ListaNoCargadaException e){
-                            System.out.println(e.getMessage());
+                        while(true){
+                            System.out.println("- Eliminar -");
+                            mostrarListas();
+                            try {
+                                opcion = sc.nextInt();
+                                sc.nextLine();
+                                eliminar(opcion);
+                                break;
+                            } catch (ElementoNoEncontradoException | ListaNoCargadaException e) {
+                                System.out.println(e.getMessage());
+                            } catch (InputMismatchException e) {
+                                System.out.println("- La opcion debe ser numerica");
+                                sc.nextLine();
+                            }
                         }
                         break;
                     case 3:
-                        System.out.println("- Buscar -");
-                        mostrarListas();
-                        opcion = sc.nextInt();
-                        sc.nextLine();
-
-                        try{
-                            buscar(opcion);
-                        } catch(ElementoNoEncontradoException | ListaNoCargadaException e){
-                            System.out.println(e.getMessage());
+                        while(true) {
+                            System.out.println("- Buscar -");
+                            mostrarListas();
+                            try {
+                                opcion = sc.nextInt();
+                                sc.nextLine();
+                                buscar(opcion);
+                                break;
+                            } catch (ElementoNoEncontradoException | ListaNoCargadaException e) {
+                                System.out.println(e.getMessage());
+                            } catch (InputMismatchException e) {
+                                System.out.println("- La opcion debe ser numerica");
+                                sc.nextLine();
+                            }
                         }
                         break;
                     case 4:
-                        System.out.println("- Modificar -");
-                        mostrarListas();
-                        opcion = sc.nextInt();
-                        sc.nextLine();
-
-                        try{
-                            modificar(opcion);
-                        } catch(InputMismatchException | ElementoNoEncontradoException | ListaNoCargadaException e){
-                            System.out.println(e.getMessage());
+                        while(true) {
+                            System.out.println("- Modificar -");
+                            mostrarListas();
+                            try {
+                                opcion = sc.nextInt();
+                                sc.nextLine();
+                                modificar(opcion);
+                                break;
+                            } catch (ElementoNoEncontradoException | ListaNoCargadaException e) {
+                                System.out.println(e.getMessage());
+                            } catch (InputMismatchException e) {
+                                System.out.println("- La opcion debe ser numerica");
+                                sc.nextLine();
+                            }
                         }
                         break;
                     case 5:
-                        System.out.println("- Mostrar -");
-                        mostrarListas();
-                        opcion = sc.nextInt();
-                        sc.nextLine();
-                        try {
-                            mostrar(opcion);
-                        }catch(ListaNoCargadaException e){
-                            System.out.println(e.getMessage());
+                        while(true) {
+                            System.out.println("- Mostrar -");
+                            mostrarListas();
+                            try {
+                                opcion = sc.nextInt();
+                                sc.nextLine();
+                                mostrar(opcion);
+                                break;
+                            } catch (ListaNoCargadaException e) {
+                                System.out.println(e.getMessage());
+                            } catch (InputMismatchException e) {
+                                System.out.println("- La opcion debe ser numerica");
+                                sc.nextLine();
+                            }
                         }
                         break;
                     default:
-                        System.out.println("- Opción inválida. Debe elegir entre 1 y 4.");
+                        System.out.println("- Opción inválida.");
                         break;
+                    }
+                try {
+                    if (control == 's') {
+                        control = continuar("en el menu principal");
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                    sc.nextLine();
                 }
-            try{
-                if(control=='s') {
-                    control = continuar( "en el menu principal");
-                }
-            }catch(IllegalArgumentException e){
-                System.out.println(e.getMessage());
-                sc.nextLine();
-            }
         }
         if(!Mudy.listaEmpleados.getMap().isEmpty()) Mudy.toJsonEmpleado();
         if(!Mudy.listaClientes.getMap().isEmpty()) Mudy.toJsonClientes();
@@ -207,7 +236,7 @@ public class Main {
     }
 
         //Métodos para agregar a listas.
-    public static void agregar(int opcion) throws ElementoRepetidoException, InputMismatchException, ListaNoCargadaException {
+    public static void agregar(int opcion) throws ElementoRepetidoException, ListaNoCargadaException {
         char control ='s';
         while(control=='s') {
             switch (opcion) {
@@ -558,7 +587,9 @@ public class Main {
         Mudy.listaProductos.agregar(p.getUpc(),p);
     }
 
-    public static void agregarPedido() throws ElementoRepetidoException {
+    public static void agregarPedido() throws ElementoRepetidoException, ListaNoCargadaException {
+        if(Mudy.listaProductos.getMap().isEmpty())throw new ListaNoCargadaException("No hay productos para agregar al pedido");
+        if(Mudy.listaClientes.getMap().isEmpty())throw new ListaNoCargadaException("No hay clientes a quienes asignarles los pedidos");
         Pedido p = new Pedido();
         long upc;
         int cantidad;
@@ -624,13 +655,13 @@ public class Main {
                 if(categoria.matches(".*\\d.*")) throw new IllegalArgumentException("El nombre no puede contener números.");
                 if(categoria.length() < 2) throw new IllegalArgumentException("El nombre debe tener al menos 2 caracteres.");
                 System.out.println("- Seleccione el tipo de producto que tiene esta categoria: ");
-                System.out.println("1 - COMESTIBLE , 2 - BEBIBLE ");
-                int op = sc.nextInt();
+                System.out.println("COMESTIBLE / BEBIBLE ");
+                String tipo = sc.next().toUpperCase();
                 sc.nextLine();
                 ETipoProducto et;
-                if(op == 1) et = ETipoProducto.COMESTIBLE;
-                else if(op == 2) et = ETipoProducto.BEBIBLE;
-                else throw new IllegalArgumentException("- Valor inválido.");
+                if(tipo.equals("COMESTIBLE")) et = ETipoProducto.COMESTIBLE;
+                else if(tipo.equals("BEBIBLE")) et = ETipoProducto.BEBIBLE;
+                else throw new IllegalArgumentException("Valor inválido.");
                 Mudy.listaCategorias.agregar(categoria,et);
                 break;
             }catch(IllegalArgumentException ex){
@@ -981,34 +1012,42 @@ public class Main {
                     control = 'n';
                     break;
                 case 1:
+                    if(Mudy.listaEmpleados.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay empleados para modificar.");
                     modificarEmpleado();
                     System.out.println("- Se actualizó el empleado correctamente!");
                     break;
                 case 2:
+                    if (Mudy.listaClientes.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay clientes para modificar.");
                     modificarCliente();
                     System.out.println("- Se actualizó el cliente correctamente!");
                     break;
                 case 3:
+                    if (Mudy.listaPedidos.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay pedidos para modificar.");
                     modificarPedido();
                     System.out.println("- Se actualizó el pedido correctamente!");
                     break;
                 case 4:
+                    if (Mudy.listaProveedores.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay proveedores para modificar.");
+                    modificarProveedor();
+                    System.out.println("- Se actualizó el proveedor correctamente!");
+                    break;
+                case 5:
+                    if (Mudy.listaProductos.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay productos para modificar.");
                     //modificarProducto();
                     //System.out.println("- Se actualizó el producto correctamente!");
                     break;
-                case 5:
-                    //modificarProveedor();
-                    //System.out.println("- Se actualizó el proveedor correctamente!");
-                    break;
                 case 6:
+                    if (Mudy.listaMarcas.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay marcas para modificar.");
                     //modificarMarcas();
                     //System.out.println("- Se actualizó la marca correctamente!");
                     break;
                 case 7:
+                    if (Mudy.listaCategorias.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay categorias para modificar.");
                     //modificarCategoria();
                     //System.out.println("- Se actualizó la categoria correctamente!");
                     break;
                 default:
+                    System.out.println("- Opcion invalida.");
                     break;
             }
             try{
@@ -1022,8 +1061,7 @@ public class Main {
         }
     }
 
-    public static void modificarEmpleado() throws ElementoNoEncontradoException, ListaNoCargadaException {
-        if(Mudy.listaEmpleados.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay empleados para modificar.");
+    public static void modificarEmpleado() throws ElementoNoEncontradoException {
         char control = 's';
         Empleado e = buscarEmpleado();
         System.out.println(e);
@@ -1160,10 +1198,7 @@ public class Main {
         }
     }
 
-    public static void modificarCliente() throws ElementoNoEncontradoException, ListaNoCargadaException {
-        if (Mudy.listaClientes.getMap().isEmpty())
-            throw new ListaNoCargadaException("- No hay clientes para modificar.");
-
+    public static void modificarCliente() throws ElementoNoEncontradoException {
         char control = 's';
         Cliente c = buscarCliente();
         System.out.println(c);
@@ -1176,7 +1211,7 @@ public class Main {
             System.out.println("- 3. Apellido");
             System.out.println("- 4. Fecha de nacimiento");
             System.out.println("- 5. Teléfono");
-            System.out.println("- 6. Gastos totales");
+            System.out.println("- 6. Recalcular Gastos totales");
             System.out.println("- 0. Salir");
 
             int opcion = sc.nextInt();
@@ -1273,22 +1308,7 @@ public class Main {
                     break;
 
                 case 6:
-                    while (true) {
-                        try {
-                            System.out.println("- Ingrese nuevos gastos totales del cliente: ");
-                            double gastos = sc.nextDouble();
-                            sc.nextLine();
-                            if (gastos < 0) throw new IllegalArgumentException("Los gastos totales no pueden ser negativos.");
-                            Mudy.listaClientes.getMap().get(dni).setGastosTotales(gastos);
-                            break;
-
-                        } catch (InputMismatchException ex) {
-                            System.out.println("- Error: debe ingresar un número válido");
-                            sc.nextLine();
-                        } catch (IllegalArgumentException ex) {
-                            System.out.println("- Error: " + ex.getMessage());
-                        }
-                    }
+                    Mudy.calcularGastoTotalDeCliente(c.getDni());
                     break;
 
                 default:
@@ -1304,11 +1324,7 @@ public class Main {
         }
     }
 
-    public static void modificarPedido() throws ElementoNoEncontradoException, ListaNoCargadaException {
-
-        if (Mudy.listaPedidos.getMap().isEmpty())
-            throw new ListaNoCargadaException("- No hay pedidos para modificar.");
-
+    public static void modificarPedido() throws ElementoNoEncontradoException{
         char control = 's';
         Pedido p = buscarPedido();
         System.out.println(p);
@@ -1320,7 +1336,7 @@ public class Main {
             System.out.println("- Seleccione el campo a modificar:");
             System.out.println("1. Tipo de pago");
             System.out.println("2. DNI del cliente");
-            System.out.println("3. Total");
+            System.out.println("3. Productos");
             System.out.println("0. Salir");
 
             int opcion = sc.nextInt();
@@ -1378,26 +1394,34 @@ public class Main {
                         }
                     }
                     break;
-
                 case 3:
-                    while (true) {
-                        try {
-                            System.out.println("- Ingrese el nuevo total del pedido:");
-                            double total = sc.nextDouble();
-                            sc.nextLine();
+                    while(true){
+                        try{
+                            System.out.println("- Seleccione el producto a cambiar, por su UPC");
+                            System.out.println(Mudy.listaPedidos.getMap().get((long)id).mostrarListaDeProductos());
+                            long upc =  sc.nextLong();
+                            Producto pr = Mudy.listaProductos.getMap().get(upc);
+                            // busca el producto en la lista de productos de la cafeteria
+                            if(pr==null) throw new ElementoNoEncontradoException();
 
-                            if (total < 0)
-                                throw new IllegalArgumentException("El total no puede ser negativo.");
+                            // busca el producto en la lista de productos del pedido
+                            if(!Mudy.listaPedidos.getMap().get((long)id).existe(pr.getNombre())) throw new ElementoNoEncontradoException();
 
-                            Mudy.listaPedidos.getMap().get((long)id).setTotal(total);
+                            Mudy.listaPedidos.getMap().get((long)id).eliminar(pr.getNombre());
+                            System.out.println("- Seleccione el producto que reemplazara el producto ya elegido, por su UPC");
+                            System.out.println(Mudy.listaProductos.mostrarLista());
+                            upc = sc.nextLong();
+                            pr = Mudy.listaProductos.getMap().get(upc);
+                            if(pr==null) throw new ElementoNoEncontradoException();
+                            System.out.println("- Ingrese la cantidad de este producto");
+                            int cantidad = sc.nextInt();
+                            if(cantidad<=0) throw new IllegalArgumentException("La cantidad no puede ser menor o igual a 0");
+                            Mudy.listaPedidos.getMap().get((long)id).agregar(pr,cantidad);
                             break;
-
-                        } catch (InputMismatchException x) {
-                            System.out.println("- Error: el total debe ser numérico.");
-                            sc.nextLine();
-
-                        } catch (IllegalArgumentException x) {
-                            System.out.println("- Error: " + x.getMessage());
+                        }catch(IllegalArgumentException | InputMismatchException x){
+                            System.out.println("Error: " + x.getMessage());
+                        } catch (ElementoRepetidoException | ElementoNoEncontradoException e) {
+                            System.out.println(e.getMessage());;
                         }
                     }
                     break;
@@ -1417,6 +1441,90 @@ public class Main {
         }
     }
 
+    public static void modificarProveedor() throws ElementoNoEncontradoException {
+        char control = 's';
+        Proveedor p = buscarProveedor();
+        System.out.println(p);
+        long cuil = p.getCuil();
+        int opcion;
+        while (control == 's') {
+            while(true) {
+                System.out.println("- Seleccione el campo a modificar:");
+                System.out.println("1. Nombre");
+                System.out.println("2. CUIL");
+                System.out.println("3. telefono");
+                System.out.println("0. Salir");
+                try {
+                    opcion = sc.nextInt();
+                    break;
+                }catch(InputMismatchException e){
+                    System.out.println("- La opcion debe ser numerica");
+                    sc.nextLine();
+                }
+            }
+            switch(opcion){
+                case 0:
+                    control = 'n';
+                    break;
+                case 1:
+                    while(true){
+                        try{
+                            System.out.println("- Ingrese el nuevo nombre: ");
+                            String nombre = sc.nextLine();
+                            sc.nextLine();
+                            // esa expresion da true si tiene algo que NO es una letra de la a-z,A-Z,
+                            // sus variantes con acentos y espacios.
+                            if(nombre.matches(".*[^a-zA-ZáéíóúÁÉÍÓÚñÑ ].*")) throw new IllegalArgumentException("El nombre no puede contener caracteres especiales");
+                            if(nombre.matches(".*\\d*."))throw new IllegalArgumentException("El nombre no puede contener numeros");
+                            if(nombre.length()<2) throw new IllegalArgumentException("El nombre debe tener al menos 2 caracteres");
+                            Mudy.listaProveedores.getMap().get(cuil).setNombre(nombre);
+                            break;
+                        }catch(IllegalArgumentException e){
+                            System.out.println("- Error: " + e.getMessage());
+                        }
+                    }
+                    break;
+                case 2:
+                    while(true){
+                        try{
+                            System.out.println("- Ingrese el nuevo cuil (solo numeros)");
+                            long cuilNuevo = sc.nextLong();
+                            if(cuilNuevo < 10000000000L) throw new IllegalArgumentException("El cuil debe tener 11 digitos");
+                            Mudy.listaProveedores.getMap().get(cuil).setCuil(cuilNuevo);
+                            break;
+                        }catch(IllegalArgumentException e){
+                            System.out.println("- Error: " + e.getMessage());
+                        }catch(InputMismatchException e){
+                            System.out.println("- Error: El cuil debe ser numerico");
+                            sc.nextLine();
+                        }
+                    }
+                    break;
+                case 3:
+                    while(true){
+                        try {
+                            System.out.println("- Ingrese el nuevo telefono");
+                            Mudy.listaProveedores.getMap().get(p.getCuil()).setTelefono(sc.nextLine());
+                            if(!Mudy.listaProveedores.getMap().get(p.getCuil()).validarTelefono()) throw new IllegalArgumentException("El telefono ingresado no es valido");
+                            break;
+                        }catch(IllegalArgumentException e){
+                            System.out.println("- Error: " + e.getMessage());
+                        }
+                    }
+                    break;
+                default:
+                    System.out.println("- Opcion invalida.");
+                    break;
+            }
+            try {
+                if (control == 's') {
+                    control = continuar("modificando datos del proveedor");
+                }
+            } catch (IllegalArgumentException x) {
+                System.out.println(x.getMessage());
+            }
+        }
+    }
 
         // Métodos mostrar listas cargadas.
     public static void mostrar(int opcion) throws ListaNoCargadaException{
