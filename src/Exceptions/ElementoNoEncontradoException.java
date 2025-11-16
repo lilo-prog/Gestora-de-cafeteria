@@ -1,5 +1,5 @@
 package Exceptions;
 
 public class ElementoNoEncontradoException extends Exception {
-    public ElementoNoEncontradoException() { super("- Elemento no encontrado en la lista. -"); }
+    public ElementoNoEncontradoException() { super("Elemento no encontrado en la lista. -"); }
 }

@@ -97,13 +97,15 @@ public class Main {
                             mostrarListas();
                             try {
                                 opcion = sc.nextInt();
+                                sc.nextLine();
+                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opcion invalida");
                                 agregar(opcion);
                                 break;
                             } catch (InputMismatchException e) {
                                 System.out.println("- La opcion debe ser numerica");
                                 sc.nextLine();
-                            } catch (ElementoRepetidoException | ListaNoCargadaException e) {
-                                System.out.println(e.getMessage());
+                            } catch (ElementoRepetidoException | ListaNoCargadaException | IllegalArgumentException e) {
+                                System.out.println("Error: " + e.getMessage());
                             }
                         }
                         break;
@@ -114,12 +116,13 @@ public class Main {
                             try {
                                 opcion = sc.nextInt();
                                 sc.nextLine();
+                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opcion invalida");
                                 eliminar(opcion);
                                 break;
-                            } catch (ElementoNoEncontradoException | ListaNoCargadaException e) {
-                                System.out.println(e.getMessage());
+                            } catch (ElementoNoEncontradoException | ListaNoCargadaException | IllegalArgumentException e) {
+                                System.out.println("- Error: " + e.getMessage());
                             } catch (InputMismatchException e) {
-                                System.out.println("- La opcion debe ser numerica");
+                                System.out.println("- Error: La opcion debe ser numerica");
                                 sc.nextLine();
                             }
                         }
@@ -131,12 +134,13 @@ public class Main {
                             try {
                                 opcion = sc.nextInt();
                                 sc.nextLine();
+                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opcion invalida");
                                 buscar(opcion);
                                 break;
-                            } catch (ElementoNoEncontradoException | ListaNoCargadaException e) {
-                                System.out.println(e.getMessage());
+                            } catch (ElementoNoEncontradoException | ListaNoCargadaException | IllegalArgumentException e) {
+                                System.out.println("- Error:" + e.getMessage());
                             } catch (InputMismatchException e) {
-                                System.out.println("- La opcion debe ser numerica");
+                                System.out.println("- Error: La opcion debe ser numerica");
                                 sc.nextLine();
                             }
                         }
@@ -148,12 +152,13 @@ public class Main {
                             try {
                                 opcion = sc.nextInt();
                                 sc.nextLine();
+                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opcion invalida");
                                 modificar(opcion);
                                 break;
-                            } catch (ElementoNoEncontradoException | ListaNoCargadaException e) {
-                                System.out.println(e.getMessage());
+                            } catch (ElementoNoEncontradoException | ListaNoCargadaException | IllegalArgumentException e) {
+                                System.out.println("- Error: " + e.getMessage());
                             } catch (InputMismatchException e) {
-                                System.out.println("- La opcion debe ser numerica");
+                                System.out.println("- Error: La opcion debe ser numerica");
                                 sc.nextLine();
                             }
                         }
@@ -165,12 +170,13 @@ public class Main {
                             try {
                                 opcion = sc.nextInt();
                                 sc.nextLine();
+                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opcion invalida");
                                 mostrar(opcion);
                                 break;
-                            } catch (ListaNoCargadaException e) {
-                                System.out.println(e.getMessage());
+                            } catch (ListaNoCargadaException | IllegalArgumentException e) {
+                                System.out.println("- Error: " + e.getMessage());
                             } catch (InputMismatchException e) {
-                                System.out.println("- La opcion debe ser numerica");
+                                System.out.println("- Error: La opcion debe ser numerica");
                                 sc.nextLine();
                             }
                         }
@@ -227,7 +233,7 @@ public class Main {
         char c;
         while (true) {
             System.out.println("- Continuar " + nombreMenu + "?? (s/n): ");
-            c = sc.next().charAt(0);
+            c = sc.next().toLowerCase().charAt(0);
             sc.nextLine();
             if (c != 'n' && c != 's') throw new IllegalArgumentException("- La opción debe ser 's' o 'n'. ");
             break;
