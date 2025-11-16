@@ -81,6 +81,7 @@ public class Main {
                     menuPrincipal();
                     try {
                         opcion = sc.nextInt();
+                        sc.nextLine();
                         break;
                     } catch (InputMismatchException e) {
                         System.out.println("La opcion debe ser numerica");
@@ -97,6 +98,7 @@ public class Main {
                             mostrarListas();
                             try {
                                 opcion = sc.nextInt();
+                                sc.nextLine();
                                 agregar(opcion);
                                 break;
                             } catch (InputMismatchException e) {
@@ -238,7 +240,7 @@ public class Main {
         //Métodos para agregar a listas.
     public static void agregar(int opcion) throws ElementoRepetidoException, ListaNoCargadaException {
         char control ='s';
-        while(control=='s') {
+        while(control == 's') {
             switch (opcion) {
                 case 0:
                     control = 'n';
@@ -276,7 +278,7 @@ public class Main {
                     break;
             }
             try{
-                if(control=='s') {
+                if(control == 's') {
                     control = continuar("agregando");
                 }
             }catch(IllegalArgumentException e){
