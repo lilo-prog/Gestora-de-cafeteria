@@ -231,14 +231,20 @@ public class Main {
 
     public static char continuar(String nombreMenu){
         char c;
-        while (true) {
-            System.out.println("- Continuar " + nombreMenu + "?? (s/n): ");
-            c = sc.next().toLowerCase().charAt(0);
-            sc.nextLine();
-            if (c != 'n' && c != 's') throw new IllegalArgumentException("- La opción debe ser 's' o 'n'. ");
-            break;
-        }
+        System.out.println("- Continuar " + nombreMenu + "?? (s/n): ");
+        c = sc.next().toLowerCase().charAt(0);
+        sc.nextLine();
+        if (c != 'n' && c != 's') throw new IllegalArgumentException("- La opción debe ser 's' o 'n'. ");
         return c;
+    }
+    public static void validarString(String string) throws IllegalArgumentException {
+        System.out.println(string);
+        // esa expresion da true si tiene algo que NO es una letra de la a-z,A-Z,
+        // sus variantes con acentos y espacios.
+        if(string.matches(".*[^a-zA-ZáéíóúÁÉÍÓÚñÑ ].*")) throw new IllegalArgumentException("El texto ingresado no puede contener caracteres especiales");
+        // esta expresion devuelve true si el string contiene un numero
+        if(string.matches(".*//d*.")) throw new IllegalArgumentException("El texto ingresado no puede contener numeros");
+        if(string.length() < 2) throw new IllegalArgumentException("El texto ingresado debe tener al menos 2 caracteres");
     }
 
         //Métodos para agregar a listas.
@@ -298,9 +304,7 @@ public class Main {
             try {
                 System.out.println("- Ingrese nombre del empleado: ");
                 e.setNombre(sc.nextLine());
-                //Si hay una secuencia de caracteres que contiene un número tira una excepción.
-                if(e.getNombre().matches(".*\\d.*")) throw new IllegalArgumentException("- El nombre no puede contener números.");
-                if(e.getNombre().length() < 2) throw new IllegalArgumentException("- El nombre debe tener al menos 2 caracteres.");
+                validarString(e.getNombre());
                 break;
             }catch(IllegalArgumentException ex){
                 System.out.println("- Error: " + ex.getMessage());
@@ -311,8 +315,7 @@ public class Main {
             try{
                 System.out.println("- Ingrese apellido del empleado: ");
                 e.setApellido(sc.nextLine());
-                if(e.getApellido().matches(".*\\d.*")) throw new IllegalArgumentException("- El apellido no puede contener números.");
-                if(e.getApellido().length() < 2) throw new IllegalArgumentException("- El apellido debe tener al menos 2 caracteres.");
+                validarString(e.getApellido());
                 break;
             }catch(IllegalArgumentException ex){
                 System.out.println("- Error: " + ex.getMessage());
@@ -389,8 +392,7 @@ public class Main {
                 System.out.println("- Ingrese nombre del cliente: ");
                 c.setNombre(sc.nextLine());
                 //Si hay una secuencia de caracteres que contiene un numero tira una excepcion.
-                if(c.getNombre().matches(".*\\d.*")) throw new IllegalArgumentException("El nombre no puede contener números.");
-                if(c.getNombre().length() < 2) throw new IllegalArgumentException("El nombre debe tener al menos 2 caracteres.");
+                validarString(c.getNombre());
                 break;
             }catch(IllegalArgumentException ex){
                 System.out.println("- Error: " + ex.getMessage());
@@ -401,8 +403,7 @@ public class Main {
             try{
                 System.out.println("- Ingrese apellido del cliente: ");
                 c.setApellido(sc.nextLine());
-                if(c.getApellido().matches(".*\\d.*")) throw new IllegalArgumentException("El apellido no puede contener números.");
-                if(c.getApellido().length() < 2) throw new IllegalArgumentException("El apellido debe tener al menos 2 caracteres.");
+                validarString(c.getApellido());
                 break;
             }catch(IllegalArgumentException ex){
                 System.out.println("- Error: " + ex.getMessage());
@@ -464,9 +465,7 @@ public class Main {
             try {
                 System.out.println("- Ingrese nombre del proveedor: ");
                 p.setNombre(sc.nextLine());
-                //Si hay una secuencia de caracteres que contiene un numero tira una excepcion.
-                if(p.getNombre().matches(".*\\d.*")) throw new IllegalArgumentException("El nombre no puede contener números.");
-                if(p.getNombre().length() < 2) throw new IllegalArgumentException("El nombre debe tener al menos 2 caracteres.");
+                validarString(p.getNombre());
                 break;
             }catch(IllegalArgumentException ex){
                 System.out.println("- Error: " + ex.getMessage());
@@ -511,8 +510,7 @@ public class Main {
             try {
                 System.out.println("- Ingrese nombre del producto: ");
                 String nombre = sc.nextLine();
-                if(nombre.matches(".*\\d.*")) throw new IllegalArgumentException("El nombre no puede contener números.");
-                if(nombre.length()<2) throw new IllegalArgumentException("El nombre debe tener al menos 2 caracteres.");
+                validarString(nombre);
                 p.setNombre(nombre);
                 break;
             }catch(IllegalArgumentException x){
@@ -642,7 +640,7 @@ public class Main {
             try {
                 System.out.println("- Ingrese nombre de la marca: ");
                 String marca = sc.nextLine();
-                if(marca.length() < 2) throw new IllegalArgumentException("El nombre debe tener al menos 2 caracteres.");
+                validarString(marca);
                 Mudy.listaMarcas.agregar(marca,ETipoProducto.VACIO);
                 break;
             }catch(IllegalArgumentException ex){
@@ -657,9 +655,7 @@ public class Main {
             try {
                 System.out.println("- Ingrese nombre de la categoría: ");
                 String categoria = sc.nextLine();
-                //Si hay una secuencia de caracteres que contiene un número tira una excepción.
-                if(categoria.matches(".*\\d.*")) throw new IllegalArgumentException("El nombre no puede contener números.");
-                if(categoria.length() < 2) throw new IllegalArgumentException("El nombre debe tener al menos 2 caracteres.");
+                validarString(categoria);
                 System.out.println("- Seleccione el tipo de producto que tiene esta categoria: ");
                 System.out.println("COMESTIBLE / BEBIBLE ");
                 String tipo = sc.next().toUpperCase();
@@ -1039,18 +1035,18 @@ public class Main {
                     break;
                 case 5:
                     if (Mudy.listaProductos.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay productos para modificar.");
-                    //modificarProducto();
-                    //System.out.println("- Se actualizó el producto correctamente!");
+                    modificarProducto();
+                    System.out.println("- Se actualizó el producto correctamente!");
                     break;
                 case 6:
                     if (Mudy.listaMarcas.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay marcas para modificar.");
-                    //modificarMarcas();
-                    //System.out.println("- Se actualizó la marca correctamente!");
+                    modificarMarca();
+                    System.out.println("- Se actualizó la marca correctamente!");
                     break;
                 case 7:
                     if (Mudy.listaCategorias.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay categorias para modificar.");
-                    //modificarCategoria();
-                    //System.out.println("- Se actualizó la categoria correctamente!");
+                    modificarCategoria();
+                    System.out.println("- Se actualizó la categoria correctamente!");
                     break;
                 default:
                     System.out.println("- Opcion invalida.");
@@ -1176,12 +1172,12 @@ public class Main {
                     break;
                 case 6:
                     while (true) {
+
                         try {
                             System.out.println("- Ingrese nuevo sueldo del empleado: ");
                             double sueldo = sc.nextDouble();
+                            if (sueldo <= 0) throw new IllegalArgumentException("El sueldo debe ser mayor que 0.");
                             Mudy.listaEmpleados.getMap().get(dni).setSueldo(sueldo);
-                            if (Mudy.listaEmpleados.getMap().get(dni).getSueldo() <= 0)
-                                throw new IllegalArgumentException("El sueldo debe ser mayor que 0.");
                             break;
                         } catch (IllegalArgumentException x) {
                             System.out.println("- Error: " + x.getMessage());
@@ -1253,9 +1249,9 @@ public class Main {
                     while (true) {
                         try {
                             System.out.println("- Ingrese nuevo nombre del cliente: ");
+                            String nombre = sc.nextLine();
+                            validarString(nombre);
                             Mudy.listaClientes.getMap().get(dni).setNombre(sc.nextLine());
-                            if (Mudy.listaEmpleados.getMap().get(dni).getNombre().matches(".*\\d.*")) throw new IllegalArgumentException("- El nombre no puede contener números.");
-                            if (Mudy.listaEmpleados.getMap().get(dni).getNombre().length() < 2) throw new IllegalArgumentException("- El nombre debe tener al menos 2 caracteres.");
                             break;
                         } catch (IllegalArgumentException ex) {
                             System.out.println("- Error: " + ex.getMessage());
@@ -1268,12 +1264,9 @@ public class Main {
                     while (true) {
                         try {
                             System.out.println("- Ingrese nuevo apellido del cliente: ");
+                            String apellido = sc.nextLine();
+                            validarString(apellido);
                             Mudy.listaClientes.getMap().get(dni).setApellido(sc.nextLine());
-                            if (Mudy.listaEmpleados.getMap().get(dni).getNombre().matches(".*\\d.*"))
-                                throw new IllegalArgumentException("- El apellido no puede contener números.");
-                            if (Mudy.listaEmpleados.getMap().get(dni).getNombre().length() < 2)
-                                throw new IllegalArgumentException("- El apellido debe tener al menos 2 caracteres.");
-
                             break;
                         } catch (IllegalArgumentException ex) {
                             System.out.println("- Error: " + ex.getMessage());
@@ -1375,6 +1368,8 @@ public class Main {
                     //no tiene sentido cargar un dni desde cero en modificar pedidos.
                     while (true) {
                         try {
+                            // si hay un pedido hay un cliente
+                            if(Mudy.listaClientes.getMap().size()==1) throw new IllegalArgumentException("No hay otros clientes para asignar");
                             System.out.println("- Lista de clientes: ");
 
                             for (Cliente cli : Mudy.listaClientes.getMap().values()) {
@@ -1478,11 +1473,7 @@ public class Main {
                             System.out.println("- Ingrese el nuevo nombre: ");
                             String nombre = sc.nextLine();
                             sc.nextLine();
-                            // esa expresion da true si tiene algo que NO es una letra de la a-z,A-Z,
-                            // sus variantes con acentos y espacios.
-                            if(nombre.matches(".*[^a-zA-ZáéíóúÁÉÍÓÚñÑ ].*")) throw new IllegalArgumentException("El nombre no puede contener caracteres especiales");
-                            if(nombre.matches(".*\\d*."))throw new IllegalArgumentException("El nombre no puede contener numeros");
-                            if(nombre.length()<2) throw new IllegalArgumentException("El nombre debe tener al menos 2 caracteres");
+                            validarString(nombre);
                             Mudy.listaProveedores.getMap().get(cuil).setNombre(nombre);
                             break;
                         }catch(IllegalArgumentException e){
@@ -1532,6 +1523,181 @@ public class Main {
         }
     }
 
+    public static void modificarProducto() throws ElementoNoEncontradoException {
+        char control = 's';
+        Producto p = buscarProducto();
+        System.out.println(p);
+        long upc = p.getUpc();
+
+        while (control == 's') {
+            System.out.println("- Seleccione el campo a modificar: ");
+            System.out.println("- 1. UPC");
+            System.out.println("- 2. Nombre");
+            System.out.println("- 3. Marca");
+            System.out.println("- 4. Precio");
+            System.out.println("- 5. Proveedor");
+            System.out.println("- 6. Categoria");
+            System.out.println("- 0. Salir");
+
+            int opcion = sc.nextInt();
+            sc.nextLine();
+
+            switch (opcion) {
+                case 0:
+                    control = 'n';
+                    break;
+
+                case 1:
+                    while (true) {
+                        try {
+                            System.out.println("- Ingrese el UPC nuevo del producto: ");
+                            long upcNuevo = sc.nextLong();
+                            sc.nextLine();
+                            if (upcNuevo < 100000000000L) throw new IllegalArgumentException("El UPC debe tener 12 dígitos.");
+                            if (Mudy.listaProductos.getMap().containsKey(upcNuevo)) throw new ElementoRepetidoException();
+                            Mudy.listaProductos.getMap().get(upc).setUpc(upcNuevo);
+                            break;
+                        } catch (InputMismatchException x) {
+                            System.out.println("- Error: el UPC debe ser numérico");
+                            sc.nextLine();
+                        } catch (IllegalArgumentException x) {
+                            System.out.println("- Error: " + x.getMessage());
+                        } catch (ElementoRepetidoException x) {
+                            System.out.println(x.getMessage());
+                        }
+                    }
+                    break;
+
+                case 2:
+                    while(true) {
+                        try {
+                            System.out.println("- Ingrese nombre nuevo del producto: ");
+                            String nombre = sc.nextLine();
+                            validarString(nombre);
+                            Mudy.listaProductos.getMap().get(upc).setNombre(nombre);
+                            break;
+                        }catch(IllegalArgumentException x){
+                            System.out.println("- Error: " + x.getMessage());
+                        }
+                    }
+                    break;
+
+                case 3:
+                    while(true) {
+                        try {
+                            System.out.println("- Seleccione marca nueva del producto: ");
+                            System.out.println(Mudy.listaMarcas.mostrar());
+                            String marca = sc.nextLine();
+                            if(!Mudy.listaMarcas.buscar(marca)) throw new ElementoNoEncontradoException();
+                            Mudy.listaProductos.getMap().get(upc).setMarca(marca);
+                            break;
+                        }catch(ElementoNoEncontradoException e){
+                            System.out.println("- Error: " + e.getMessage());
+                        }
+                    }
+                    break;
+
+                case 4:
+                    while(true) {
+                        try {
+                            System.out.println("- Ingrese precio nuevo del producto: ");
+                            double precio = sc.nextDouble();
+                            if(precio<=0) throw new IllegalArgumentException("Un producto no puede ser gratis.");
+                            Mudy.listaProductos.getMap().get(upc).setPrecio(precio);
+                            break;
+                        }catch(InputMismatchException | IllegalArgumentException e){
+                            System.out.println("- Error: " + e.getMessage());
+                            sc.nextLine();
+                        }
+                    }
+                    break;
+
+                case 5:
+                    while(true) {
+                        try {
+                            System.out.println("- Seleccione el proveedor del producto por su CUIL: ");
+                            System.out.println(Mudy.listaProveedores.mostrarLista());
+                            long cuilABuscar =  sc.nextLong();
+                            sc.nextLine();
+                            Proveedor proveedor = Mudy.listaProveedores.buscarPorId(cuilABuscar);
+                            if(proveedor==null) throw new ElementoNoEncontradoException();
+                            Mudy.listaProductos.getMap().get(upc).setProveedor(proveedor);
+                            break;
+                        } catch (InputMismatchException | ElementoNoEncontradoException e) {
+                            System.out.println("- Error: " + e.getMessage());
+                            sc.nextLine();
+                        }
+                    }
+                    break;
+
+                case 6:
+                    while(true){
+                        try {
+                            System.out.println("- Seleccione una categoría nueva para el producto: ");
+                            System.out.println(Mudy.listaCategorias.mostrar());
+                            String categoria = sc.nextLine();
+                            if(!Mudy.listaCategorias.buscar(categoria)) throw new ElementoNoEncontradoException();
+                            Mudy.listaProductos.getMap().get(upc).setCategoria(categoria);
+                            break;
+                        }catch(ElementoNoEncontradoException e){
+                            System.out.println("- Error: " + e.getMessage());
+                        }
+                    }
+                    ETipoProducto et = Mudy.listaCategorias.getMap().get(p.getCategoria());
+                    Mudy.listaProductos.getMap().get(upc).setTipoProducto(et);
+                    break;
+
+                default:
+                    System.out.println("- Opción inválida.");
+            }
+
+            try {
+                if (control == 's')
+                    control = continuar("modificando datos del producto");
+            } catch (IllegalArgumentException x) {
+                System.out.println(x.getMessage());
+            }
+        }
+    }
+
+    public static void modificarMarca() throws ElementoNoEncontradoException{
+        String marca = buscarMarca();
+        while(true) {
+            try {
+                System.out.println("- Ingrese el nombre nuevo de la marca");
+                String marcaNueva = sc.nextLine();
+                validarString(marcaNueva);
+                Mudy.listaMarcas.eliminar(marca);
+                Mudy.listaMarcas.agregar(marcaNueva, ETipoProducto.VACIO);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("- Error: " + e.getMessage());
+            }
+        }
+    }
+
+    public static void modificarCategoria() throws ElementoNoEncontradoException{
+        String categoria = buscarCategoria();
+        while(true) {
+            try {
+                System.out.println("- Ingrese el nombre nuevo de la categoria");
+                String categoriaNueva = sc.nextLine();
+                validarString(categoriaNueva);
+                System.out.println("- Ingrese el tipo de producto de la categoria");
+                System.out.println("- COMESTIBLE / BEBIBLE");
+                String tipoString = sc.next().toUpperCase();
+                ETipoProducto tipoEnum;
+                if(tipoString.equals("COMESTIBLE")) tipoEnum = ETipoProducto.COMESTIBLE;
+                else if(tipoString.equals("BEBIBLE")) tipoEnum = ETipoProducto.BEBIBLE;
+                else throw new IllegalArgumentException("Valor invalido");
+                Mudy.listaCategorias.eliminar(categoria);
+                Mudy.listaCategorias.agregar(categoriaNueva, tipoEnum);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("- Error: " + e.getMessage());
+            }
+        }
+    }
         // Métodos mostrar listas cargadas.
     public static void mostrar(int opcion) throws ListaNoCargadaException{
         char control = 's';
