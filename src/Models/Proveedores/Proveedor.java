@@ -2,8 +2,6 @@ package Models.Proveedores;
 import Interface.IJson;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import javax.print.DocFlavor;
 import java.util.Objects;
 
 public class Proveedor implements IJson {
@@ -79,5 +77,5 @@ public class Proveedor implements IJson {
     }
     @Override public int hashCode() {return Objects.hashCode(cuil);}
 
-    @Override public String toString() {return "Proveedor{ " + "ID: " + id + "nombre: '" + nombre + '\'' + ", cuil: '" + cuil + '\'' + ", teléfono: " + telefono + " }";}
+    @Override public String toString() {return "Proveedor{ " + "ID proveedor: " + id + ", nombre: '" + nombre + '\'' + ", CUIL: '" + cuil + '\'' + ", teléfono: " + telefono + " }";}
 }

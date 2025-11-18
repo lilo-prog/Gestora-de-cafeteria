@@ -39,14 +39,15 @@ public class Utilidades {
     }
 
     public static void validarString(String string) throws IllegalArgumentException {
-        System.out.println(string);
+        // esta expresion devuelve true si el string contiene un numero
+        if(string.matches(".*//d*."))
+            throw new IllegalArgumentException("- El texto ingresado no puede contener números.");
+
         // esa expresion da true si tiene algo que NO es una letra de la a-z,A-Z,
         // sus variantes con acentos y espacios.
         if(string.matches(".*[^a-zA-ZáéíóúÁÉÍÓÚñÑ ].*"))
             throw new IllegalArgumentException("- El texto ingresado no puede contener caracteres especiales.");
-        // esta expresion devuelve true si el string contiene un numero
-        if(string.matches(".*//d*."))
-            throw new IllegalArgumentException("- El texto ingresado no puede contener números.");
+
         if(string.length() < 2)
             throw new IllegalArgumentException("- El texto ingresado debe tener al menos 2 caracteres.");
     }

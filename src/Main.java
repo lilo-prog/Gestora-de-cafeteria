@@ -3,12 +3,15 @@ import Controllers.FuncionesMenu.*;
 import Exceptions.*;
 import Models.Personas.Cliente;
 import Models.Personas.Empleado;
+import Models.Productos.Producto;
+import Models.Proveedores.Proveedor;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONTokener;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import Enum.ETipoProducto;
 
 public class Main {
 
@@ -70,8 +73,14 @@ public class Main {
         Cliente cliente2 = new Cliente("Pichicho", "Derdoy", LocalDate.parse("2000-03-11"), 464544432, "2236969696", 6000.50, 0.25);
         Mudy.listaClientes.agregar((long)cliente2.getDni(),cliente2);
 
-        boolean flagInvalido = false;
+        Proveedor proveeedor1 = new Proveedor("Lilo", 1234567898, "2236182257");
+        Mudy.listaProveedores.agregar(proveeedor1.getCuil(), proveeedor1);
 
+        Producto producto1 = new Producto("coca cola", 123456789876l, "pepsico", 2300.0, proveeedor1, "bebibles", ETipoProducto.BEBIBLE);
+        Mudy.listaProductos.agregar(producto1.getUpc(), producto1);
+
+        boolean flagInvalido = false;
+        System.out.println("----------------------");
         while(control == 's') {
                 while(true) {
                     menuPrincipal();
@@ -152,7 +161,7 @@ public class Main {
                             try {
                                 opcion = sc.nextInt();
                                 sc.nextLine();
-                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("- Opción inválida.");
+                                if(opcion < 0 || opcion > 9) throw new IllegalArgumentException("- Opción inválida.");
                                 Modificar.modificar(opcion,Mudy);
                                 break;
                             } catch (ElementoNoEncontradoException | ListaNoCargadaException | IllegalArgumentException e) {
@@ -171,7 +180,7 @@ public class Main {
                             try {
                                 opcion = sc.nextInt();
                                 sc.nextLine();
-                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opción inválida.");
+                                if(opcion < 0 || opcion > 9) throw new IllegalArgumentException("Opción inválida.");
                                 Mostrar.mostrar(opcion,Mudy);
                                 break;
                             } catch (ListaNoCargadaException | IllegalArgumentException e) {

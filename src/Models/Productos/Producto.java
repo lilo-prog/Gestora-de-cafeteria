@@ -10,6 +10,7 @@ import java.util.Objects;
 public class Producto implements IJson {
     //Atributos.
     private int id;
+    private static int idGeneral = 0;
     private String nombre;
     private long upc; //codigo del producto (tiene 12 digitos).
     private String marca;
@@ -17,7 +18,7 @@ public class Producto implements IJson {
     private Proveedor proveedor;
     private String categoria;
     private ETipoProducto tipoProducto;
-    private static int idGeneral = 0;
+
     //Método constructor.
     public Producto(String nombre, long upc, String marca, Double precio, Proveedor proveedor, String categoria, ETipoProducto tipoProducto) {
         idGeneral++;
@@ -60,19 +61,22 @@ public class Producto implements IJson {
     public void setTipoProducto(ETipoProducto tipoProducto) {this.tipoProducto = tipoProducto;}
 
     //Métodos propios.
+
     //Métodos JSON.
         //toJson.
     @Override public JSONObject toJson() {
         JSONObject json = new JSONObject();
         try{
-            json.put("id", id);
+            json.put("id_producto", id);
             json.put("nombre",nombre);
             json.put("upc",upc);
             json.put("marca",marca);
             json.put("precio",precio);
-            json.put("proveedor",proveedor);
+            if (proveedor != null) {
+                json.put("proveedor", proveedor.toJson());
+            }
             json.put("categoria",categoria);
-            json.put("tipoProducto",tipoProducto.name());
+            json.put("tipo_producto",tipoProducto.name());
             json.put("clase",this.getClass().getSimpleName());
         }catch(JSONException e){
             e.printStackTrace();
@@ -82,14 +86,21 @@ public class Producto implements IJson {
         //toProducto.
     @Override public void fromJson(JSONObject objetoJSON) {
         try{
-            id = objetoJSON.getInt("id");
+            id = objetoJSON.getInt("id_producto");
             nombre = objetoJSON.getString("nombre");
             upc = objetoJSON.getLong("upc");
             marca = objetoJSON.getString("marca");
             precio = objetoJSON.getDouble("precio");
-            proveedor.fromJson(objetoJSON.getJSONObject("proveedor"));
+            if (objetoJSON.has("proveedor") && !objetoJSON.isNull("proveedor")) {
+                Proveedor proveedor = new Proveedor();
+                JSONObject proveedorJSON = objetoJSON.getJSONObject("proveedor");
+                proveedor.fromJson(proveedorJSON);
+                this.proveedor = proveedor;
+            } else {
+                this.proveedor = null;
+            }
             categoria = objetoJSON.getString("categoria");
-            tipoProducto = ETipoProducto.valueOf(objetoJSON.getString("tipoProducto"));
+            tipoProducto = ETipoProducto.valueOf(objetoJSON.getString("tipo_producto"));
         }catch(JSONException e){
             e.printStackTrace();
         }
@@ -102,6 +113,6 @@ public class Producto implements IJson {
     }
     @Override public int hashCode() {return Objects.hashCode(upc);}
 
-    @Override public String toString() {return "Producto{ " + "ID: " + id + ", nombre: '" + nombre + '\'' + ", upc: '" + upc + '\'' + ", marca: '" + marca + '\'' + ", precio: " + precio + ", proveedor: " + proveedor  + ", categoría: '" + categoria + '\'' + ", tipo de producto: " + tipoProducto + " }";}
+    @Override public String toString() {return "Producto{ " + "ID producto: " + id + ", nombre: '" + nombre + '\'' + ", UPC: '" + upc + '\'' + ", marca: '" + marca + '\'' + ", precio: " + precio  + ", categoría: '" + categoria + '\'' + ", tipo de producto: " + tipoProducto + "\n" + proveedor + " }";}
 
 }

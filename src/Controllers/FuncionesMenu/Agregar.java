@@ -376,12 +376,12 @@ public class Agregar {
                     System.out.println(cafe.listaProductos.mostrarLista());
                     upc =  sc.nextLong();
                     Producto pr = cafe.listaProductos.buscarPorId(upc);
-                    if(pr==null) throw new ElementoNoEncontradoException();
-                    System.out.println("- Ingrese la cantidad");
+
+                    System.out.println("- Ingrese la cantidad: ");
                     cantidad = sc.nextInt();
-                    if(cantidad<=0) throw new IllegalArgumentException("La cantidad debe ser mayor que 0");
+                    if(cantidad <= 0) throw new IllegalArgumentException("La cantidad debe ser mayor que 0.");
                     p.agregar(pr,cantidad);
-                }while(upc!=0);
+                }while(upc == 0);
                 break;
             }catch(ElementoNoEncontradoException | IllegalArgumentException e){
                 System.out.println("- Error: " + e.getMessage());
@@ -441,7 +441,6 @@ public class Agregar {
                 break;
             }catch(IllegalArgumentException ex){
                 System.out.println("- Error: " + ex.getMessage());
-                sc.nextLine();
             }
         }
     }

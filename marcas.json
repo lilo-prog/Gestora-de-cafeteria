@@ -6,5 +6,9 @@
     {
         "tipo_producto": "VACIO",
         "nombre": "coca cola"
+    },
+    {
+        "tipo_producto": "VACIO",
+        "nombre": "pepsico"
     }
 ]

@@ -108,5 +108,5 @@ public class Persona implements IJson {
     }
     @Override public int hashCode() {return Objects.hashCode(dni);}
 
-    @Override public String toString() {return "ID: " + id + ", nombre: '" + nombre + '\'' + ", apellido: '" + apellido + '\'' + ", edad: " + edad + ", dni: " + dni + ", teléfono: " + telefono;}
+    @Override public String toString() {return "ID: " + id + ", DNI: " + dni + ", nombre: '" + nombre + '\'' + ", apellido: '" + apellido + '\'' + ", edad: " + edad + ", teléfono: " + telefono;}
 }

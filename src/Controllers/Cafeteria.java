@@ -38,17 +38,17 @@ public class Cafeteria {
         c = listaClientes.buscarPorId((long)dni);
         double total = 0;
         for(Map.Entry<Long,Pedido> entry : listaPedidos.getMap().entrySet()){
-            if(entry.getValue().getDniCliente()==dni){
+            if(entry.getValue().getDniCliente() == dni){
                     total+=entry.getValue().getTotal();
             }
         }
-        listaClientes.getMap().get(dni).setGastosTotales(total);
+        listaClientes.getMap().get((long)dni).setGastoTotal(total);
     }
 
     public void calcularDescuento(int dni, double gasto_total_minimo, double descuento_a_aplicar) throws ElementoNoEncontradoException{
         Cliente c = listaClientes.buscarPorId((long) dni);
-        if(c.getGastosTotales() >= gasto_total_minimo){
-            listaClientes.getMap().get(dni).setDescuento(descuento_a_aplicar);
+        if(c.getGastoTotal() >= gasto_total_minimo){
+            listaClientes.getMap().get((long)dni).setDescuento(descuento_a_aplicar);
         }
     }
 

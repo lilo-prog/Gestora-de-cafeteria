@@ -1,0 +1,30 @@
+[{
+    "fecha": "2025-11-18T03:00:50.223236500",
+    "total": 9200,
+    "dni_cliente": 464544432,
+    "gasto_minimo": 2300,
+    "id_pedido": 1,
+    "lista_productos": [{
+        "cantidad_producto": 2,
+        "producto": {
+            "marca": "pepsico",
+            "precio": 2300,
+            "categoria": "bebibles",
+            "tipo_producto": "BEBIBLE",
+            "upc": 123456789876,
+            "id_producto": 1,
+            "proveedor": {
+                "id": 2,
+                "cuil": 1234567898,
+                "telefono": "2236182257",
+                "nombre": "Lilo",
+                "clase": "Proveedor"
+            },
+            "nombre": "coca cola",
+            "clase": "Producto"
+        }
+    }],
+    "tipo_de_pago": "EFECTIVO",
+    "descuento_aplicado": 0.05,
+    "clase": "Pedido"
+}]

@@ -2,14 +2,14 @@ package Models.Pedidos;
 import Exceptions.ElementoNoEncontradoException;
 import Exceptions.ElementoRepetidoException;
 import Models.Productos.Producto;
-
 import Interface.IJson;
 import Enum.ETipoPago;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -32,20 +32,18 @@ public class Pedido implements IJson {
         this.id = idGeneral;
         this.listaProductos = new HashMap<>();
         this.total = 0.0;
-        this.fecha = LocalDateTime.now();
+        this.fecha = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         this.tipoPago = tipoPago;
         this.dniCliente = dniCliente;
-        this.descuentoAAplicar = 0.0;
     }
     public Pedido() {
         idGeneral++;
         this.id = idGeneral;
         this.listaProductos = new HashMap<>();
         this.total = 0.0;
-        this.fecha = LocalDateTime.now();
+        this.fecha = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);;
         this.tipoPago = ETipoPago.VACIO;
         this.dniCliente = 0;
-        this.descuentoAAplicar = 0.0;
     }
 
     //Getters y Setters.
@@ -60,7 +58,7 @@ public class Pedido implements IJson {
     public ETipoPago getTipoPago() {return tipoPago;}
     public void setTipoPago(ETipoPago tipoPago) {this.tipoPago = tipoPago;}
     public static Double getDescuentoAAplicar() {return descuentoAAplicar;}
-    public static void setDescuentoAAplicar(Double descuentoAAplicar) {this.descuentoAAplicar = descuentoAAplicar;}
+    public static void setDescuentoAAplicar(Double descuentoAAplicar) {Pedido.descuentoAAplicar = descuentoAAplicar;}
     public static Double getGastoMinimo() {return gastoMinimo;}
     public static void setGastoMinimo(Double gastoMinimo) {Pedido.gastoMinimo = gastoMinimo;}
 
@@ -72,7 +70,7 @@ public class Pedido implements IJson {
         JSONObject objetoJSON = new JSONObject();
         JSONArray arregloJSON = new JSONArray();
         try{
-            objetoJSON.put("idPedido", id);
+            objetoJSON.put("id_pedido", id);
             for(Map.Entry<Producto, Integer> lista : listaProductos.entrySet()){
                 JSONObject ob = new JSONObject();
                 ob.put("producto", lista.getKey().toJson());
@@ -97,17 +95,19 @@ public class Pedido implements IJson {
     @Override
     public void fromJson(JSONObject objetoJSON) {
         try{
-            id = objetoJSON.getInt("id");
+            id = objetoJSON.getInt("id_pedido");
             JSONArray arregloJSON = objetoJSON.getJSONArray("lista_productos");
-            for(int i = 0; i<arregloJSON.length(); i++){
+            for(int i = 0; i < arregloJSON.length(); i++){
                 JSONObject elementoActual = arregloJSON.getJSONObject(i);
+                JSONObject productoJSON = elementoActual.getJSONObject("producto");
                 Producto producto = new Producto();
-                producto.fromJson(elementoActual);
-                listaProductos.put(producto, elementoActual.getInt("cantidad_producto"));
+                producto.fromJson(productoJSON);
+                int cantidad = elementoActual.getInt("cantidad_producto");
+                listaProductos.put(producto, cantidad);
             }
             total = objetoJSON.getDouble("total");
             fecha = LocalDateTime.parse(objetoJSON.getString("fecha"));
-            tipoPago = ETipoPago.valueOf(objetoJSON.getString("tipoPago"));
+            tipoPago = ETipoPago.valueOf(objetoJSON.getString("tipo_de_pago"));
             dniCliente = objetoJSON.getInt("dni_cliente");
             descuentoAAplicar = objetoJSON.getDouble("descuento_aplicado");
             gastoMinimo = objetoJSON.getDouble("gasto_minimo");
@@ -119,7 +119,7 @@ public class Pedido implements IJson {
     //Métodos HashMap lista de productos.
         //Método agregar producto a lista de productos dentro del pedido.
     public Boolean agregar(Producto producto, int cantidad) throws NullPointerException, ElementoRepetidoException {
-        if(producto != null) throw new NullPointerException();
+        if(producto == null) throw new NullPointerException();
         if(listaProductos.containsKey(producto.getNombre())) throw new ElementoRepetidoException();
         listaProductos.put(producto, cantidad);
         total = calcularTotal();
@@ -150,10 +150,10 @@ public class Pedido implements IJson {
     }
         //Método motrar lista de productos.
     public String mostrarListaDeProductos(){
-        StringBuilder sb = new StringBuilder("- Lista de productos del pedido -");
+        StringBuilder sb = new StringBuilder("- Lista de productos del pedido -\n");
         for(Map.Entry<Producto, Integer> producto_clave : listaProductos.entrySet()){
             Producto producto = producto_clave.getKey();
-            sb.append(producto.toString()).append(producto_clave.getValue()).append("\n - ");
+            sb.append(producto.toString()).append("\n");
         }
         return sb.toString();
     }
@@ -166,5 +166,5 @@ public class Pedido implements IJson {
     }
     @Override public int hashCode() {return Objects.hash(id, listaProductos, total, fecha, tipoPago);}
 
-    @Override public String toString() {return "Pedido{ " + "id: " + id + ", total: " + total + ", fecha: " + fecha + ", tipo de pago: " + tipoPago + "\n" + mostrarListaDeProductos() + " }";}
+    @Override public String toString() {return "Pedido{ " + "ID pedido: " + id + ", fecha: " + fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) + ", DNI cliente: "+ dniCliente + ", tipo de pago: " + tipoPago + ", total: " + total + ", descuento a aplicar: " + descuentoAAplicar + "\n" + mostrarListaDeProductos() + " }";}
 }
