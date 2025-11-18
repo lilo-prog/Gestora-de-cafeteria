@@ -10,9 +10,18 @@ import java.util.Scanner;
 public class Eliminar {
 
     static Scanner sc = new Scanner(System.in);
-    public static void eliminar(int opcion, Cafeteria cafe) throws ElementoNoEncontradoException, ListaNoCargadaException {
+    public static void eliminar(Cafeteria cafe) throws ElementoNoEncontradoException, ListaNoCargadaException {
         char control = 's';
+        int opcion = 0;
         while (control == 's') {
+            try{
+                System.out.println("- Eliminar -");
+                Utilidades.mostrarListas();
+                opcion = sc.nextInt();
+            }catch(InputMismatchException e){
+                System.out.println("- Error: la opcion debe ser numerica");
+                sc.nextLine();
+            }
             switch (opcion) {
                 case 0:
                     control = 'n';

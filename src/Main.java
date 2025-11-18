@@ -76,7 +76,7 @@ public class Main {
         Proveedor proveeedor1 = new Proveedor("Lilo", 1234567898, "2236182257");
         Mudy.listaProveedores.agregar(proveeedor1.getCuil(), proveeedor1);
 
-        Producto producto1 = new Producto("coca cola", 123456789876l, "pepsico", 2300.0, proveeedor1, "bebibles", ETipoProducto.BEBIBLE);
+        Producto producto1 = new Producto("coca cola", 123456789876L, "pepsico", 2300.0, proveeedor1, "bebibles", ETipoProducto.BEBIBLE);
         Mudy.listaProductos.agregar(producto1.getUpc(), producto1);
 
         boolean flagInvalido = false;
@@ -99,17 +99,9 @@ public class Main {
                     case 1:
                         flagInvalido = false;
                         while (true) {
-                            System.out.println("- Agregar -");
-                            Utilidades.mostrarListas();
                             try {
-                                opcion = sc.nextInt();
-                                sc.nextLine();
-                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("- Opción inválida.");
-                                Agregar.agregar(opcion,Mudy);
+                                Agregar.agregar(Mudy);
                                 break;
-                            } catch (InputMismatchException e) {
-                                System.out.println("- Error: La opción debe ser numérica");
-                                sc.nextLine();
                             } catch (ElementoRepetidoException | ListaNoCargadaException | IllegalArgumentException | ElementoNoEncontradoException e) {
                                 System.out.println("- Error: " + e.getMessage());
                             }
@@ -118,51 +110,30 @@ public class Main {
                     case 2:
                         flagInvalido = false;
                         while(true){
-                            System.out.println("- Eliminar -");
-                            Utilidades.mostrarListas();
                             try {
-                                opcion = sc.nextInt();
-                                sc.nextLine();
-                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("- Opción inválida.");
-                                Eliminar.eliminar(opcion,Mudy);
+                                Eliminar.eliminar(Mudy);
                                 break;
                             } catch (ElementoNoEncontradoException | ListaNoCargadaException | IllegalArgumentException e) {
                                 System.out.println("- Error: " + e.getMessage());
-                            } catch (InputMismatchException e) {
-                                System.out.println("- Error: La opción debe ser numérica.");
-                                sc.nextLine();
                             }
                         }
                         break;
                     case 3:
                         flagInvalido = false;
                         while(true) {
-                            System.out.println("- Buscar -");
-                            Utilidades.mostrarListas();
                             try {
-                                opcion = sc.nextInt();
-                                sc.nextLine();
-                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("- Opción inválida.");
-                                Buscar.buscar(opcion,Mudy);
+                                Buscar.buscar(Mudy);
                                 break;
                             } catch (ElementoNoEncontradoException | ListaNoCargadaException | IllegalArgumentException e) {
                                 System.out.println("- Error: " + e.getMessage());
-                            } catch (InputMismatchException e) {
-                                System.out.println("- Error: La opción debe ser numérica.");
-                                sc.nextLine();
                             }
                         }
                         break;
                     case 4:
                         flagInvalido = false;
                         while(true) {
-                            System.out.println("- Modificar -");
-                            Utilidades.mostrarListasModificar();
                             try {
-                                opcion = sc.nextInt();
-                                sc.nextLine();
-                                if(opcion < 0 || opcion > 9) throw new IllegalArgumentException("- Opción inválida.");
-                                Modificar.modificar(opcion,Mudy);
+                                Modificar.modificar(Mudy);
                                 break;
                             } catch (ElementoNoEncontradoException | ListaNoCargadaException | IllegalArgumentException e) {
                                 System.out.println("- Error: " + e.getMessage());
@@ -175,19 +146,11 @@ public class Main {
                     case 5:
                         flagInvalido = false;
                         while(true) {
-                            System.out.println("- Mostrar -");
-                            Utilidades.mostrarListasModificar();
                             try {
-                                opcion = sc.nextInt();
-                                sc.nextLine();
-                                if(opcion < 0 || opcion > 9) throw new IllegalArgumentException("Opción inválida.");
-                                Mostrar.mostrar(opcion,Mudy);
+                                Mostrar.mostrar(Mudy);
                                 break;
                             } catch (ListaNoCargadaException | IllegalArgumentException e) {
                                 System.out.println("- Error: " + e.getMessage());
-                            } catch (InputMismatchException e) {
-                                System.out.println("- Error: La opción debe ser numérica.");
-                                sc.nextLine();
                             }
                         }
                         break;

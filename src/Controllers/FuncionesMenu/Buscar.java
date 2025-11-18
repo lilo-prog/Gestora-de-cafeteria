@@ -14,9 +14,20 @@ import java.util.Scanner;
 public class Buscar {
     static Scanner sc = new Scanner(System.in);
     //  Métodos buscar en las listas.
-    public static void buscar(int opcion, Cafeteria cafe) throws ElementoNoEncontradoException, ListaNoCargadaException {
+    public static void buscar(Cafeteria cafe) throws ElementoNoEncontradoException, ListaNoCargadaException {
         char control = 's';
+        int opcion = 0;
         while(control == 's') {
+            try {
+                System.out.println("- Buscar -");
+                Utilidades.mostrarListasModificar();
+                opcion = sc.nextInt();
+                sc.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("- Error: La opcion debe ser numerica");
+                sc.nextLine();
+            }
+
             switch (opcion) {
                 case 0:
                     control='n';
