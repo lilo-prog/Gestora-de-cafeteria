@@ -26,6 +26,6 @@
         }
     }],
     "tipo_de_pago": "EFECTIVO",
-    "descuento_aplicado": 0.05,
+    "descuento_aplicado": 0.2,
     "clase": "Pedido"
 }]

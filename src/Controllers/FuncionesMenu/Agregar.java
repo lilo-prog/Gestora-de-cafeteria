@@ -20,9 +20,19 @@ import java.util.Scanner;
 public class Agregar {
     static Scanner sc = new Scanner(System.in);
     //Métodos para agregar a listas.
-    public static void agregar(int opcion, Cafeteria cafe) throws ElementoRepetidoException, ListaNoCargadaException, ElementoNoEncontradoException {
+    public static void agregar(Cafeteria cafe) throws ElementoRepetidoException, ListaNoCargadaException, ElementoNoEncontradoException {
         char control ='s';
+        int opcion = 0;
         while(control=='s') {
+            try{
+                System.out.println("- Agregar -");
+                Utilidades.mostrarListas();
+                opcion = sc.nextInt();
+            }catch(InputMismatchException e) {
+                System.out.println("- Error: la opcion debe ser numerica");
+                sc.nextLine();
+
+            }
             switch (opcion) {
                 case 0:
                     control = 'n';
@@ -430,7 +440,6 @@ public class Agregar {
         cafe.calcularDescuento(p.getDniCliente(), Pedido.getGastoMinimo(), Pedido.getDescuentoAAplicar());
         Cliente cliente = cafe.listaClientes.buscarPorId((long)p.getDniCliente());
         cafe.listaPedidos.getMap().get(upc).setDescuentoAAplicar(cliente.getDescuento());
-
     }
 
     public static void agregarMarca(Cafeteria cafe){

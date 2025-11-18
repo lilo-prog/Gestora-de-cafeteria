@@ -1,8 +1,8 @@
 [
     {
-        "gastos_totales": 4600,
+        "gastos_totales": 6000.5,
         "fechaNacimiento": "2000-03-11",
-        "descuento": 0.05,
+        "descuento": 0.25,
         "apellido": "Derdoy",
         "id": 8,
         "telefono": "2236969696",
