@@ -60,6 +60,14 @@ public class Modificar {
                     modificarCategoria(cafe);
                     System.out.println("- Se actualizó la categoría correctamente!");
                     break;
+                case 8:
+                    modificarMontoMinimoPedido();
+                    System.out.println("- Se actualizó el monto mínimo correctamente!");
+                    break;
+                case 9:
+                    modificarDescuentoPedido();
+                    System.out.println("- Se actualizó el descuento de los pedidos correctamente!");
+                    break;
                 default:
                     System.out.println("- Opción inválida.");
                     break;
@@ -213,13 +221,13 @@ public class Modificar {
 
         while (control == 's') {
             System.out.println("- Seleccione el campo a modificar: ");
-            System.out.println("- 1. DNI");
-            System.out.println("- 2. Nombre");
-            System.out.println("- 3. Apellido");
-            System.out.println("- 4. Fecha de nacimiento");
-            System.out.println("- 5. Teléfono");
-            System.out.println("- 6. Recalcular Gastos totales");
-            System.out.println("- 0. Salir");
+            System.out.println("- 1. DNI.");
+            System.out.println("- 2. Nombre.");
+            System.out.println("- 3. Apellido.");
+            System.out.println("- 4. Fecha de nacimiento.");
+            System.out.println("- 5. Teléfono.");
+            System.out.println("- 6. Recalcular Gastos totales.");
+            System.out.println("- 0. Salir.");
 
             int opcion = sc.nextInt();
             sc.nextLine();
@@ -332,7 +340,6 @@ public class Modificar {
         int id = p.getId();
 
         while (control == 's') {
-
             System.out.println("- Seleccione el campo a modificar: ");
             System.out.println("1 - Tipo de pago. ");
             System.out.println("2 - DNI del cliente. ");
@@ -440,6 +447,40 @@ public class Modificar {
                 }
             } catch (IllegalArgumentException x) {
                 System.out.println(x.getMessage());
+            }
+        }
+    }
+
+    public static void modificarMontoMinimoPedido() {
+        while(true) {
+            try {
+                System.out.println("- Ingrese nuevo gasto mínimo para aplicar descuento: ");
+                Double gastoMinimo = sc.nextDouble();
+                if(gastoMinimo <= 0) throw new IllegalArgumentException(" El valor debe ser mayor a 0.");
+                Pedido.setGastoMinimo(gastoMinimo);
+                break;
+            }catch (InputMismatchException e){
+                System.out.println("- Error: El valor debe ser numérico.");
+                sc.nextLine();
+            }catch(IllegalArgumentException e){
+                System.out.println("- Error: " + e.getMessage());
+            }
+        }
+    }
+
+    public static void modificarDescuentoPedido(){
+        while(true) {
+            try {
+                System.out.println("- Ingrese nuevo descuento para aplicar descuento: ");
+                Double descuento = sc.nextDouble();
+                if(descuento <= 0) throw new IllegalArgumentException(" El valor debe ser mayor a 0.");
+                Pedido.setDescuentoAAplicar(descuento);
+                break;
+            }catch (InputMismatchException e){
+                System.out.println("- Error: El valor debe ser numérico.");
+                sc.nextLine();
+            }catch(IllegalArgumentException e){
+                System.out.println("- Error: " + e.getMessage());
             }
         }
     }

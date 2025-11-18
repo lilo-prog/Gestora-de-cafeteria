@@ -1,6 +1,8 @@
 package Controllers.FuncionesMenu;
 import Controllers.Cafeteria;
 import Exceptions.ListaNoCargadaException;
+import Models.Pedidos.Pedido;
+
 import java.util.Scanner;
 
 public class Mostrar {
@@ -47,6 +49,12 @@ public class Mostrar {
                     if (cafe.listaCategorias.getMap().isEmpty())
                         throw new ListaNoCargadaException("No hay categorías para mostrar.");
                     System.out.println(cafe.listaCategorias.mostrar());
+                    break;
+                case 8:
+                    System.out.println("- El gasto mínimo para aplicar descuentos es: " + Pedido.gastoMinimo + ".");
+                    break;
+                case 9:
+                    System.out.println("- El descuento a aplicar es: " + Pedido.descuentoAAplicar + ".");
                     break;
                 default:
                     System.out.println("- Opción inválida.");

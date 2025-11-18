@@ -15,6 +15,19 @@ public class Utilidades {
         System.out.println("0 - Salir.");
         System.out.println("- Ingrese opción numérica: ");
     }
+    public static void mostrarListasModificar(){
+        System.out.println("1 - Empleados.");
+        System.out.println("2 - Clientes.");
+        System.out.println("3 - Proveedores.");
+        System.out.println("4 - Productos.");
+        System.out.println("5 - Pedidos.");
+        System.out.println("6 - Marcas.");
+        System.out.println("7 - Categorías.");
+        System.out.println("8 - Monto mínimo de descuento.");
+        System.out.println("9 - Descuento.");
+        System.out.println("0 - Salir.");
+        System.out.println("- Ingrese opción numérica: ");
+    }
 
     public static char continuar(String nombreMenu){
         char c;

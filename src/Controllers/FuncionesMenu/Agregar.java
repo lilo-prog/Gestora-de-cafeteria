@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class Agregar {
     static Scanner sc = new Scanner(System.in);
     //Métodos para agregar a listas.
-    public static void agregar(int opcion, Cafeteria cafe) throws ElementoRepetidoException, ListaNoCargadaException {
+    public static void agregar(int opcion, Cafeteria cafe) throws ElementoRepetidoException, ListaNoCargadaException, ElementoNoEncontradoException {
         char control ='s';
         while(control=='s') {
             switch (opcion) {
@@ -363,7 +363,7 @@ public class Agregar {
         cafe.listaProductos.agregar(p.getUpc(),p);
     }
 
-    public static void agregarPedido(Cafeteria cafe) throws ElementoRepetidoException, ListaNoCargadaException {
+    public static void agregarPedido(Cafeteria cafe) throws ElementoRepetidoException, ListaNoCargadaException, ElementoNoEncontradoException {
         if(cafe.listaProductos.getMap().isEmpty())throw new ListaNoCargadaException("No hay productos para agregar al pedido");
         if(cafe.listaClientes.getMap().isEmpty())throw new ListaNoCargadaException("No hay clientes a quienes asignarles los pedidos");
         Pedido p = new Pedido();
@@ -389,22 +389,46 @@ public class Agregar {
         }
         p.setTotal(p.calcularTotal());
         p.setFecha(LocalDateTime.now());
-        int op;
         while(true){
             try{
                 System.out.println("- Seleccione el tipo de pago");
-                System.out.println("- 1 EFECTIVO, 2 TRANSFERENCIA, 3 CREDITO");
-                op = sc.nextInt();
-                if(op == 1) p.setTipoPago(ETipoPago.EFECTIVO);
-                else if(op == 2) p.setTipoPago(ETipoPago.TRANSFERENCIA);
-                else if(op == 3) p.setTipoPago(ETipoPago.CREDITO);
-                else throw new IllegalArgumentException("Valor invalido");
+                System.out.println("- EFECTIVO / TRANSFERENCIA / CREDITO -");
+                String tipo = sc.next().toUpperCase();
+                if(tipo.equals("EFECTIVO")) p.setTipoPago(ETipoPago.EFECTIVO);
+                else if(tipo.equals("TRANSFERENCIA")) p.setTipoPago(ETipoPago.TRANSFERENCIA);
+                else if(tipo.equals("CREDITO")) p.setTipoPago(ETipoPago.CREDITO);
+                else throw new IllegalArgumentException("Valor inválido.");
                 break;
             }catch(IllegalArgumentException | InputMismatchException e ){
                 System.out.println("- Error: " + e.getMessage());
             }
         }
+        while(true){
+            try{
+                System.out.println("- Ingrese DNI del cliente: ");
+                int dni = sc.nextInt();
+                if(dni < 10000000) throw new IllegalArgumentException("El dni debe tener 8 dígitos.");
+                Cliente c = cafe.listaClientes.buscarPorId((long)dni);
+                p.setDniCliente(dni);
+
+                break;
+            }catch(ElementoNoEncontradoException e){
+                System.out.println(e.getMessage());
+            }catch(InputMismatchException x){
+                System.out.println("- Error: El dni debe ser numérico.");
+                sc.nextLine();
+            }catch(IllegalArgumentException x){
+                System.out.println("- Error: " + x.getMessage());
+            }
+        }
         cafe.listaPedidos.agregar((long)p.getId(),p);
+
+        cafe.calcularGastoTotalDeCliente(p.getDniCliente());
+
+        cafe.calcularDescuento(p.getDniCliente(), Pedido.getGastoMinimo(), Pedido.getDescuentoAAplicar());
+        Cliente cliente = cafe.listaClientes.buscarPorId((long)p.getDniCliente());
+        cafe.listaPedidos.getMap().get(upc).setDescuentoAAplicar(cliente.getDescuento());
+
     }
 
     public static void agregarMarca(Cafeteria cafe){

@@ -23,6 +23,8 @@ public class Pedido implements IJson {
     private LocalDateTime fecha;
     private ETipoPago tipoPago;
     private int dniCliente;
+    public static Double descuentoAAplicar;
+    public static Double gastoMinimo;
 
     //Método constructor.
     public Pedido(ETipoPago tipoPago, int dniCliente) {
@@ -33,6 +35,7 @@ public class Pedido implements IJson {
         this.fecha = LocalDateTime.now();
         this.tipoPago = tipoPago;
         this.dniCliente = dniCliente;
+        this.descuentoAAplicar = 0.0;
     }
     public Pedido() {
         idGeneral++;
@@ -42,6 +45,7 @@ public class Pedido implements IJson {
         this.fecha = LocalDateTime.now();
         this.tipoPago = ETipoPago.VACIO;
         this.dniCliente = 0;
+        this.descuentoAAplicar = 0.0;
     }
 
     //Getters y Setters.
@@ -55,6 +59,10 @@ public class Pedido implements IJson {
     public void setFecha(LocalDateTime fecha) {this.fecha = fecha;}
     public ETipoPago getTipoPago() {return tipoPago;}
     public void setTipoPago(ETipoPago tipoPago) {this.tipoPago = tipoPago;}
+    public static Double getDescuentoAAplicar() {return descuentoAAplicar;}
+    public static void setDescuentoAAplicar(Double descuentoAAplicar) {this.descuentoAAplicar = descuentoAAplicar;}
+    public static Double getGastoMinimo() {return gastoMinimo;}
+    public static void setGastoMinimo(Double gastoMinimo) {Pedido.gastoMinimo = gastoMinimo;}
 
     //Métodos propios.
     //Métodos JSON.
@@ -75,6 +83,9 @@ public class Pedido implements IJson {
             objetoJSON.put("total", total);
             objetoJSON.put("fecha", fecha.toString());
             objetoJSON.put("tipo_de_pago", tipoPago.name());
+            objetoJSON.put("dni_cliente", dniCliente);
+            objetoJSON.put("descuento_aplicado", descuentoAAplicar);
+            objetoJSON.put("gasto_minimo", gastoMinimo);
             objetoJSON.put("clase",this.getClass().getSimpleName());
         }catch(JSONException e){
             e.printStackTrace();
@@ -85,7 +96,6 @@ public class Pedido implements IJson {
         //toPedido.
     @Override
     public void fromJson(JSONObject objetoJSON) {
-
         try{
             id = objetoJSON.getInt("id");
             JSONArray arregloJSON = objetoJSON.getJSONArray("lista_productos");
@@ -98,6 +108,9 @@ public class Pedido implements IJson {
             total = objetoJSON.getDouble("total");
             fecha = LocalDateTime.parse(objetoJSON.getString("fecha"));
             tipoPago = ETipoPago.valueOf(objetoJSON.getString("tipoPago"));
+            dniCliente = objetoJSON.getInt("dni_cliente");
+            descuentoAAplicar = objetoJSON.getDouble("descuento_aplicado");
+            gastoMinimo = objetoJSON.getDouble("gasto_minimo");
         }catch (JSONException e){
             e.printStackTrace();
         }

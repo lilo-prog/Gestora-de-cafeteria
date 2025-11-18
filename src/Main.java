@@ -11,10 +11,12 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-    static Cafeteria Mudy = new Cafeteria();
-    static Scanner sc = new Scanner(System.in);
+
 
     public static void main(String[] args) throws ElementoRepetidoException {
+        Cafeteria Mudy = new Cafeteria();
+        Scanner sc = new Scanner(System.in);
+        
         // Trae los datos de los JSON,si es que existen.
         JSONTokener tok1 = JsonUtiles.leerUnJson("Empleado.json");
         JSONTokener tok2 = JsonUtiles.leerUnJson("Cliente.json");
@@ -99,7 +101,7 @@ public class Main {
                             } catch (InputMismatchException e) {
                                 System.out.println("- Error: La opción debe ser numérica");
                                 sc.nextLine();
-                            } catch (ElementoRepetidoException | ListaNoCargadaException | IllegalArgumentException e) {
+                            } catch (ElementoRepetidoException | ListaNoCargadaException | IllegalArgumentException | ElementoNoEncontradoException e) {
                                 System.out.println("- Error: " + e.getMessage());
                             }
                         }
@@ -146,7 +148,7 @@ public class Main {
                         flagInvalido = false;
                         while(true) {
                             System.out.println("- Modificar -");
-                            Utilidades.mostrarListas();
+                            Utilidades.mostrarListasModificar();
                             try {
                                 opcion = sc.nextInt();
                                 sc.nextLine();
@@ -165,7 +167,7 @@ public class Main {
                         flagInvalido = false;
                         while(true) {
                             System.out.println("- Mostrar -");
-                            Utilidades.mostrarListas();
+                            Utilidades.mostrarListasModificar();
                             try {
                                 opcion = sc.nextInt();
                                 sc.nextLine();
