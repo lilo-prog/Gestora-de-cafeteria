@@ -24,8 +24,8 @@ public class Pedido implements IJson {
     private LocalDateTime fecha;
     private ETipoPago tipoPago;
     private int dniCliente;
-    public static Double descuentoAAplicar;
-    public static Double gastoMinimo;
+    public static Double descuentoAAplicar = 0.0;
+    public static Double gastoMinimo = 0.0;
 
     //Método constructor.
     public Pedido(ETipoPago tipoPago, int dniCliente) {

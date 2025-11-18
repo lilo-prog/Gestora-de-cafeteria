@@ -3,14 +3,25 @@ import Controllers.Cafeteria;
 import Exceptions.ListaNoCargadaException;
 import Models.Pedidos.Pedido;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Mostrar {
     static Scanner sc = new Scanner(System.in);
     // Métodos mostrar listas cargadas.
-    public static void mostrar(int opcion , Cafeteria cafe) throws ListaNoCargadaException {
+    public static void mostrar(Cafeteria cafe) throws ListaNoCargadaException {
         char control = 's';
+        int opcion = 0;
         while(control == 's') {
+            try {
+                System.out.println("- Mostrar -");
+                Utilidades.mostrarListasModificar();
+                opcion = sc.nextInt();
+                sc.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("- Error: La opcion debe ser numerica");
+                sc.nextLine();
+            }
             switch (opcion) {
                 case 0:
                     control = 'n';
