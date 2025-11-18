@@ -446,8 +446,11 @@ public class Agregar {
                 if(cantidad <= 0) throw new IllegalArgumentException("La cantidad debe ser mayor que 0.");
                 p.agregar(pr,cantidad);
                 break;
-            }catch(ElementoNoEncontradoException | IllegalArgumentException e){
+            } catch(ElementoNoEncontradoException | IllegalArgumentException e){
                 System.out.println("- Error: " + e.getMessage());
+            } catch (InputMismatchException e){
+                System.out.println("- Error: valor inválido.");
+                sc.nextLine();
             }
         }
         while(true){
