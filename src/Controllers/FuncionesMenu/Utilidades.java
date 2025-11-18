@@ -24,6 +24,7 @@ public class Utilidades {
         if (c != 'n' && c != 's') throw new IllegalArgumentException("- La opción debe ser 's' o 'n'. ");
         return c;
     }
+
     public static void validarString(String string) throws IllegalArgumentException {
         System.out.println(string);
         // esa expresion da true si tiene algo que NO es una letra de la a-z,A-Z,

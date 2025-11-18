@@ -43,8 +43,9 @@ public class Cafeteria {
             }
         }
         listaClientes.getMap().get(dni).setGastosTotales(total);
-
     }
+
+    
 
     //Convertir a CAFETERIA a JSON.
     //Se llama al método de GestorGenerico.exportarASet pasandole por parámetro cada lista para que éste método lo pase de Map a HashSet

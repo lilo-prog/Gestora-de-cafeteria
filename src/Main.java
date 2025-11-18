@@ -63,9 +63,9 @@ public class Main {
         Empleado empleado2 = new Empleado("Bruno", "Trola", LocalDate.parse("2004-06-24"), 47089846, "2236182257", 230000.0);
         Mudy.listaEmpleados.agregar((long)empleado2.getDni(),empleado2);
 
-        Cliente cliente1 = new Cliente("Abril", "Derdoy", LocalDate.parse("2004-11-02"), 46277898, "2236695548", 10000.50);
+        Cliente cliente1 = new Cliente("Abril", "Derdoy", LocalDate.parse("2004-11-02"), 46277898, "2236695548", 10000.50, 0.25);
         Mudy.listaClientes.agregar((long)cliente1.getDni(),cliente1);
-        Cliente cliente2 = new Cliente("Pichicho", "Derdoy", LocalDate.parse("2000-03-11"), 464544432, "2236969696", 6000.50);
+        Cliente cliente2 = new Cliente("Pichicho", "Derdoy", LocalDate.parse("2000-03-11"), 464544432, "2236969696", 6000.50, 0.25);
         Mudy.listaClientes.agregar((long)cliente2.getDni(),cliente2);
 
         boolean flagInvalido = false;
@@ -93,7 +93,7 @@ public class Main {
                             try {
                                 opcion = sc.nextInt();
                                 sc.nextLine();
-                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opcion invalida");
+                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("- Opción inválida.");
                                 Agregar.agregar(opcion,Mudy);
                                 break;
                             } catch (InputMismatchException e) {
@@ -112,7 +112,7 @@ public class Main {
                             try {
                                 opcion = sc.nextInt();
                                 sc.nextLine();
-                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opción inválida.");
+                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("- Opción inválida.");
                                 Eliminar.eliminar(opcion,Mudy);
                                 break;
                             } catch (ElementoNoEncontradoException | ListaNoCargadaException | IllegalArgumentException e) {
@@ -131,7 +131,7 @@ public class Main {
                             try {
                                 opcion = sc.nextInt();
                                 sc.nextLine();
-                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opción inválida.");
+                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("- Opción inválida.");
                                 Buscar.buscar(opcion,Mudy);
                                 break;
                             } catch (ElementoNoEncontradoException | ListaNoCargadaException | IllegalArgumentException e) {
@@ -150,7 +150,7 @@ public class Main {
                             try {
                                 opcion = sc.nextInt();
                                 sc.nextLine();
-                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opción inválida.");
+                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("- Opción inválida.");
                                 Modificar.modificar(opcion,Mudy);
                                 break;
                             } catch (ElementoNoEncontradoException | ListaNoCargadaException | IllegalArgumentException e) {
