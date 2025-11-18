@@ -14,10 +14,12 @@ public class Mostrar {
         int opcion = 0;
         while(control == 's') {
             try {
+                System.out.println("-----------------------------------");
                 System.out.println("- Mostrar -");
                 Utilidades.mostrarListasModificar();
                 opcion = sc.nextInt();
                 sc.nextLine();
+                System.out.println("-----------------------------------");
             } catch (InputMismatchException e) {
                 System.out.println("- Error: La opcion debe ser numerica");
                 sc.nextLine();
@@ -27,38 +29,31 @@ public class Mostrar {
                     control = 'n';
                     break;
                 case 1:
-                    if (cafe.listaEmpleados.getMap().isEmpty())
-                        throw new ListaNoCargadaException("No hay empleados para mostrar.");
+                    if (cafe.listaEmpleados.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay empleados para mostrar.");
                     System.out.println(cafe.listaEmpleados.mostrarLista());
                     break;
                 case 2:
-                    if (cafe.listaClientes.getMap().isEmpty())
-                        throw new ListaNoCargadaException("No hay clientes para mostrar.");
+                    if (cafe.listaClientes.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay clientes para mostrar.");
                     System.out.println(cafe.listaClientes.mostrarLista());
                     break;
                 case 3:
-                    if (cafe.listaProveedores.getMap().isEmpty())
-                        throw new ListaNoCargadaException("No hay proveedores para mostrar.");
+                    if (cafe.listaProveedores.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay proveedores para mostrar.");
                     System.out.println(cafe.listaProveedores.mostrarLista());
                     break;
                 case 4:
-                    if (cafe.listaProductos.getMap().isEmpty())
-                        throw new ListaNoCargadaException("No hay productos para mostrar.");
+                    if (cafe.listaProductos.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay productos para mostrar.");
                     System.out.println(cafe.listaProductos.mostrarLista());
                     break;
                 case 5:
-                    if (cafe.listaPedidos.getMap().isEmpty())
-                        throw new ListaNoCargadaException("No hay pedidos para mostrar.");
+                    if (cafe.listaPedidos.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay pedidos para mostrar.");
                     System.out.println(cafe.listaPedidos.mostrarLista());
                     break;
                 case 6:
-                    if (cafe.listaMarcas.getMap().isEmpty())
-                        throw new ListaNoCargadaException("No hay marcas para mostrar.");
+                    if (cafe.listaMarcas.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay marcas para mostrar.");
                     System.out.println(cafe.listaMarcas.mostrar());
                     break;
                 case 7:
-                    if (cafe.listaCategorias.getMap().isEmpty())
-                        throw new ListaNoCargadaException("No hay categorías para mostrar.");
+                    if (cafe.listaCategorias.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay categorías para mostrar.");
                     System.out.println(cafe.listaCategorias.mostrar());
                     break;
                 case 8:
@@ -72,7 +67,7 @@ public class Mostrar {
                     break;
             }
             try{
-                if(control=='s') {
+                if(control == 's') {
                     control = Utilidades.continuar("mostrando");
                 }
             }catch(IllegalArgumentException e){

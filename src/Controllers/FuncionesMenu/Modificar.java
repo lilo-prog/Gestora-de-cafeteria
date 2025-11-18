@@ -24,10 +24,12 @@ public class Modificar {
         int opcion = 0;
         while(control == 's'){
             try {
+                System.out.println("-----------------------------------");
                 System.out.println("- Modificar -");
                 Utilidades.mostrarListasModificar();
                 opcion = sc.nextInt();
                 sc.nextLine();
+                System.out.println("-----------------------------------");
             } catch (InputMismatchException e) {
                 System.out.println("- Error: La opción debe ser numérica.");
                 sc.nextLine();
@@ -209,14 +211,14 @@ public class Modificar {
                             String fecha = sc.nextLine();
                             if(fecha.equals("0")) throw new SalirDelIngresoDeDatosException();
                             LocalDate temp = LocalDate.parse(fecha);
-                            if (temp.isAfter(LocalDate.now())) throw new IllegalArgumentException("- La fecha no debe ser posterior al día de hoy.");
+                            if (temp.isAfter(LocalDate.now())) throw new IllegalArgumentException("La fecha no debe ser posterior al día de hoy.");
                             cafe.listaEmpleados.getMap().get(dni).setFechaNacimiento(temp);
                             int edad = e.calcularEdad();
                             cafe.listaEmpleados.getMap().get(dni).setEdad(edad);
-                            if (edad < 16) throw new IllegalArgumentException("- La edad debe ser mayor o igual a 16 años.");
+                            if (edad < 16) throw new IllegalArgumentException("La edad debe ser mayor o igual a 16 años.");
                             break;
                         } catch (DateTimeParseException x) {
-                            System.out.println("- El formato de la fecha es erroneo, debe ser YYYY-MM-DD en números.");
+                            System.out.println("- Error: El formato de la fecha es erroneo, debe ser YYYY-MM-DD en números.");
                         } catch (IllegalArgumentException ex) {
                             System.out.println("- Error: " + ex.getMessage());
                         }
@@ -229,7 +231,7 @@ public class Modificar {
                             String telefono = sc.nextLine();
                             if(telefono.equals("0")) throw new SalirDelIngresoDeDatosException();
                             cafe.listaEmpleados.getMap().get(dni).setTelefono(telefono);
-                            if (!cafe.listaEmpleados.getMap().get(dni).validarTelefono()) throw new IllegalArgumentException("- El teléfono ingresado no es válido.");
+                            if (!cafe.listaEmpleados.getMap().get(dni).validarTelefono()) throw new IllegalArgumentException("El teléfono ingresado no es válido.");
                             break;
                         } catch (IllegalArgumentException x) {
                             System.out.println("- Error: " + x.getMessage());
@@ -242,7 +244,7 @@ public class Modificar {
                             System.out.println("- Ingrese nuevo sueldo del empleado (ingrese 0 para salir): ");
                             double sueldo = sc.nextDouble();
                             if(sueldo == 0) throw new SalirDelIngresoDeDatosException();
-                            if (sueldo < 0) throw new IllegalArgumentException("- El sueldo debe ser mayor que 0.");
+                            if (sueldo < 0) throw new IllegalArgumentException("El sueldo debe ser mayor que 0.");
                             cafe.listaEmpleados.getMap().get(dni).setSueldo(sueldo);
                             break;
                         } catch (IllegalArgumentException x) {
@@ -295,7 +297,7 @@ public class Modificar {
                                 sc.nextLine();
                                 throw new SalirDelIngresoDeDatosException();
                             }
-                            if (dniNuevo < 10000000L) throw new IllegalArgumentException("- El DNI debe tener 8 dígitos.");
+                            if (dniNuevo < 10000000L) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
                             if (cafe.listaClientes.getMap().containsKey((long)dniNuevo)) throw new ElementoRepetidoException();
                             cafe.listaClientes.getMap().get(dni).setDni(dniNuevo);
                             break;
@@ -344,11 +346,11 @@ public class Modificar {
                             String fecha = sc.nextLine();
                             if(fecha.equals("0")) throw new SalirDelIngresoDeDatosException();
                             LocalDate temp = LocalDate.parse(fecha);
-                            if (temp.isAfter(LocalDate.now())) throw new IllegalArgumentException("- La fecha no debe ser posterior al día de hoy.");
+                            if (temp.isAfter(LocalDate.now())) throw new IllegalArgumentException("La fecha no debe ser posterior al día de hoy.");
                             cafe.listaClientes.getMap().get(dni).setFechaNacimiento(temp);
                             break;
                         } catch (DateTimeParseException x) {
-                            System.out.println("- El formato de fecha es incorrecto. Debe ser YYYY-MM-DD.");
+                            System.out.println("-Error: El formato de fecha es incorrecto. Debe ser YYYY-MM-DD.");
                         } catch (IllegalArgumentException ex) {
                             System.out.println("- Error: " + ex.getMessage());
                         }
@@ -361,7 +363,7 @@ public class Modificar {
                             String telefono = sc.nextLine();
                             if(telefono.equals("0")) throw new SalirDelIngresoDeDatosException();
                             cafe.listaClientes.getMap().get(dni).setTelefono(telefono);
-                            if (!cafe.listaClientes.getMap().get(dni).validarTelefono()) throw new IllegalArgumentException("- El teléfono ingresado no es válido.");
+                            if (!cafe.listaClientes.getMap().get(dni).validarTelefono()) throw new IllegalArgumentException("El teléfono ingresado no es válido.");
                             break;
                         } catch (IllegalArgumentException ex) {
                             System.out.println("- Error: " + ex.getMessage());
@@ -399,6 +401,7 @@ public class Modificar {
                 System.out.println("0 - Salir. ");
                 try {
                     opcion = sc.nextInt();
+                    sc.nextLine();
                     break;
                 }catch(InputMismatchException e){
                     System.out.println("- La opción debe ser numérica. ");
@@ -429,7 +432,7 @@ public class Modificar {
                             System.out.println("- Ingrese el nuevo CUIL (solo números) (ingrese 0 para salir): ");
                             long cuilNuevo = sc.nextLong();
                             if(cuilNuevo == 0) throw new SalirDelIngresoDeDatosException();
-                            if(cuilNuevo < 10000000000L) throw new IllegalArgumentException("- El CUIL debe tener 11 dígitos. ");
+                            if(cuilNuevo < 10000000000L) throw new IllegalArgumentException("El CUIL debe tener 11 dígitos. ");
                             cafe.listaProveedores.getMap().get(cuil).setCuil(cuilNuevo);
                             break;
                         }catch(IllegalArgumentException e){
@@ -447,7 +450,7 @@ public class Modificar {
                             String telefono = sc.nextLine();
                             if(telefono.equals("0")) throw new SalirDelIngresoDeDatosException();
                             cafe.listaProveedores.getMap().get(p.getCuil()).setTelefono(telefono);
-                            if(!cafe.listaProveedores.getMap().get(p.getCuil()).validarTelefono()) throw new IllegalArgumentException("- El teléfono ingresado no es válido.");
+                            if(!cafe.listaProveedores.getMap().get(p.getCuil()).validarTelefono()) throw new IllegalArgumentException("El teléfono ingresado no es válido.");
                             break;
                         }catch(IllegalArgumentException e){
                             System.out.println("- Error: " + e.getMessage());
@@ -497,7 +500,7 @@ public class Modificar {
                                 sc.nextLine();
                                 throw new SalirDelIngresoDeDatosException();
                             }
-                            if (upcNuevo < 100000000000L) throw new IllegalArgumentException("- El UPC debe tener 12 dígitos.");
+                            if (upcNuevo < 100000000000L) throw new IllegalArgumentException("El UPC debe tener 12 dígitos.");
                             if (cafe.listaProductos.getMap().containsKey(upcNuevo)) throw new ElementoRepetidoException();
                             cafe.listaProductos.getMap().get(upc).setUpc(upcNuevo);
                             break;
@@ -546,7 +549,7 @@ public class Modificar {
                             System.out.println("- Ingrese precio nuevo del producto (ingrese 0 para salir): ");
                             Double precio = sc.nextDouble();
                             if(precio == 0) throw new SalirDelIngresoDeDatosException();
-                            if(precio < 0) throw new IllegalArgumentException("- El valor de un producto no puede ser menor a 0.");
+                            if(precio < 0) throw new IllegalArgumentException("El valor de un producto no puede ser menor a 0.");
                             cafe.listaProductos.getMap().get(upc).setPrecio(precio);
                             break;
                         }catch(InputMismatchException | IllegalArgumentException e){
@@ -683,13 +686,13 @@ public class Modificar {
                             if(pr == null) throw new ElementoNoEncontradoException();
                             System.out.println("- Ingrese la cantidad de este producto: ");
                             int cantidad = sc.nextInt();
-                            if(cantidad <= 0) throw new IllegalArgumentException("- La cantidad no puede ser menor o igual a 0. ");
+                            if(cantidad <= 0) throw new IllegalArgumentException("La cantidad no puede ser menor o igual a 0. ");
                             cafe.listaPedidos.getMap().get((long)id).agregar(pr,cantidad);
                             break;
                         }catch(IllegalArgumentException | InputMismatchException x){
                             System.out.println("- Error: " + x.getMessage());
                         } catch (ElementoRepetidoException | ElementoNoEncontradoException e) {
-                            System.out.println(e.getMessage());;
+                            System.out.println("- " + e.getMessage());
                         }
                     }
                     break;
@@ -751,9 +754,10 @@ public class Modificar {
     public static void modificarMontoMinimoPedido() throws SalirDelIngresoDeDatosException {
         while(true) {
             try {
-                System.out.println("- Ingrese nuevo gasto mínimo para aplicar descuento: ");
+                System.out.println("- Ingrese nuevo gasto mínimo para aplicar descuento (ingrese 0 para salir): ");
                 Double gastoMinimo = sc.nextDouble();
-                if(gastoMinimo <= 0) throw new IllegalArgumentException(" El valor debe ser mayor a 0.");
+                if(gastoMinimo == 0) throw new SalirDelIngresoDeDatosException();
+                if(gastoMinimo < 0) throw new IllegalArgumentException("El valor debe ser mayor a 0.");
                 Pedido.setGastoMinimo(gastoMinimo);
                 break;
             }catch (InputMismatchException e){
@@ -768,9 +772,10 @@ public class Modificar {
     public static void modificarDescuentoPedido() throws SalirDelIngresoDeDatosException {
         while(true) {
             try {
-                System.out.println("- Ingrese nuevo descuento para aplicar descuento: ");
+                System.out.println("- Ingrese nuevo descuento para aplicar descuento (ingrese 0 para salir): ");
                 Double descuento = sc.nextDouble();
-                if(descuento <= 0) throw new IllegalArgumentException(" El valor debe ser mayor a 0.");
+                if(descuento == 0) throw new SalirDelIngresoDeDatosException();
+                if(descuento < 0) throw new IllegalArgumentException("El valor debe ser mayor a 0.");
                 Pedido.setDescuentoAAplicar(descuento);
                 break;
             }catch (InputMismatchException e){

@@ -21,21 +21,22 @@ public class Buscar {
         int opcion = 0;
         while(control == 's') {
             try {
+                System.out.println("-----------------");
                 System.out.println("- Buscar -");
                 Utilidades.mostrarListas();
                 opcion = sc.nextInt();
                 sc.nextLine();
+                System.out.println("-----------------");
             } catch (InputMismatchException e) {
                 System.out.println("- Error: La opción debe ser numérica.");
                 sc.nextLine();
             }
             switch (opcion) {
                 case 0:
-                    control='n';
+                    control = 'n';
                     break;
                 case 1:
-                    if (cafe.listaEmpleados.getMap().isEmpty())
-                        throw new ListaNoCargadaException("- No hay empleados para buscar.");
+                    if (cafe.listaEmpleados.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay empleados para buscar.");
                     Empleado e;
                     try {
                         e = buscarEmpleado(cafe);
@@ -45,8 +46,7 @@ public class Buscar {
                     }
                     break;
                 case 2:
-                    if (cafe.listaClientes.getMap().isEmpty())
-                        throw new ListaNoCargadaException("- No hay clientes para buscar.");
+                    if (cafe.listaClientes.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay clientes para buscar.");
                     try {
                         Cliente c = buscarCliente(cafe);
                         System.out.println(c);
@@ -55,8 +55,7 @@ public class Buscar {
                     }
                     break;
                 case 3:
-                    if (cafe.listaProveedores.getMap().isEmpty())
-                        throw new ListaNoCargadaException("- No hay proveedores para buscar.");
+                    if (cafe.listaProveedores.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay proveedores para buscar.");
                     try {
                         Proveedor p = buscarProveedor(cafe);
                         System.out.println(p);
@@ -65,8 +64,7 @@ public class Buscar {
                     }
                     break;
                 case 4:
-                    if (cafe.listaProductos.getMap().isEmpty())
-                        throw new ListaNoCargadaException("- No hay productos para buscar.");
+                    if (cafe.listaProductos.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay productos para buscar.");
                     try {
                         Producto pr = buscarProducto(cafe);
                         System.out.println(pr);
@@ -75,8 +73,7 @@ public class Buscar {
                     }
                     break;
                 case 5:
-                    if (cafe.listaPedidos.getMap().isEmpty())
-                        throw new ListaNoCargadaException("- No hay pedidos para buscar.");
+                    if (cafe.listaPedidos.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay pedidos para buscar.");
                     try {
                         Pedido pe = buscarPedido(cafe);
                         System.out.println(pe);
@@ -85,8 +82,7 @@ public class Buscar {
                     }
                     break;
                 case 6:
-                    if (cafe.listaMarcas.getMap().isEmpty())
-                        throw new ListaNoCargadaException("- No hay marcas para buscar. ");
+                    if (cafe.listaMarcas.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay marcas para buscar. ");
                     try {
                         String marca = buscarMarca(cafe);
                         System.out.println("- La marca " + marca + " se encuntra en la lista de marcas.");
@@ -95,8 +91,7 @@ public class Buscar {
                     }
                     break;
                 case 7:
-                    if (cafe.listaCategorias.getMap().isEmpty())
-                        throw new ListaNoCargadaException("- No hay categorías para buscar.");
+                    if (cafe.listaCategorias.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay categorías para buscar.");
                     try {
                         String categoria = buscarCategoria(cafe);
                         System.out.println("- La categoría " + categoria + " se encuntra en la lista de categorias.");
@@ -123,16 +118,16 @@ public class Buscar {
     public static Empleado buscarEmpleado(Cafeteria cafe) throws ElementoNoEncontradoException, SalirDelIngresoDeDatosException {
         while(true){
             try {
-                System.out.println("- Ingrese dni del empleado para buscarlo (ingrese 0 para salir): ");
+                System.out.println("- Ingrese DNI del empleado para buscarlo (ingrese 0 para salir): ");
                 int dni = sc.nextInt();
                 if(dni == 0) throw new SalirDelIngresoDeDatosException();
-                if(dni < 10000000) throw new IllegalArgumentException("El dni debe tener 8 dígitos.");
+                if(dni < 10000000) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
                 return cafe.listaEmpleados.buscarPorId((long)dni);
             }catch(InputMismatchException x){
-                System.out.println("- Error: El dni debe ser numérico.");
+                System.out.println("- Error: El DNI debe ser numérico.");
                 sc.nextLine();
             }catch(IllegalArgumentException x){
-                System.out.println("Error: " + x.getMessage());
+                System.out.println("- Error: " + x.getMessage());
             }
         }
     }
@@ -140,16 +135,16 @@ public class Buscar {
     public static Cliente buscarCliente(Cafeteria cafe) throws ElementoNoEncontradoException, SalirDelIngresoDeDatosException{
         while(true){
             try {
-                System.out.println("- Ingrese dni del cliente para buscarlo (ingrese 0 para salir): ");
+                System.out.println("- Ingrese DNI del cliente para buscarlo (ingrese 0 para salir): ");
                 int dni = sc.nextInt();
                 if(dni == 0) throw new SalirDelIngresoDeDatosException();
-                if(dni < 10000000) throw new IllegalArgumentException("El dni debe tener 8 dígitos.");
+                if(dni < 10000000) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
                 return cafe.listaClientes.buscarPorId((long)dni);
             }catch(InputMismatchException x){
-                System.out.println("- Error: El dni debe ser numérico.");
+                System.out.println("- Error: El DNI debe ser numérico.");
                 sc.nextLine();
             }catch(IllegalArgumentException x){
-                System.out.println("- Error:" + x.getMessage());
+                System.out.println("- Error: " + x.getMessage());
             }
         }
     }
@@ -167,7 +162,7 @@ public class Buscar {
                 System.out.println("- Error: el CUIL debe ser numérico");
                 sc.nextLine();
             }catch(IllegalArgumentException x){
-                System.out.println("- Error:" + x.getMessage());
+                System.out.println("- Error: " + x.getMessage());
             }
         }
     }

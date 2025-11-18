@@ -73,19 +73,21 @@ public class Main {
         Cliente cliente2 = new Cliente("Pichicho", "Derdoy", LocalDate.parse("2000-03-11"), 464544432, "2236969696", 6000.50, 0.25);
         Mudy.listaClientes.agregar((long)cliente2.getDni(),cliente2);
 
-        Proveedor proveeedor1 = new Proveedor("Lilo", 1234567898, "2236182257");
+        Proveedor proveeedor1 = new Proveedor("Lilo", 12345678989l, "2236182257");
         Mudy.listaProveedores.agregar(proveeedor1.getCuil(), proveeedor1);
 
         Producto producto1 = new Producto("coca cola", 123456789876L, "pepsico", 2300.0, proveeedor1, "bebibles", ETipoProducto.BEBIBLE);
         Mudy.listaProductos.agregar(producto1.getUpc(), producto1);
 
         boolean flagInvalido = false;
-        System.out.println("----------------------");
         while(control == 's') {
                 while(true) {
+                    System.out.println("-----------------------------------");
                     menuPrincipal();
                     try {
                         opcion = sc.nextInt();
+                        sc.nextLine();
+                        System.out.println("-----------------------------------");
                         break;
                     } catch (InputMismatchException e) {
                         System.out.println("- Error: La opción debe ser numérica.");
@@ -182,7 +184,7 @@ public class Main {
 
         // Método menú principal.
     public static void menuPrincipal(){
-        System.out.println("- Menú Principal -");
+        System.out.println("- Menú Principal Mudy Cafetería -");
         System.out.println("1 - Agregar.");
         System.out.println("2 - Eliminar.");
         System.out.println("3 - Buscar.");

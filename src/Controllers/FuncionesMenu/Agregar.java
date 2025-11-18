@@ -24,18 +24,18 @@ public class Agregar {
     public static void agregar(Cafeteria cafe) throws ElementoRepetidoException, ListaNoCargadaException, ElementoNoEncontradoException {
         char control = 's';
         int opcion = 0;
-        while(control=='s') {
+        while(control == 's') {
             try {
+                System.out.println("-----------------");
                 System.out.println("- Agregar -");
                 Utilidades.mostrarListas();
                 opcion = sc.nextInt();
+                sc.nextLine();
+                System.out.println("-----------------");
             } catch (InputMismatchException e) {
                 System.out.println("- Error: la opción debe ser numérica.");
                 sc.nextLine();
-
             }
-        }
-        while(control == 's') {
             switch (opcion) {
                 case 0:
                     control = 'n';
@@ -143,16 +143,16 @@ public class Agregar {
                 String fecha = sc.nextLine();
                 if(fecha.equals("0")) throw new SalirDelIngresoDeDatosException();
                 LocalDate temp = LocalDate.parse(fecha);
-                if(temp.isAfter(LocalDate.now())) throw new IllegalArgumentException("- La fecha no debe ser posterior al dia de hoy");
+                if(temp.isAfter(LocalDate.now())) throw new IllegalArgumentException("La fecha no debe ser posterior al dia de hoy");
                 e.setFechaNacimiento(temp);
                 int edad = e.calcularEdad();
                 e.setEdad(edad);
-                if(edad < 16) throw new IllegalArgumentException("- La edad debe ser mayor o igual a 16 años.");
+                if(edad < 16) throw new IllegalArgumentException("La edad debe ser mayor o igual a 16 años.");
                 break;
             } catch(DateTimeParseException x){
                 System.out.println("- El formato de la fecha es erroneo, debe ser YYYY-MM-DD en números.");
             } catch(IllegalArgumentException ex){
-                System.out.println(ex.getMessage());
+                System.out.println("- Error: " + ex.getMessage());
             }
         }
         while(true){
@@ -168,10 +168,10 @@ public class Agregar {
                 sc.nextLine();
                 break;
             }catch(InputMismatchException x){
-                System.out.println("Error: -El dni debe ser numérico.");
+                System.out.println("- Error: El dni debe ser numérico.");
                 sc.nextLine();
             }catch(IllegalArgumentException x){
-                System.out.println("Error: " + x.getMessage());
+                System.out.println("- Error: " + x.getMessage());
             }
         }
         while(true){
@@ -180,7 +180,7 @@ public class Agregar {
                 String telefono = sc.nextLine();
                 if(telefono.equals("0")) throw new SalirDelIngresoDeDatosException();
                 e.setTelefono(telefono);
-                if(!e.validarTelefono()) throw new IllegalArgumentException("El telefono ingresado no es valido");
+                if(!e.validarTelefono()) throw new IllegalArgumentException("El télefono ingresado no es válido.");
                 break;
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
@@ -200,7 +200,7 @@ public class Agregar {
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
             }catch(InputMismatchException x){
-                System.out.println("- Error: El sueldo debe ser numerico ");
+                System.out.println("- Error: El sueldo debe ser numérico ");
             }
         }
         cafe.listaEmpleados.agregar((long) e.getDni(), e);
@@ -238,7 +238,7 @@ public class Agregar {
                 String fecha = sc.nextLine();
                 if(fecha.equals("0")) throw new SalirDelIngresoDeDatosException();
                 LocalDate temp = LocalDate.parse(fecha);
-                if(temp.isAfter(LocalDate.now())) throw new IllegalArgumentException("La fecha no debe ser posterior al dia de hoy");
+                if(temp.isAfter(LocalDate.now())) throw new IllegalArgumentException("La fecha no debe ser posterior al día de hoy.");
                 c.setFechaNacimiento(temp);
                 int edad = c.calcularEdad();
                 c.setEdad(edad);
@@ -252,18 +252,18 @@ public class Agregar {
         }
         while(true){
             try {
-                System.out.println("- Ingrese dni del cliente (ingrese 0 para salir): ");
+                System.out.println("- Ingrese DNI del cliente (ingrese 0 para salir): ");
                 int dni = sc.nextInt();
                 if(dni == 0) {
                     sc.nextLine();
                     throw new SalirDelIngresoDeDatosException();
                 }
-                if(dni < 10000000) throw new IllegalArgumentException("El dni debe tener 8 dígitos.");
+                if(dni < 10000000) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
                 c.setDni(dni);
                 sc.nextLine();
                 break;
             }catch(InputMismatchException x){
-                System.out.println("- Error: El dni debe ser numérico.");
+                System.out.println("- Error: El DNI debe ser numérico.");
                 sc.nextLine();
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
@@ -321,7 +321,7 @@ public class Agregar {
                 String telefono = sc.nextLine();
                 if(telefono.equals("0")) throw new SalirDelIngresoDeDatosException();
                 p.setTelefono(telefono);
-                if(!p.validarTelefono()) throw new IllegalArgumentException("El telefono ingresado no es valido");
+                if(!p.validarTelefono()) throw new IllegalArgumentException("El télefono ingresado no es válido.");
                 break;
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
@@ -331,9 +331,9 @@ public class Agregar {
     }
 
     public static void agregarProducto(Cafeteria cafe) throws ElementoRepetidoException, ListaNoCargadaException, SalirDelIngresoDeDatosException{
-        if(cafe.listaMarcas.getMap().isEmpty()) throw new ListaNoCargadaException("No hay Marcas de productos");
-        if(cafe.listaCategorias.getMap().isEmpty()) throw new ListaNoCargadaException("No hay Categorias");
-        if(cafe.listaProveedores.getMap().isEmpty()) throw new ListaNoCargadaException("No hay Proveedores ingresados ");
+        if(cafe.listaMarcas.getMap().isEmpty()) throw new ListaNoCargadaException("No hay marcas de productos.");
+        if(cafe.listaCategorias.getMap().isEmpty()) throw new ListaNoCargadaException("No hay categorías.");
+        if(cafe.listaProveedores.getMap().isEmpty()) throw new ListaNoCargadaException("No hay proveedores ingresados.");
         Producto p = new Producto();
         while(true) {
             try {
@@ -351,11 +351,11 @@ public class Agregar {
             try {
                 System.out.println("- Ingrese UPC del producto (ingrese 0 para salir): ");
                 long upc = sc.nextLong();
-                sc.nextLine();
                 if(upc == 0){
+                    sc.nextLine();
                     throw new SalirDelIngresoDeDatosException();
                 }
-                if(upc < 100000000000L) throw new IllegalArgumentException("- El UPC debe tener al menos 12 dígitos.");
+                if(upc < 100000000000L) throw new IllegalArgumentException("El UPC debe tener al menos 12 dígitos.");
                 p.setUpc(upc);
                 break;
             }catch(IllegalArgumentException | InputMismatchException x){
@@ -436,18 +436,15 @@ public class Agregar {
         int cantidad;
         while(true){
             try {
-                do {
-                    System.out.println(cafe.listaProductos.mostrarLista());
-                    System.out.println("- Seleccione el producto por su UPC (ingrese 0 para salir): ");
-                    upc =  sc.nextLong();
-                    if(upc == 0) throw new SalirDelIngresoDeDatosException();
-                    Producto pr = cafe.listaProductos.buscarPorId(upc);
-
-                    System.out.println("- Ingrese la cantidad (ingrese 0 para salir): ");
-                    cantidad = sc.nextInt();
-                    if(cantidad <= 0) throw new IllegalArgumentException("La cantidad debe ser mayor que 0.");
-                    p.agregar(pr,cantidad);
-                }while(upc == 0);
+                System.out.println(cafe.listaProductos.mostrarLista());
+                System.out.println("- Seleccione el producto por su UPC (ingrese 0 para salir): ");
+                upc =  sc.nextLong();
+                if(upc == 0) throw new SalirDelIngresoDeDatosException();
+                Producto pr = cafe.listaProductos.buscarPorId(upc);
+                System.out.println("- Ingrese la cantidad (ingrese 0 para salir): ");
+                cantidad = sc.nextInt();
+                if(cantidad <= 0) throw new IllegalArgumentException("La cantidad debe ser mayor que 0.");
+                p.agregar(pr,cantidad);
                 break;
             }catch(ElementoNoEncontradoException | IllegalArgumentException e){
                 System.out.println("- Error: " + e.getMessage());
@@ -473,15 +470,14 @@ public class Agregar {
                 System.out.println("- Ingrese DNI del cliente (ingrese 0 para salir): ");
                 int dni = sc.nextInt();
                 if(dni == 0) throw new SalirDelIngresoDeDatosException();
-                else if(dni < 10000000) throw new IllegalArgumentException("El dni debe tener 8 dígitos.");
+                else if(dni < 10000000) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
                 Cliente c = cafe.listaClientes.buscarPorId((long)dni);
                 p.setDniCliente(dni);
-
                 break;
             }catch(ElementoNoEncontradoException e){
                 System.out.println(e.getMessage());
             }catch(InputMismatchException x){
-                System.out.println("- Error: El dni debe ser numérico.");
+                System.out.println("- Error: El DNI debe ser numérico.");
                 sc.nextLine();
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
@@ -523,10 +519,7 @@ public class Agregar {
                 System.out.println("- Seleccione el tipo de producto que tiene esta categoria (ingrese 0 para salir): ");
                 System.out.println("COMESTIBLE / BEBIBLE ");
                 String tipo = sc.next().toUpperCase();
-                if(tipo.equals("0")){
-                    sc.nextLine();
-                    throw new SalirDelIngresoDeDatosException();
-                }
+                if(tipo.equals("0")) throw new SalirDelIngresoDeDatosException();
                 ETipoProducto et;
                 if(tipo.equals("COMESTIBLE")) et = ETipoProducto.COMESTIBLE;
                 else if(tipo.equals("BEBIBLE")) et = ETipoProducto.BEBIBLE;
