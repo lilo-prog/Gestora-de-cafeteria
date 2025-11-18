@@ -34,12 +34,12 @@ public class Cafeteria {
     }
 
     public void calcularGastoTotalDeCliente(int dni) throws ElementoNoEncontradoException {
-        Cliente c;
-        c = listaClientes.buscarPorId((long)dni);
-        double total = 0;
-        for(Map.Entry<Long,Pedido> entry : listaPedidos.getMap().entrySet()){
-            if(entry.getValue().getDniCliente() == dni){
-                    total+=entry.getValue().getTotal();
+        Cliente c = listaClientes.buscarPorId((long)dni);
+        Double total = 0.0;
+        for(Map.Entry<Long, Pedido> entry : listaPedidos.getMap().entrySet()){
+            Pedido pedido = entry.getValue();
+            if(pedido.getDniCliente() == dni){
+                total += pedido.getTotal();
             }
         }
         listaClientes.getMap().get((long)dni).setGastoTotal(total);
@@ -49,7 +49,7 @@ public class Cafeteria {
         Cliente c = listaClientes.buscarPorId((long) dni);
         if(c.getGastoTotal() >= gasto_total_minimo){
             listaClientes.getMap().get((long)dni).setDescuento(descuento_a_aplicar);
-        }
+        }else listaClientes.getMap().get((long)dni).setDescuento(0.0);
     }
 
     //Convertir a CAFETERIA a JSON.

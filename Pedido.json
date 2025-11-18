@@ -1,8 +1,9 @@
 [{
-    "fecha": "2025-11-18T03:00:50.223236500",
-    "total": 9200,
+    "fecha": "2025-11-18T04:13:28.895988600",
+    "total": 4600,
+    "total_con_descuento": 4370,
     "dni_cliente": 464544432,
-    "gasto_minimo": 2300,
+    "gasto_minimo": 3000,
     "id_pedido": 1,
     "lista_productos": [{
         "cantidad_producto": 2,
@@ -12,9 +13,9 @@
             "categoria": "bebibles",
             "tipo_producto": "BEBIBLE",
             "upc": 123456789876,
-            "id_producto": 1,
+            "id_producto": 2,
             "proveedor": {
-                "id": 2,
+                "id": 3,
                 "cuil": 1234567898,
                 "telefono": "2236182257",
                 "nombre": "Lilo",

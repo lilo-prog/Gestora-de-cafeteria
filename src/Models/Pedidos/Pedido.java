@@ -20,6 +20,7 @@ public class Pedido implements IJson {
     private static int idGeneral = 0;
     private HashMap<Producto, Integer> listaProductos;
     private Double total;
+    private Double totalConDescuento;
     private LocalDateTime fecha;
     private ETipoPago tipoPago;
     private int dniCliente;
@@ -32,6 +33,7 @@ public class Pedido implements IJson {
         this.id = idGeneral;
         this.listaProductos = new HashMap<>();
         this.total = 0.0;
+        this.totalConDescuento = 0.0;
         this.fecha = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         this.tipoPago = tipoPago;
         this.dniCliente = dniCliente;
@@ -41,6 +43,7 @@ public class Pedido implements IJson {
         this.id = idGeneral;
         this.listaProductos = new HashMap<>();
         this.total = 0.0;
+        this.totalConDescuento = 0.0;
         this.fecha = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);;
         this.tipoPago = ETipoPago.VACIO;
         this.dniCliente = 0;
@@ -61,6 +64,8 @@ public class Pedido implements IJson {
     public static void setDescuentoAAplicar(Double descuentoAAplicar) {Pedido.descuentoAAplicar = descuentoAAplicar;}
     public static Double getGastoMinimo() {return gastoMinimo;}
     public static void setGastoMinimo(Double gastoMinimo) {Pedido.gastoMinimo = gastoMinimo;}
+    public Double getTotalConDescuento() {return totalConDescuento;}
+    public void setTotalConDescuento(Double totalConDescuento) {this.totalConDescuento = totalConDescuento;}
 
     //Métodos propios.
     //Métodos JSON.
@@ -79,6 +84,7 @@ public class Pedido implements IJson {
             }
             objetoJSON.put("lista_productos", arregloJSON);
             objetoJSON.put("total", total);
+            objetoJSON.put("total_con_descuento", totalConDescuento);
             objetoJSON.put("fecha", fecha.toString());
             objetoJSON.put("tipo_de_pago", tipoPago.name());
             objetoJSON.put("dni_cliente", dniCliente);
@@ -106,6 +112,7 @@ public class Pedido implements IJson {
                 listaProductos.put(producto, cantidad);
             }
             total = objetoJSON.getDouble("total");
+            totalConDescuento = objetoJSON.getDouble("total_con_descuento");
             fecha = LocalDateTime.parse(objetoJSON.getString("fecha"));
             tipoPago = ETipoPago.valueOf(objetoJSON.getString("tipo_de_pago"));
             dniCliente = objetoJSON.getInt("dni_cliente");
@@ -140,20 +147,26 @@ public class Pedido implements IJson {
         if(!listaProductos.containsKey(nombre)) throw new ElementoNoEncontradoException();
         return true;
     }
-    public double calcularTotal(){
+
+    public Double calcularTotal(){
+        total = 0.0;
+        totalConDescuento = 0.0;
         for(Map.Entry<Producto, Integer> lista : listaProductos.entrySet()){
             Producto producto = lista.getKey();
             int cantidad = lista.getValue();
-            total+=producto.getPrecio()*cantidad;
+            total += producto.getPrecio() * cantidad;
         }
-        return total;
+        if(total >= gastoMinimo){
+            totalConDescuento = total * (1 - descuentoAAplicar);
+        }else totalConDescuento = total;
+        return totalConDescuento;
     }
         //Método motrar lista de productos.
     public String mostrarListaDeProductos(){
         StringBuilder sb = new StringBuilder("- Lista de productos del pedido -\n");
         for(Map.Entry<Producto, Integer> producto_clave : listaProductos.entrySet()){
             Producto producto = producto_clave.getKey();
-            sb.append(producto.toString()).append("\n");
+            sb.append(producto).append(", cantidad: " + producto_clave.getValue()).append("\n");
         }
         return sb.toString();
     }
@@ -166,5 +179,5 @@ public class Pedido implements IJson {
     }
     @Override public int hashCode() {return Objects.hash(id, listaProductos, total, fecha, tipoPago);}
 
-    @Override public String toString() {return "Pedido{ " + "ID pedido: " + id + ", fecha: " + fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) + ", DNI cliente: "+ dniCliente + ", tipo de pago: " + tipoPago + ", total: " + total + ", descuento a aplicar: " + descuentoAAplicar + "\n" + mostrarListaDeProductos() + " }";}
+    @Override public String toString() {return "Pedido{ " + "ID pedido: " + id + ", fecha: " + fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) + ", DNI cliente: "+ dniCliente + ", tipo de pago: " + tipoPago + ", total: " + total + ", descuento a aplicar: " + descuentoAAplicar + ", total con el descuento aplicado: " + totalConDescuento +"\n" + mostrarListaDeProductos() + " }";}
 }

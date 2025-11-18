@@ -364,8 +364,8 @@ public class Agregar {
     }
 
     public static void agregarPedido(Cafeteria cafe) throws ElementoRepetidoException, ListaNoCargadaException, ElementoNoEncontradoException {
-        if(cafe.listaProductos.getMap().isEmpty())throw new ListaNoCargadaException("No hay productos para agregar al pedido");
-        if(cafe.listaClientes.getMap().isEmpty())throw new ListaNoCargadaException("No hay clientes a quienes asignarles los pedidos");
+        if(cafe.listaProductos.getMap().isEmpty())throw new ListaNoCargadaException("No hay productos para agregar al pedido.");
+        if(cafe.listaClientes.getMap().isEmpty())throw new ListaNoCargadaException("No hay clientes a quienes asignarles los pedidos.");
         Pedido p = new Pedido();
         long upc;
         int cantidad;
@@ -391,7 +391,7 @@ public class Agregar {
         p.setFecha(LocalDateTime.now());
         while(true){
             try{
-                System.out.println("- Seleccione el tipo de pago");
+                System.out.println("- Seleccione el tipo de pago: ");
                 System.out.println("- EFECTIVO / TRANSFERENCIA / CREDITO -");
                 String tipo = sc.next().toUpperCase();
                 if(tipo.equals("EFECTIVO")) p.setTipoPago(ETipoPago.EFECTIVO);
@@ -421,6 +421,8 @@ public class Agregar {
                 System.out.println("- Error: " + x.getMessage());
             }
         }
+
+        p.calcularTotal();
         cafe.listaPedidos.agregar((long)p.getId(),p);
 
         cafe.calcularGastoTotalDeCliente(p.getDniCliente());
