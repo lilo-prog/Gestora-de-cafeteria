@@ -40,7 +40,7 @@ public class Utilidades {
 
     public static void validarString(String string) throws IllegalArgumentException {
         // esta expresion devuelve true si el string contiene un numero
-        if(string.matches(".*//d*."))
+        if(string.matches(".*//d+."))
             throw new IllegalArgumentException("El texto ingresado no puede contener números.");
 
         // esa expresion da true si tiene algo que NO es una letra de la a-z,A-Z,
