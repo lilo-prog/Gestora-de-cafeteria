@@ -21,8 +21,20 @@ import java.util.Scanner;
 public class Agregar {
     static Scanner sc = new Scanner(System.in);
     //Métodos para agregar a listas.
-    public static void agregar(int opcion, Cafeteria cafe) throws ElementoRepetidoException, ListaNoCargadaException, ElementoNoEncontradoException {
-        char control ='s';
+    public static void agregar(Cafeteria cafe) throws ElementoRepetidoException, ListaNoCargadaException, ElementoNoEncontradoException {
+        char control = 's';
+        int opcion = 0;
+        while(control=='s') {
+            try {
+                System.out.println("- Agregar -");
+                Utilidades.mostrarListas();
+                opcion = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("- Error: la opción debe ser numérica.");
+                sc.nextLine();
+
+            }
+        }
         while(control == 's') {
             switch (opcion) {
                 case 0:
@@ -433,8 +445,7 @@ public class Agregar {
 
                     System.out.println("- Ingrese la cantidad (ingrese 0 para salir): ");
                     cantidad = sc.nextInt();
-                    if(cantidad == 0) throw new SalirDelIngresoDeDatosException();
-                    if(cantidad < 0) throw new IllegalArgumentException("La cantidad debe ser mayor que 0.");
+                    if(cantidad <= 0) throw new IllegalArgumentException("La cantidad debe ser mayor que 0.");
                     p.agregar(pr,cantidad);
                 }while(upc == 0);
                 break;
