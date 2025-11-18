@@ -11,7 +11,6 @@ import Models.Productos.Producto;
 import Models.Proveedores.Proveedor;
 import Enum.ETipoProducto;
 import Enum.ETipoPago;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -61,7 +60,7 @@ public class Agregar {
                     break;
             }
             try{
-                if(control=='s') {
+                if(control == 's') {
                     control = Utilidades.continuar("agregando");
                 }
             }catch(IllegalArgumentException e){

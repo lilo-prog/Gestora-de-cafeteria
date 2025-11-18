@@ -6,7 +6,6 @@ import Models.Personas.Empleado;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONTokener;
-
 import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -16,7 +15,7 @@ public class Main {
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) throws ElementoRepetidoException {
-        // Trae los datos de los JSON,si es que existen
+        // Trae los datos de los JSON,si es que existen.
         JSONTokener tok1 = JsonUtiles.leerUnJson("Empleado.json");
         JSONTokener tok2 = JsonUtiles.leerUnJson("Cliente.json");
         JSONTokener tok3 = JsonUtiles.leerUnJson("Proveedor.json");
@@ -78,7 +77,7 @@ public class Main {
                         opcion = sc.nextInt();
                         break;
                     } catch (InputMismatchException e) {
-                        System.out.println("- Error: La opcion debe ser numerica");
+                        System.out.println("- Error: La opción debe ser numérica.");
                         sc.nextLine();
                     }
                 }
@@ -98,7 +97,7 @@ public class Main {
                                 Agregar.agregar(opcion,Mudy);
                                 break;
                             } catch (InputMismatchException e) {
-                                System.out.println("- Error: La opcion debe ser numerica");
+                                System.out.println("- Error: La opción debe ser numérica");
                                 sc.nextLine();
                             } catch (ElementoRepetidoException | ListaNoCargadaException | IllegalArgumentException e) {
                                 System.out.println("- Error: " + e.getMessage());
@@ -113,13 +112,13 @@ public class Main {
                             try {
                                 opcion = sc.nextInt();
                                 sc.nextLine();
-                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opcion invalida");
+                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opción inválida.");
                                 Eliminar.eliminar(opcion,Mudy);
                                 break;
                             } catch (ElementoNoEncontradoException | ListaNoCargadaException | IllegalArgumentException e) {
                                 System.out.println("- Error: " + e.getMessage());
                             } catch (InputMismatchException e) {
-                                System.out.println("- Error: La opcion debe ser numerica");
+                                System.out.println("- Error: La opción debe ser numérica.");
                                 sc.nextLine();
                             }
                         }
@@ -132,13 +131,13 @@ public class Main {
                             try {
                                 opcion = sc.nextInt();
                                 sc.nextLine();
-                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opcion invalida");
+                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opción inválida.");
                                 Buscar.buscar(opcion,Mudy);
                                 break;
                             } catch (ElementoNoEncontradoException | ListaNoCargadaException | IllegalArgumentException e) {
                                 System.out.println("- Error: " + e.getMessage());
                             } catch (InputMismatchException e) {
-                                System.out.println("- Error: La opcion debe ser numerica");
+                                System.out.println("- Error: La opción debe ser numérica.");
                                 sc.nextLine();
                             }
                         }
@@ -151,13 +150,13 @@ public class Main {
                             try {
                                 opcion = sc.nextInt();
                                 sc.nextLine();
-                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opcion invalida");
+                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opción inválida.");
                                 Modificar.modificar(opcion,Mudy);
                                 break;
                             } catch (ElementoNoEncontradoException | ListaNoCargadaException | IllegalArgumentException e) {
                                 System.out.println("- Error: " + e.getMessage());
                             } catch (InputMismatchException e) {
-                                System.out.println("- Error: La opcion debe ser numerica");
+                                System.out.println("- Error: La opción debe ser numérica.");
                                 sc.nextLine();
                             }
                         }
@@ -170,13 +169,13 @@ public class Main {
                             try {
                                 opcion = sc.nextInt();
                                 sc.nextLine();
-                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opcion invalida");
+                                if(opcion < 0 || opcion > 7) throw new IllegalArgumentException("Opción inválida.");
                                 Mostrar.mostrar(opcion,Mudy);
                                 break;
                             } catch (ListaNoCargadaException | IllegalArgumentException e) {
                                 System.out.println("- Error: " + e.getMessage());
                             } catch (InputMismatchException e) {
-                                System.out.println("- Error: La opcion debe ser numerica");
+                                System.out.println("- Error: La opción debe ser numérica.");
                                 sc.nextLine();
                             }
                         }
@@ -188,13 +187,15 @@ public class Main {
                     }
                 try {
                     if (control == 's' && !flagInvalido) {
-                        control = Utilidades.continuar("en el menu principal");
+                        control = Utilidades.continuar("en el menú principal");
                     }
                 } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());
                     sc.nextLine();
                 }
         }
+
+        // Lleva los datos a JSON, si es que existen.
         if(!Mudy.listaEmpleados.getMap().isEmpty()) Mudy.toJsonEmpleado();
         if(!Mudy.listaClientes.getMap().isEmpty()) Mudy.toJsonClientes();
         if(!Mudy.listaProveedores.getMap().isEmpty()) Mudy.toJsonProveedores();
@@ -214,7 +215,7 @@ public class Main {
         System.out.println("4 - Modificar.");
         System.out.println("5 - Mostrar.");
         System.out.println("0 - Salir.");
-        System.out.println("- Ingrese opción: ");
+        System.out.println("- Ingrese opción numérica: ");
     }
 
 }

@@ -8,7 +8,6 @@ import Models.Personas.Cliente;
 import Models.Personas.Empleado;
 import Models.Productos.Producto;
 import Models.Proveedores.Proveedor;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -17,55 +16,55 @@ public class Buscar {
     //  Métodos buscar en las listas.
     public static void buscar(int opcion, Cafeteria cafe) throws ElementoNoEncontradoException, ListaNoCargadaException {
         char control = 's';
-        while(control=='s') {
+        while(control == 's') {
             switch (opcion) {
                 case 0:
                     control='n';
                     break;
                 case 1:
                     if (cafe.listaEmpleados.getMap().isEmpty())
-                        throw new ListaNoCargadaException("No hay empleados para buscar");
+                        throw new ListaNoCargadaException("- No hay empleados para buscar.");
                     Empleado e = buscarEmpleado(cafe);
                     System.out.println(e);
                     break;
                 case 2:
                     if (cafe.listaClientes.getMap().isEmpty())
-                        throw new ListaNoCargadaException("No hay clientes para buscar");
+                        throw new ListaNoCargadaException("- No hay clientes para buscar.");
                     Cliente c = buscarCliente(cafe);
                     System.out.println(c);
                     break;
                 case 3:
                     if (cafe.listaProveedores.getMap().isEmpty())
-                        throw new ListaNoCargadaException("No hay proveedores para buscar");
+                        throw new ListaNoCargadaException("- No hay proveedores para buscar.");
                     Proveedor p = buscarProveedor(cafe);
                     System.out.println(p);
                     break;
                 case 4:
                     if (cafe.listaProductos.getMap().isEmpty())
-                        throw new ListaNoCargadaException("No hay productos para buscar");
+                        throw new ListaNoCargadaException("- No hay productos para buscar.");
                     Producto pr = buscarProducto(cafe);
                     System.out.println(pr);
                     break;
                 case 5:
                     if (cafe.listaPedidos.getMap().isEmpty())
-                        throw new ListaNoCargadaException("No hay pedidos para buscar");
+                        throw new ListaNoCargadaException("- No hay pedidos para buscar.");
                     Pedido pe = buscarPedido(cafe);
                     System.out.println(pe);
                     break;
                 case 6:
                     if (cafe.listaMarcas.getMap().isEmpty())
-                        throw new ListaNoCargadaException("No hay marcas para buscar");
+                        throw new ListaNoCargadaException("- No hay marcas para buscar. ");
                     String marca = buscarMarca(cafe);
                     System.out.println("- La marca " + marca + " se encuntra en la lista de marcas.");
                     break;
                 case 7:
                     if (cafe.listaCategorias.getMap().isEmpty())
-                        throw new ListaNoCargadaException("No hay categorias para buscar");
+                        throw new ListaNoCargadaException("- No hay categorías para buscar.");
                     String categoria = buscarCategoria(cafe);
                     System.out.println("- La categoría " + categoria + " se encuntra en la lista de categorias.");
                     break;
                 default:
-                    System.out.println("Opcion invalida");
+                    System.out.println("- Opción inválida.");
                     break;
             }
             try{
@@ -152,7 +151,7 @@ public class Buscar {
                 if(id <= 0) throw new IllegalArgumentException("No hay pedidos con ID menor o igual a 0");
                 return cafe.listaPedidos.buscarPorId((long)id);
             }catch(InputMismatchException x){
-                System.out.println("- Error: el id del pedido debe ser numerico");
+                System.out.println("- Error: el id del pedido debe ser numérico");
                 sc.nextLine();
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
@@ -178,7 +177,7 @@ public class Buscar {
             try {
                 System.out.println("- Ingrese nombre de la categoría para buscarla: ");
                 String categoria = sc.nextLine();
-                if(categoria.length() < 2) throw new IllegalArgumentException("El nombre debe tener al menos 2 caracteres.");
+                Utilidades.validarString(categoria);
                 if(cafe.listaCategorias.buscar(categoria)) return categoria;
             }catch(IllegalArgumentException ex){
                 System.out.println("- Error: " + ex.getMessage());
