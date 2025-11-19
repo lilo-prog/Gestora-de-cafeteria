@@ -55,6 +55,19 @@ public class Cafeteria {
             }
         }else listaClientes.getMap().get(dni).setDescuento(0.0);
     }
+    public static void aplicarDescuento(Pedido p,Cliente c){
+        double total = p.calcularTotal();
+        if(total >= Pedido.gastoMinimo){
+            if(c.getDescuento()<1) {
+                total *= (1-c.getDescuento());
+            }
+            if(c.getDescuento()>1) {
+                c.setDescuento(c.getDescuento()/100);
+                total *= (1-c.getDescuento());
+            }
+        }
+        p.setTotalConDescuento(total);
+    }
 
     //Convertir a CAFETERIA a JSON.
     //Se llama al método de GestorGenerico.exportarASet pasandole por parámetro cada lista para que éste método lo pase de Map a HashSet

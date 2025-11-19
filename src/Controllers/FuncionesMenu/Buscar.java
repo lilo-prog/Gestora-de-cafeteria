@@ -174,13 +174,16 @@ public class Buscar {
         while(true) {
             try {
                 System.out.println("- Ingrese ID del pedido para buscarlo (ingrese 0 para salir): ");
-                String id = sc.next();
-                if(id.equals("0")) throw new SalirDelIngresoDeDatosException();
-                if(id.matches(".*[^0-9]*.")) throw new IllegalArgumentException("El id debe ser numerico");
-                if(Integer.parseInt(id) < 0) throw new IllegalArgumentException("El id no puede ser negativo");
-                return cafe.listaPedidos.buscarPorId(id);
+                int id = sc.nextInt();
+                sc.nextLine();
+                if(id == 0) throw new SalirDelIngresoDeDatosException();
+                if(id < 0) throw new IllegalArgumentException("El id no puede ser negativo");
+                return cafe.listaPedidos.buscarPorId(String.valueOf(id));
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
+            }catch(InputMismatchException e){
+                System.out.println("- Error: El ID debe ser numerico");
+                sc.nextLine();
             }
         }
     }
