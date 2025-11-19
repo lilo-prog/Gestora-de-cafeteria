@@ -32,7 +32,7 @@ public class Pedido implements IJson {
         idGeneral++;
         this.id = idGeneral;
         this.listaProductos = new HashMap<>();
-        this.fecha = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+        this.fecha = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES); //fecha/hora actual pero recortada al minuto exacto.
         this.tipoPago = tipoPago;
         this.dniCliente = dniCliente;
     }
@@ -40,7 +40,7 @@ public class Pedido implements IJson {
         idGeneral++;
         this.id = idGeneral;
         this.listaProductos = new HashMap<>();
-        this.fecha = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);;
+        this.fecha = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES); //fecha/hora actual pero recortada al minuto exacto.
         this.tipoPago = ETipoPago.VACIO;
         this.dniCliente = "";
     }
@@ -151,7 +151,7 @@ public class Pedido implements IJson {
         }
         return total;
     }
-        //Método motrar lista de productos.
+        //Método mostrar lista de productos.
     public String mostrarListaDeProductos(){
         StringBuilder sb = new StringBuilder("- Lista de productos del pedido -\n");
         for(Map.Entry<Producto, Integer> producto_clave : listaProductos.entrySet()){

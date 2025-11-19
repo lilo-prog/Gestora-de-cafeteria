@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class GestorString {
+    //CRUD DE CATEGORIAS Y MARCAS.
     //Atributos.
     private String nombre;
     private HashMap<String,ETipoProducto> lista;
@@ -35,7 +36,7 @@ public class GestorString {
         //Método agregar.
     public void agregar(String s,ETipoProducto e) {
         lista.put(s.toLowerCase(),e);
-    }
+    } //Convierte todo a minúscula.
 
         //Método eliminar.
     public boolean eliminar(String s) throws ElementoNoEncontradoException {
