@@ -30,7 +30,7 @@ public class Persona implements IJson {
         this.nombre = "";
         this.apellido = "";
         TemporalAmount temp = Period.ofYears(16);
-        this.fechaNacimiento = LocalDate.now().minus(temp);
+        this.fechaNacimiento = LocalDate.now().minus(temp); //calculo para que de la fecha sea la de hoy menos 16 años atras.
         this.edad = calcularEdad();
         this.dni = "";
         this.telefono = "";
@@ -54,9 +54,8 @@ public class Persona implements IJson {
         Period periodo = Period.between(fechaNacimiento, LocalDate.now());
         return periodo.getYears();
     }
-    public boolean validarTelefono() {
-        return telefono.matches("\\+?[0-9 ]{7,20}"); // permite validar un numero con +,espacios, y entre 7 y 20 numeros
-    }
+
+    public boolean validarTelefono() {return telefono.matches("\\+?[0-9 ]{7,20}");} // permite validar un numero con +,espacios, y entre 7 y 20 numeros
 
     //Métodos JSON.
         //toJSON.

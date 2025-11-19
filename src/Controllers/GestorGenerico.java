@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class GestorGenerico<T extends IJson> {
     //Lista.
-    // SE USA LONG PURA Y EXCLUSIVAMENTE POR QUE LA CLAVE DE LOS PROVEEDORES ES EL CUIL (NUMERO DE 11 DIGITOS).
+    // SE USA String PURA Y EXCLUSIVAMENTE POR QUE LA CLAVE DE LOS PROVEEDORES Y PRODUCTOS SON NUMEROS DE MUCHOS DIGITOS (11 Y 12).
     protected HashMap<String,T> lista;
 
     //Método constructor.

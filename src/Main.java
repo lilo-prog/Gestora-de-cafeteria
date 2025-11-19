@@ -58,8 +58,7 @@ public class Main {
                 Mudy.listaCategoriasFromJson(array);
             }
         } catch (JSONException  e) {
-            System.out.print("- Error: 1" +
-                    "Hubo un error en la carga de datos.");
+            System.out.print("- Error: Hubo un error en la carga de datos.");
         } catch (InterruptedException | ElementoRepetidoException e) {
             System.out.println("- Error: " + e.getMessage());
         }
