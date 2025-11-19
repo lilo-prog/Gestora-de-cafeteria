@@ -124,7 +124,6 @@ public class Agregar {
                 }
             }catch(IllegalArgumentException e){
                 System.out.println(e.getMessage());
-                sc.nextLine();
             }
         }
     }
@@ -228,16 +227,13 @@ public class Agregar {
             try {
                 System.out.println("- Ingrese DNI del cliente (ingrese 0 para salir): ");
                 String dni = sc.next();
+                sc.nextLine();
                 if(dni.equals("0")) {
-                    sc.nextLine();
                     throw new SalirDelIngresoDeDatosException();
                 }
                 Utilidades.validarCodigo(dni,8);
                 c.setDni(dni);
                 break;
-            }catch(InputMismatchException x){
-                System.out.println("- Error: El DNI debe ser numérico.");
-                sc.nextLine();
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
             }
@@ -449,11 +445,12 @@ public class Agregar {
             try {
                 System.out.println(cafe.listaProductos.mostrarLista());
                 System.out.println("- Seleccione el producto por su UPC (ingrese 0 para salir): ");
-                upc =  sc.next();
+                upc = sc.next();
                 if(upc.equals("0")) throw new SalirDelIngresoDeDatosException();
                 Producto pr = cafe.listaProductos.buscarPorId(upc);
                 System.out.println("- Ingrese la cantidad (ingrese 0 para salir): ");
                 cantidad = sc.nextInt();
+                sc.nextLine();
                 if(cantidad <= 0) throw new IllegalArgumentException("La cantidad debe ser mayor que 0.");
                 p.agregar(pr,cantidad);
                 break;
@@ -506,7 +503,7 @@ public class Agregar {
         cafe.calcularDescuento(p.getDniCliente(), Pedido.getGastoMinimo(), Pedido.getDescuentoAAplicar());
         Cliente cliente = cafe.listaClientes.buscarPorId(p.getDniCliente());
         Pedido.setDescuentoAAplicar(cliente.getDescuento());
-
+        Cafeteria.aplicarDescuento(p,cliente);
     }
 
     public static void agregarMarca(Cafeteria cafe) throws SalirDelIngresoDeDatosException{
@@ -551,8 +548,10 @@ public class Agregar {
         try {
             System.out.println("- Ingrese monto mínimo para aplicar descuento (ingrese 0 para salir): ");
             double montoMinimo = sc.nextDouble();
+            sc.nextLine();
             if(montoMinimo == 0) throw new SalirDelIngresoDeDatosException();
             if(montoMinimo < 0) throw new IllegalArgumentException("El monto debe ser mayor a 0.");
+            Pedido.setGastoMinimo(montoMinimo);
         } catch (IllegalArgumentException e) {
             System.out.println("- Error: " + e.getMessage());
         }
@@ -562,13 +561,14 @@ public class Agregar {
         try {
             System.out.println("- Ingrese descuento: ");
             double descuento = sc.nextDouble();
+            sc.nextLine();
             if(descuento < 0) throw new IllegalArgumentException("El monto debe ser mayor a 0.");
+            Pedido.setDescuentoAAplicar(descuento);
         } catch (IllegalArgumentException e) {
             System.out.println("- Error: " + e.getMessage());
         }catch(InputMismatchException e){
             System.out.println("- Error: El descuento debe ser numérico");
+            sc.nextLine();
         }
     }
-
-
 }

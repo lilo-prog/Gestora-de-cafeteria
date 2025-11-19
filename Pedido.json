@@ -1,0 +1,89 @@
+[
+    {
+        "fecha": "2025-11-19T01:34:46.138298400",
+        "total": 12000,
+        "total_con_descuento": 10200,
+        "dni_cliente": "43029343",
+        "gasto_minimo": 5000,
+        "id_pedido": 3,
+        "lista_productos": [{
+            "cantidad_producto": 3,
+            "producto": {
+                "marca": "coca cola",
+                "precio": 4000,
+                "categoria": "bebidas sin alcohol",
+                "tipo_producto": "BEBIBLE",
+                "upc": "049003219382",
+                "proveedor": {
+                    "cuil": "12345689012",
+                    "telefono": "223123456980",
+                    "nombre": "Bruno",
+                    "clase": "Proveedor"
+                },
+                "nombre": "coca cola ",
+                "clase": "Producto"
+            }
+        }],
+        "tipo_de_pago": "TRANSFERENCIA",
+        "descuento_aplicado": 15,
+        "clase": "Pedido"
+    },
+    {
+        "fecha": "2025-11-19T01:02:40.749323400",
+        "total": 4000,
+        "total_con_descuento": 4000,
+        "dni_cliente": "43029343",
+        "gasto_minimo": 5000,
+        "id_pedido": 1,
+        "lista_productos": [{
+            "cantidad_producto": 1,
+            "producto": {
+                "marca": "coca cola",
+                "precio": 4000,
+                "categoria": "bebidas sin alcohol",
+                "tipo_producto": "BEBIBLE",
+                "upc": "049003219382",
+                "proveedor": {
+                    "cuil": "12345689012",
+                    "telefono": "223123456980",
+                    "nombre": "Bruno",
+                    "clase": "Proveedor"
+                },
+                "nombre": "coca cola ",
+                "clase": "Producto"
+            }
+        }],
+        "tipo_de_pago": "EFECTIVO",
+        "descuento_aplicado": 15,
+        "clase": "Pedido"
+    },
+    {
+        "fecha": "2025-11-19T01:34:31.571596800",
+        "total": 8000,
+        "total_con_descuento": 6800,
+        "dni_cliente": "43029343",
+        "gasto_minimo": 5000,
+        "id_pedido": 2,
+        "lista_productos": [{
+            "cantidad_producto": 2,
+            "producto": {
+                "marca": "coca cola",
+                "precio": 4000,
+                "categoria": "bebidas sin alcohol",
+                "tipo_producto": "BEBIBLE",
+                "upc": "049003219382",
+                "proveedor": {
+                    "cuil": "12345689012",
+                    "telefono": "223123456980",
+                    "nombre": "Bruno",
+                    "clase": "Proveedor"
+                },
+                "nombre": "coca cola ",
+                "clase": "Producto"
+            }
+        }],
+        "tipo_de_pago": "TRANSFERENCIA",
+        "descuento_aplicado": 15,
+        "clase": "Pedido"
+    }
+]

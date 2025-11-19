@@ -1,0 +1,15 @@
+[{
+    "marca": "coca cola",
+    "precio": 4000,
+    "categoria": "bebidas sin alcohol",
+    "tipo_producto": "BEBIBLE",
+    "upc": "049003219382",
+    "proveedor": {
+        "cuil": "12345689012",
+        "telefono": "223123456980",
+        "nombre": "Bruno",
+        "clase": "Proveedor"
+    },
+    "nombre": "coca cola ",
+    "clase": "Producto"
+}]

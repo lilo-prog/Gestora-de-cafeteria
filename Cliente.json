@@ -1,0 +1,11 @@
+[{
+    "gastos_totales": 24000,
+    "fechaNacimiento": "2003-12-01",
+    "descuento": 0.15,
+    "apellido": "clavito",
+    "telefono": "2234059430",
+    "nombre": "pepito",
+    "edad": 21,
+    "dni": "43029343",
+    "clase": "Cliente"
+}]

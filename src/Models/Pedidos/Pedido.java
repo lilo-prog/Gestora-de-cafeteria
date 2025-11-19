@@ -125,14 +125,12 @@ public class Pedido implements IJson {
         if(producto == null) throw new NullPointerException();
         if(listaProductos.containsKey(producto.getNombre())) throw new ElementoRepetidoException();
         listaProductos.put(producto, cantidad);
-        total = calcularTotal();
         return true;
     }
         //Método eliminar producto a lista de productos dentro del pedido.
     public Boolean eliminar(String nombreProducto){
         if(listaProductos.containsKey(nombreProducto)){
             listaProductos.remove(nombreProducto);
-            total = calcularTotal();
             return true;
         }
         return false;
@@ -146,20 +144,12 @@ public class Pedido implements IJson {
 
     public Double calcularTotal(){
         total = 0.0;
-        totalConDescuento = 0.0;
         for(Map.Entry<Producto, Integer> lista : listaProductos.entrySet()){
             Producto producto = lista.getKey();
             int cantidad = lista.getValue();
             total += producto.getPrecio() * cantidad;
         }
-        if(total >= gastoMinimo){
-            if(descuentoAAplicar<1) totalConDescuento = total * (1 - descuentoAAplicar);
-            if(descuentoAAplicar>1) {
-                descuentoAAplicar /= 100;
-                totalConDescuento = total * (1 - descuentoAAplicar);
-            }
-        }else totalConDescuento = total;
-        return totalConDescuento;
+        return total;
     }
         //Método motrar lista de productos.
     public String mostrarListaDeProductos(){
