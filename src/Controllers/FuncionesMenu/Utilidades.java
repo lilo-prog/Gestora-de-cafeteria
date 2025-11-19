@@ -31,19 +31,20 @@ public class Utilidades {
     }
 
     public static char continuar(String nombreMenu){
-        char c;
+        String c;
         while(true) {
             try {
                 System.out.println("- Continuar " + nombreMenu + "?? (s/n): ");
-                c = sc.next().toLowerCase().charAt(0);
+                c = sc.next().toLowerCase();
                 sc.nextLine();
-                if (c != 'n' && c != 's') throw new IllegalArgumentException("- La opción debe ser 's' o 'n'. ");
+                if (c.length()>1) throw new IllegalArgumentException("La opcion debe ser UN caracter (s/n)");
+                if (!c.equals("s") && !c.equals("n")) throw new IllegalArgumentException("La opción debe ser 's' o 'n'. ");
                 break;
             } catch (IllegalArgumentException e) {
                 System.out.println("- Error: " + e.getMessage());
             }
         }
-        return c;
+        return c.charAt(0);
     }
 
     public static void validarString(String string) throws IllegalArgumentException {
