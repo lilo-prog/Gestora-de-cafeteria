@@ -112,14 +112,9 @@ public class Modificar {
                     System.out.println("- Opción inválida.");
                     break;
             }
-            try{
                 if(control=='s') {
                     control = Utilidades.continuar("modificando");
                 }
-            }catch(IllegalArgumentException e){
-                System.out.println(e.getMessage());
-                sc.nextLine();
-            }
         }
     }
 
@@ -151,7 +146,9 @@ public class Modificar {
                             if(dniNuevo.equals("0"))throw new SalirDelIngresoDeDatosException();
                             Utilidades.validarCodigo(dniNuevo,8);
                             if(cafe.listaEmpleados.getMap().containsKey(dniNuevo)) throw new ElementoRepetidoException();
-                            cafe.listaEmpleados.getMap().get(dni).setDni(dniNuevo);
+                            cafe.listaEmpleados.eliminar(dni);
+                            e.setDni(dniNuevo);
+                            cafe.listaEmpleados.agregar(dniNuevo,e);
                             System.out.println("- Se actualizó el DNI correctamente!");
                             break;
                         }catch (IllegalArgumentException | ElementoRepetidoException x) {
@@ -285,11 +282,13 @@ public class Modificar {
                             String dniNuevo = sc.next();
                             if(dniNuevo.equals("0")) throw new SalirDelIngresoDeDatosException();
                             Utilidades.validarCodigo(dniNuevo,8);
-                            if(cafe.listaClientes.getMap().containsKey(dniNuevo)) throw new ElementoNoEncontradoException();
-                            cafe.listaClientes.getMap().get(dni).setDni(dniNuevo);
+                            if(cafe.listaClientes.getMap().containsKey(dniNuevo)) throw new ElementoRepetidoException();
+                            cafe.listaClientes.eliminar(dni);
+                            c.setDni(dniNuevo);
+                            cafe.listaClientes.agregar(dniNuevo,c);
                             System.out.println("- Se actualizó el DNI correctamente!");
                             break;
-                        } catch (IllegalArgumentException | ElementoNoEncontradoException x) {
+                        } catch (IllegalArgumentException | ElementoRepetidoException x) {
                             System.out.println("- Error: " + x.getMessage());
                         }
                     }
@@ -406,14 +405,14 @@ public class Modificar {
                             String cuilNuevo = sc.next();
                             if(cuilNuevo.equals("0")) throw new SalirDelIngresoDeDatosException();
                             Utilidades.validarCodigo(cuilNuevo,11);
-                            cafe.listaProveedores.getMap().get(cuil).setCuil(cuilNuevo);
+                            if(cafe.listaProveedores.getMap().containsKey(cuilNuevo))throw new ElementoRepetidoException();
+                            cafe.listaProveedores.eliminar(cuil);
+                            p.setCuil(cuilNuevo);
+                            cafe.listaProveedores.agregar(cuilNuevo,p);
                             System.out.println("- Se actualizó el CUIL correctamente!");
                             break;
-                        }catch(IllegalArgumentException e){
+                        }catch(IllegalArgumentException | ElementoRepetidoException e){
                             System.out.println("- Error: " + e.getMessage());
-                        }catch(InputMismatchException e){
-                            System.out.println("- Error: El CUIL debe ser numérico. ");
-                            sc.nextLine();
                         }
                     }
                     break;
@@ -487,13 +486,12 @@ public class Modificar {
                         try {
                             System.out.println("- Ingrese el UPC nuevo del producto (ingrese 0 para salir): ");
                             String upcNuevo = sc.next();
-                            if(upcNuevo.equals("0")){
-                                sc.nextLine();
-                                throw new SalirDelIngresoDeDatosException();
-                            }
+                            if(upcNuevo.equals("0"))throw new SalirDelIngresoDeDatosException();
                             Utilidades.validarCodigo(upcNuevo,12);
                             if (cafe.listaProductos.getMap().containsKey(upcNuevo)) throw new ElementoRepetidoException();
-                            cafe.listaProductos.getMap().get(upc).setUpc(upcNuevo);
+                            cafe.listaProductos.eliminar(upc);
+                            p.setUpc(upcNuevo);
+                            cafe.listaProductos.agregar(upcNuevo,p);
                             System.out.println("- Se actualizó el UPC correctamente!");
                             break;
                         } catch (IllegalArgumentException | ElementoRepetidoException x) {
@@ -557,13 +555,10 @@ public class Modificar {
                             System.out.println(cafe.listaProveedores.mostrarLista());
                             System.out.println("- Seleccione el proveedor del producto por su CUIL (ingrese 0 para salir): ");
                             String cuilABuscar =  sc.next();
-                            if(cuilABuscar.equals("0")){
-                                sc.nextLine();
-                                throw new SalirDelIngresoDeDatosException();
-                            }
+                            if(cuilABuscar.equals("0")) throw new SalirDelIngresoDeDatosException();
                             Utilidades.validarCodigo(cuilABuscar,12);
-                            Proveedor proveedor = cafe.listaProveedores.buscarPorId(cuilABuscar);
-                            cafe.listaProductos.getMap().get(upc).setProveedor(proveedor);
+                            cafe.listaProveedores.buscarPorId(cuilABuscar);
+                            cafe.listaProductos.getMap().get(upc).setIdProveedor(cuilABuscar);
                             System.out.println("- Se actualizó el proveedor correctamente!");
                             break;
                         }catch(IllegalArgumentException | ElementoNoEncontradoException e){

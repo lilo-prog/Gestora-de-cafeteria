@@ -66,14 +66,9 @@ public class Mostrar {
                     System.out.println("- Opción inválida.");
                     break;
             }
-            try{
                 if(control == 's') {
                     control = Utilidades.continuar("mostrando");
                 }
-            }catch(IllegalArgumentException e){
-                System.out.println(e.getMessage());
-                sc.nextLine();
-            }
         }
     }
 }
