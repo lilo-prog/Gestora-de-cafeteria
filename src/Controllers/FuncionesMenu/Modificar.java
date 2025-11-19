@@ -42,7 +42,6 @@ public class Modificar {
                     if(cafe.listaEmpleados.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay empleados para modificar.");
                     try {
                         modificarEmpleado(cafe);
-                        System.out.println("- Se actualizó el empleado correctamente!");
                     } catch (SalirDelIngresoDeDatosException e) {
                         System.out.println(e.getMessage());
                     }
@@ -164,6 +163,7 @@ public class Modificar {
                             Utilidades.validarCodigo(dniNuevo,8);
                             if(cafe.listaEmpleados.getMap().containsKey(dniNuevo)) throw new ElementoRepetidoException();
                             cafe.listaEmpleados.getMap().get(dni).setDni(dniNuevo);
+                            System.out.println("- Se actualizó el DNI correctamente!");
                             break;
                         }catch (IllegalArgumentException | ElementoRepetidoException x) {
                             System.out.println("- Error: " + x.getMessage());
@@ -178,6 +178,7 @@ public class Modificar {
                             if(nombre.equals("0")) throw new SalirDelIngresoDeDatosException();
                             Utilidades.validarString(nombre);
                             cafe.listaEmpleados.getMap().get(dni).setNombre(nombre);
+                            System.out.println("- Se actualizó el nombre correctamente!");
                             break;
                         } catch (IllegalArgumentException ex) {
                             System.out.println("- Error: " + ex.getMessage());
@@ -192,6 +193,7 @@ public class Modificar {
                             if(apellido.equals("0")) throw new SalirDelIngresoDeDatosException();
                             Utilidades.validarString(apellido);
                             cafe.listaEmpleados.getMap().get(dni).setApellido(apellido);
+                            System.out.println("- Se actualizó el apellido correctamente!");
                             break;
                         } catch (IllegalArgumentException ex) {
                             System.out.println("- Error: " + ex.getMessage());
@@ -210,6 +212,7 @@ public class Modificar {
                             int edad = e.calcularEdad();
                             cafe.listaEmpleados.getMap().get(dni).setEdad(edad);
                             if (edad < 16) throw new IllegalArgumentException("La edad debe ser mayor o igual a 16 años.");
+                            System.out.println("- Se actualizó la fecha de nacimiento correctamente!");
                             break;
                         } catch (DateTimeParseException x) {
                             System.out.println("- Error: El formato de la fecha es erroneo, debe ser YYYY-MM-DD en números.");
@@ -226,6 +229,7 @@ public class Modificar {
                             if(telefono.equals("0")) throw new SalirDelIngresoDeDatosException();
                             cafe.listaEmpleados.getMap().get(dni).setTelefono(telefono);
                             if (!cafe.listaEmpleados.getMap().get(dni).validarTelefono()) throw new IllegalArgumentException("El teléfono ingresado no es válido.");
+                            System.out.println("- Se actualizó el teléfono correctamente!");
                             break;
                         } catch (IllegalArgumentException x) {
                             System.out.println("- Error: " + x.getMessage());
@@ -240,6 +244,7 @@ public class Modificar {
                             if(sueldo == 0) throw new SalirDelIngresoDeDatosException();
                             if (sueldo < 0) throw new IllegalArgumentException("El sueldo debe ser mayor que 0.");
                             cafe.listaEmpleados.getMap().get(dni).setSueldo(sueldo);
+                            System.out.println("- Se actualizó el sueldo correctamente!");
                             break;
                         } catch (IllegalArgumentException x) {
                             System.out.println("- Error: " + x.getMessage());
@@ -294,6 +299,7 @@ public class Modificar {
                             Utilidades.validarCodigo(dniNuevo,8);
                             if (cafe.listaClientes.getMap().containsKey(dniNuevo)) throw new ElementoNoEncontradoException();
                             cafe.listaClientes.getMap().get(dni).setDni(dniNuevo);
+                            System.out.println("- Se actualizó el DNI correctamente!");
                             break;
                         } catch (IllegalArgumentException | ElementoNoEncontradoException x) {
                             System.out.println("- Error: " + x.getMessage());
@@ -308,6 +314,7 @@ public class Modificar {
                             if(nombre.equals("0")) throw new SalirDelIngresoDeDatosException();
                             Utilidades.validarString(nombre);
                             cafe.listaClientes.getMap().get(dni).setNombre(nombre);
+                            System.out.println("- Se actualizó el nombre correctamente!");
                             break;
                         } catch (IllegalArgumentException ex) {
                             System.out.println("- Error: " + ex.getMessage());
@@ -322,6 +329,7 @@ public class Modificar {
                             if(apellido.equals("0")) throw new SalirDelIngresoDeDatosException();
                             Utilidades.validarString(apellido);
                             cafe.listaClientes.getMap().get(dni).setApellido(apellido);
+                            System.out.println("- Se actualizó el apellido correctamente!");
                             break;
                         } catch (IllegalArgumentException ex) {
                             System.out.println("- Error: " + ex.getMessage());
@@ -337,6 +345,7 @@ public class Modificar {
                             LocalDate temp = LocalDate.parse(fecha);
                             if (temp.isAfter(LocalDate.now())) throw new IllegalArgumentException("La fecha no debe ser posterior al día de hoy.");
                             cafe.listaClientes.getMap().get(dni).setFechaNacimiento(temp);
+                            System.out.println("- Se actualizó la fecha de nacimiento correctamente!");
                             break;
                         } catch (DateTimeParseException x) {
                             System.out.println("-Error: El formato de fecha es incorrecto. Debe ser YYYY-MM-DD.");
@@ -353,6 +362,7 @@ public class Modificar {
                             if(telefono.equals("0")) throw new SalirDelIngresoDeDatosException();
                             cafe.listaClientes.getMap().get(dni).setTelefono(telefono);
                             if (!cafe.listaClientes.getMap().get(dni).validarTelefono()) throw new IllegalArgumentException("El teléfono ingresado no es válido.");
+                            System.out.println("- Se actualizó el teléfono correctamente!");
                             break;
                         } catch (IllegalArgumentException ex) {
                             System.out.println("- Error: " + ex.getMessage());
@@ -409,6 +419,7 @@ public class Modificar {
                             if(cuilNuevo.equals("0")) throw new SalirDelIngresoDeDatosException();
                             Utilidades.validarCodigo(cuilNuevo,11);
                             cafe.listaProveedores.getMap().get(cuil).setCuil(cuilNuevo);
+                            System.out.println("- Se actualizó el CUIL correctamente!");
                             break;
                         }catch(IllegalArgumentException e){
                             System.out.println("- Error: " + e.getMessage());
@@ -426,6 +437,7 @@ public class Modificar {
                             if(nombre.equals("0")) throw new SalirDelIngresoDeDatosException();
                             Utilidades.validarString(nombre);
                             cafe.listaProveedores.getMap().get(cuil).setNombre(nombre);
+                            System.out.println("- Se actualizó el nombre correctamente!");
                             break;
                         }catch(IllegalArgumentException e){
                             System.out.println("- Error: " + e.getMessage());
@@ -441,6 +453,7 @@ public class Modificar {
                             if(telefono.equals("0")) throw new SalirDelIngresoDeDatosException();
                             cafe.listaProveedores.getMap().get(p.getCuil()).setTelefono(telefono);
                             if(!cafe.listaProveedores.getMap().get(p.getCuil()).validarTelefono()) throw new IllegalArgumentException("El teléfono ingresado no es válido.");
+                            System.out.println("- Se actualizó el teléfono correctamente!");
                             break;
                         }catch(IllegalArgumentException e){
                             System.out.println("- Error: " + e.getMessage());
@@ -493,6 +506,7 @@ public class Modificar {
                             Utilidades.validarCodigo(upcNuevo,12);
                             if (cafe.listaProductos.getMap().containsKey(upcNuevo)) throw new ElementoRepetidoException();
                             cafe.listaProductos.getMap().get(upc).setUpc(upcNuevo);
+                            System.out.println("- Se actualizó el UPC correctamente!");
                             break;
                         } catch (IllegalArgumentException | ElementoRepetidoException x) {
                             System.out.println("- Error: " + x.getMessage());
@@ -507,6 +521,7 @@ public class Modificar {
                             if(nombre.equals("0")) throw new SalirDelIngresoDeDatosException();
                             Utilidades.validarString(nombre);
                             cafe.listaProductos.getMap().get(upc).setNombre(nombre);
+                            System.out.println("- Se actualizó el nombre del producto correctamente!");
                             break;
                         }catch(IllegalArgumentException x){
                             System.out.println("- Error: " + x.getMessage());
@@ -522,6 +537,7 @@ public class Modificar {
                             if(marca.equals("0")) throw new SalirDelIngresoDeDatosException();
                             if(!cafe.listaMarcas.buscar(marca)) throw new ElementoNoEncontradoException();
                             cafe.listaProductos.getMap().get(upc).setMarca(marca);
+                            System.out.println("- Se actualizó la marca correctamente!");
                             break;
                         }catch(ElementoNoEncontradoException e){
                             System.out.println("- Error: " + e.getMessage());
@@ -536,6 +552,7 @@ public class Modificar {
                             if(precio == 0) throw new SalirDelIngresoDeDatosException();
                             if(precio < 0) throw new IllegalArgumentException("El valor de un producto no puede ser menor a 0.");
                             cafe.listaProductos.getMap().get(upc).setPrecio(precio);
+                            System.out.println("- Se actualizó el precio correctamente!");
                             break;
                         }catch(InputMismatchException | IllegalArgumentException e){
                             System.out.println("- Error: " + e.getMessage());
@@ -556,6 +573,7 @@ public class Modificar {
                             Utilidades.validarCodigo(cuilABuscar,12);
                             Proveedor proveedor = cafe.listaProveedores.buscarPorId(cuilABuscar);
                             cafe.listaProductos.getMap().get(upc).setProveedor(proveedor);
+                            System.out.println("- Se actualizó el proveedor correctamente!");
                             break;
                         }catch(IllegalArgumentException | ElementoNoEncontradoException e){
                             System.out.println("- Error: " + e.getMessage());
@@ -571,6 +589,7 @@ public class Modificar {
                             if(categoria.equals("0")) throw new SalirDelIngresoDeDatosException();
                             if(!cafe.listaCategorias.buscar(categoria)) throw new ElementoNoEncontradoException();
                             cafe.listaProductos.getMap().get(upc).setCategoria(categoria);
+                            System.out.println("- Se actualizó la categoria correctamente!");
                             break;
                         }catch(ElementoNoEncontradoException e){
                             System.out.println("- Error: " + e.getMessage());
@@ -616,6 +635,7 @@ public class Modificar {
                             if(forma.equals("0")) throw new SalirDelIngresoDeDatosException();
                             ETipoPago tipo = ETipoPago.valueOf(forma);
                             cafe.listaPedidos.getMap().get(id).setTipoPago(tipo);
+                            System.out.println("- Se actualizó el tipo de pago correctamente!");
                             break;
                         } catch (IllegalArgumentException e) {
                             System.out.println("- Error: tipo de pago inválido.");
@@ -641,6 +661,7 @@ public class Modificar {
                             }
                             if (!cafe.listaClientes.getMap().containsKey(dniNuevo)) throw new ElementoNoEncontradoException();
                             cafe.listaPedidos.getMap().get(id).setDniCliente(dniNuevo);
+                            System.out.println("- Se actualizó el cliente correctamente!");
                             break;
                         } catch (InputMismatchException x) {
                             System.out.println("- Error: el DNI debe ser numérico.");
@@ -673,6 +694,7 @@ public class Modificar {
                             int cantidad = sc.nextInt();
                             if(cantidad <= 0) throw new IllegalArgumentException("La cantidad no puede ser menor o igual a 0. ");
                             cafe.listaPedidos.getMap().get(id).agregar(pr,cantidad);
+                            System.out.println("- Se actualizó la lista de productos del pedido correctamente!");
                             break;
                         }catch(IllegalArgumentException x){
                             System.out.println("- Error: " + x.getMessage());
@@ -706,6 +728,7 @@ public class Modificar {
                 Utilidades.validarString(marcaNueva);
                 cafe.listaMarcas.eliminar(marca);
                 cafe.listaMarcas.agregar(marcaNueva, ETipoProducto.VACIO);
+                System.out.println("- Se actualizó el nombre correctamente!");
                 break;
             } catch (IllegalArgumentException e) {
                 System.out.println("- Error: " + e.getMessage());
@@ -731,6 +754,7 @@ public class Modificar {
                 else throw new IllegalArgumentException("- Valor inválido. ");
                 cafe.listaCategorias.eliminar(categoria);
                 cafe.listaCategorias.agregar(categoriaNueva, tipoEnum);
+                System.out.println("- Se actualizó la categoría de producto correctamente!");
                 break;
             } catch (IllegalArgumentException e) {
                 System.out.println("- Error: " + e.getMessage());
@@ -746,6 +770,7 @@ public class Modificar {
                 if(gastoMinimo == 0) throw new SalirDelIngresoDeDatosException();
                 if(gastoMinimo < 0) throw new IllegalArgumentException("El valor debe ser mayor a 0.");
                 Pedido.setGastoMinimo(gastoMinimo);
+                System.out.println("- Se actualizó el gasto minimo correctamente!");
                 break;
             }catch (InputMismatchException e){
                 System.out.println("- Error: El valor debe ser numérico.");
@@ -764,6 +789,7 @@ public class Modificar {
                 if(descuento == 0) throw new SalirDelIngresoDeDatosException();
                 if(descuento < 0) throw new IllegalArgumentException("El valor debe ser mayor a 0.");
                 Pedido.setDescuentoAAplicar(descuento);
+                System.out.println("- Se actualizó el descuento correctamente!");
                 break;
             }catch (InputMismatchException e){
                 System.out.println("- Error: El valor debe ser numérico.");
