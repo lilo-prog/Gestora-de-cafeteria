@@ -101,14 +101,9 @@ public class Eliminar {
                     System.out.println("- Opción inválida.");
                     break;
             }
-            try{
                 if(control=='s') {
                     control = Utilidades.continuar("eliminando");
                 }
-            }catch(IllegalArgumentException e){
-                System.out.println(e.getMessage());
-                sc.nextLine();
-            }
         }
     }
     //Métodos eliminar de la lista.

@@ -102,14 +102,9 @@ public class Buscar {
                     System.out.println("- Opción inválida.");
                     break;
             }
-            try{
                 if(control == 's') {
                     control = Utilidades.continuar("buscando");
                 }
-            }catch(IllegalArgumentException e){
-                System.out.println(e.getMessage());
-                sc.nextLine();
-            }
         }
     }
 
@@ -162,7 +157,7 @@ public class Buscar {
                 System.out.println("- Ingrese UPC del producto para buscarlo (ingrese 0 para salir): ");
                 String upc = sc.next();
                 if(upc.equals("0")) throw new SalirDelIngresoDeDatosException();
-                Utilidades.validarCodigo(upc,11);
+                Utilidades.validarCodigo(upc,12);
                 return cafe.listaProductos.buscarPorId(upc);
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());

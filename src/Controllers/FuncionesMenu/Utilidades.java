@@ -15,6 +15,7 @@ public class Utilidades {
         System.out.println("0 - Salir.");
         System.out.println("- Ingrese opción numérica: ");
     }
+
     public static void mostrarListasModificar(){
         System.out.println("1 - Empleados.");
         System.out.println("2 - Clientes.");
@@ -31,10 +32,17 @@ public class Utilidades {
 
     public static char continuar(String nombreMenu){
         char c;
-        System.out.println("- Continuar " + nombreMenu + "?? (s/n): ");
-        c = sc.next().toLowerCase().charAt(0);
-        sc.nextLine();
-        if (c != 'n' && c != 's') throw new IllegalArgumentException("- La opción debe ser 's' o 'n'. ");
+        while(true) {
+            try {
+                System.out.println("- Continuar " + nombreMenu + "?? (s/n): ");
+                c = sc.next().toLowerCase().charAt(0);
+                sc.nextLine();
+                if (c != 'n' && c != 's') throw new IllegalArgumentException("- La opción debe ser 's' o 'n'. ");
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("- Error: " + e.getMessage());
+            }
+        }
         return c;
     }
 
@@ -51,9 +59,10 @@ public class Utilidades {
         if(string.length() < 2)
             throw new IllegalArgumentException("El texto ingresado debe tener al menos 2 caracteres.");
     }
+
     public static void validarCodigo(String string, int cantDigitos) throws IllegalArgumentException{
-        if(!string.matches(".*\\d+.*")) throw new IllegalArgumentException("El valor debe ser numerico");
-        if(string.length() != cantDigitos) throw new IllegalArgumentException("El valor debe tener exactamente " + cantDigitos + " digitos.");
-        if(Long.parseLong(string) < 0) throw new IllegalArgumentException("El valor debe mayor a 0");
+        if(!string.matches(".*\\d+.*")) throw new IllegalArgumentException("El valor debe ser numérico.");
+        if(string.length() != cantDigitos) throw new IllegalArgumentException("El valor debe tener exactamente " + cantDigitos + " dígitos.");
+        if(Long.parseLong(string) < 0) throw new IllegalArgumentException("El valor debe mayor a 0.");
     }
 }

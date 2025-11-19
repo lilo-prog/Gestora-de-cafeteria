@@ -14,6 +14,7 @@ import Enum.ETipoProducto;
 import Enum.ETipoPago;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -118,13 +119,9 @@ public class Agregar {
                     System.out.println("- Opción inválida.");
                     break;
             }
-            try{
                 if(control == 's') {
                     control = Utilidades.continuar("agregando");
                 }
-            }catch(IllegalArgumentException e){
-                System.out.println(e.getMessage());
-            }
         }
     }
 
@@ -134,15 +131,13 @@ public class Agregar {
             try {
                 System.out.println("- Ingrese DNI del empleado (ingrese 0 para salir): ");
                 String dni = sc.next();
-                if(dni.equals("0")){
-                    sc.nextLine();
-                    throw new SalirDelIngresoDeDatosException();
-                }
+                if(dni.equals("0")) throw new SalirDelIngresoDeDatosException();
                 Utilidades.validarCodigo(dni,8);
+                if(cafe.listaEmpleados.getMap().containsKey(dni)) throw new ElementoRepetidoException();
                 e.setDni(dni);
                 sc.nextLine();
                 break;
-            }catch(IllegalArgumentException x){
+            }catch(IllegalArgumentException | ElementoRepetidoException x){
                 System.out.println("- Error: " + x.getMessage());
             }
         }
@@ -177,6 +172,7 @@ public class Agregar {
                 if(fecha.equals("0")) throw new SalirDelIngresoDeDatosException();
                 LocalDate temp = LocalDate.parse(fecha);
                 if(temp.isAfter(LocalDate.now())) throw new IllegalArgumentException("La fecha no debe ser posterior al dia de hoy");
+                if(temp.isBefore(LocalDate.now().minus(Period.ofYears(120)))) throw new IllegalArgumentException("Tu edad no puede ser mayor a 120 años.");
                 e.setFechaNacimiento(temp);
                 int edad = e.calcularEdad();
                 e.setEdad(edad);
@@ -228,13 +224,12 @@ public class Agregar {
                 System.out.println("- Ingrese DNI del cliente (ingrese 0 para salir): ");
                 String dni = sc.next();
                 sc.nextLine();
-                if(dni.equals("0")) {
-                    throw new SalirDelIngresoDeDatosException();
-                }
+                if(dni.equals("0")) throw new SalirDelIngresoDeDatosException();
                 Utilidades.validarCodigo(dni,8);
+                if(cafe.listaClientes.getMap().containsKey(dni)) throw new ElementoRepetidoException();
                 c.setDni(dni);
                 break;
-            }catch(IllegalArgumentException x){
+            }catch(IllegalArgumentException | ElementoRepetidoException x){
                 System.out.println("- Error: " + x.getMessage());
             }
         }
@@ -269,6 +264,7 @@ public class Agregar {
                 if(fecha.equals("0")) throw new SalirDelIngresoDeDatosException();
                 LocalDate temp = LocalDate.parse(fecha);
                 if(temp.isAfter(LocalDate.now())) throw new IllegalArgumentException("La fecha no debe ser posterior al día de hoy.");
+                if(temp.isBefore(LocalDate.now().minus(Period.ofYears(120)))) throw new IllegalArgumentException("Tu edad no puede ser mayor a 120 años.");
                 c.setFechaNacimiento(temp);
                 int edad = c.calcularEdad();
                 c.setEdad(edad);
@@ -297,6 +293,19 @@ public class Agregar {
 
     public static void agregarProveedor(Cafeteria cafe) throws ElementoRepetidoException, SalirDelIngresoDeDatosException{
         Proveedor p = new Proveedor();
+        while(true){
+            try {
+                System.out.println("- Ingrese CUIL del proveedor (ingrese 0 para salir): ");
+                String cuil = sc.next();
+                if(cuil.equals("0")) throw new SalirDelIngresoDeDatosException();
+                Utilidades.validarCodigo(cuil,11);
+                if(cafe.listaProveedores.getMap().containsKey(cuil)) throw new ElementoRepetidoException();
+                p.setCuil(cuil);
+                break;
+            }catch(IllegalArgumentException | ElementoRepetidoException x){
+                System.out.println("- Error: " + x.getMessage());
+            }
+        }
         while(true) {
             try {
                 System.out.println("- Ingrese nombre del proveedor (ingrese 0 para salir): ");
@@ -307,23 +316,6 @@ public class Agregar {
                 break;
             }catch(IllegalArgumentException ex){
                 System.out.println("- Error: " + ex.getMessage());
-            }
-        }
-        while(true){
-            try {
-                System.out.println("- Ingrese CUIL del proveedor (ingrese 0 para salir): ");
-                String cuil = sc.next();
-                if(cuil.equals("0")){
-                    sc.nextLine();
-                    throw new SalirDelIngresoDeDatosException();
-                }
-                Utilidades.validarCodigo(cuil,11);
-                p.setCuil(cuil);
-                sc.nextLine();
-                break;
-            }catch(IllegalArgumentException x){
-                System.out.println("- Error: " + x.getMessage());
-                sc.nextLine();
             }
         }
         while(true){
@@ -348,24 +340,24 @@ public class Agregar {
         Producto p = new Producto();
         while(true) {
             try {
-                System.out.println("- Ingrese nombre del producto (ingrese 0 para salir): ");
-                String nombre = sc.nextLine();
-                if(nombre.equals("0")) throw new SalirDelIngresoDeDatosException();
-                Utilidades.validarString(nombre);
-                p.setNombre(nombre);
+                System.out.println("- Ingrese UPC del producto (ingrese 0 para salir): ");
+                String upc = sc.next();
+                if(upc.equals("0")) throw new SalirDelIngresoDeDatosException();
+                Utilidades.validarCodigo(upc,12);
+                if(cafe.listaProductos.getMap().containsKey(upc)) throw new ElementoRepetidoException();
+                p.setUpc(upc);
                 break;
-            }catch(IllegalArgumentException x){
+            }catch(IllegalArgumentException | ElementoRepetidoException x){
                 System.out.println("- Error: " + x.getMessage());
             }
         }
         while(true) {
             try {
-                System.out.println("- Ingrese UPC del producto (no debe empezar con 0)(ingrese 0 para salir): ");
-                String upc = sc.next();
-                sc.nextLine();
-                if(upc.equals("0")) throw new SalirDelIngresoDeDatosException();
-                Utilidades.validarCodigo(upc,12);
-                p.setUpc(upc);
+                System.out.println("- Ingrese nombre del producto (ingrese 0 para salir): ");
+                String nombre = sc.nextLine();
+                if(nombre.equals("0")) throw new SalirDelIngresoDeDatosException();
+                Utilidades.validarString(nombre);
+                p.setNombre(nombre);
                 break;
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
@@ -409,9 +401,8 @@ public class Agregar {
                 String cuilABuscar = sc.next();
                 sc.nextLine();
                 if(cuilABuscar.equals("0")) throw new SalirDelIngresoDeDatosException();
-                Proveedor proveedor = cafe.listaProveedores.buscarPorId(cuilABuscar);
-                if(proveedor == null) throw new  ElementoNoEncontradoException();
-                p.setProveedor(proveedor);
+                cafe.listaProveedores.buscarPorId(cuilABuscar);
+                p.setIdProveedor(cuilABuscar);
                 break;
             } catch (ElementoNoEncontradoException e){
                 System.out.println("- Error: " + e.getMessage());
@@ -441,7 +432,8 @@ public class Agregar {
         Pedido p = new Pedido();
         String upc;
         int cantidad;
-        while(true){
+        char control = 's';
+        while(control == 's'){
             try {
                 System.out.println(cafe.listaProductos.mostrarLista());
                 System.out.println("- Seleccione el producto por su UPC (ingrese 0 para salir): ");
@@ -453,7 +445,7 @@ public class Agregar {
                 sc.nextLine();
                 if(cantidad <= 0) throw new IllegalArgumentException("La cantidad debe ser mayor que 0.");
                 p.agregar(pr,cantidad);
-                break;
+                control = Utilidades.continuar("agregando productos al pedido");
             } catch(ElementoNoEncontradoException | IllegalArgumentException e){
                 System.out.println("- Error: " + e.getMessage());
             } catch (InputMismatchException e){
@@ -504,6 +496,7 @@ public class Agregar {
         Cliente cliente = cafe.listaClientes.buscarPorId(p.getDniCliente());
         Pedido.setDescuentoAAplicar(cliente.getDescuento());
         Cafeteria.aplicarDescuento(p,cliente);
+        System.out.println(p);
     }
 
     public static void agregarMarca(Cafeteria cafe) throws SalirDelIngresoDeDatosException{
@@ -554,6 +547,9 @@ public class Agregar {
             Pedido.setGastoMinimo(montoMinimo);
         } catch (IllegalArgumentException e) {
             System.out.println("- Error: " + e.getMessage());
+        } catch (InputMismatchException e){
+            System.out.println("- Error: el monto debe ser numerico");
+            sc.nextLine();
         }
     }
 

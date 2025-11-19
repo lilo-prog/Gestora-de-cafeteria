@@ -68,5 +68,5 @@ public class Proveedor implements IJson {
     }
     @Override public int hashCode() {return Objects.hashCode(cuil);}
 
-    @Override public String toString() {return "Proveedor{ " + ", nombre: '" + nombre + '\'' + ", CUIL: '" + cuil + '\'' + ", teléfono: " + telefono + " }";}
+    @Override public String toString() {return "Proveedor{ " + "nombre: '" + nombre + '\'' + ", CUIL: '" + cuil + '\'' + ", teléfono: " + telefono + " }";}
 }

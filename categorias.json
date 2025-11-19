@@ -12,11 +12,11 @@
         "nombre": "bebidas sin alcohol"
     },
     {
-        "tipo_producto": "BEBIBLE",
-        "nombre": "especial"
+        "tipo_producto": "COMESTIBLE",
+        "nombre": "pasteleria"
     },
     {
-        "tipo_producto": "COMESTIBLE",
-        "nombre": "pastelería"
+        "tipo_producto": "BEBIBLE",
+        "nombre": "especial"
     }
 ]

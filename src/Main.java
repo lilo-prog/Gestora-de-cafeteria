@@ -9,7 +9,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws ElementoRepetidoException {
+    public static void main(String[] args) {
         Cafeteria Mudy = new Cafeteria();
         Scanner sc = new Scanner(System.in);
         // Trae los datos de los JSON,si es que existen.
@@ -22,7 +22,13 @@ public class Main {
         JSONTokener tok7 = JsonUtiles.leerUnJson("categorias.json");
         try {
             System.out.println("- Cargando datos...");
-            Thread.sleep(2000);
+            Thread.sleep(500);
+            System.out.println(".");
+            Thread.sleep(500);
+            System.out.println("..");
+            Thread.sleep(500);
+            System.out.println("...");
+            Thread.sleep(500);
             if (tok1 != null) {
                 JSONArray array = new JSONArray(tok1);
                 Mudy.listaEmpleadosFromJson(array);
@@ -52,14 +58,13 @@ public class Main {
                 Mudy.listaCategoriasFromJson(array);
             }
         } catch (JSONException  e) {
-            System.out.print("");
-        } catch (InterruptedException e){
-            System.out.println(e.getMessage());
+            System.out.print("- Error: 1" +
+                    "Hubo un error en la carga de datos.");
+        } catch (InterruptedException | ElementoRepetidoException e) {
+            System.out.println("- Error: " + e.getMessage());
         }
-
         int opcion;
         char control = 's';
-
         boolean flagInvalido = false;
         while(control == 's') {
                 while(true) {
@@ -142,14 +147,9 @@ public class Main {
                         flagInvalido = true;
                         break;
                     }
-                try {
                     if (control == 's' && !flagInvalido) {
                         control = Utilidades.continuar("en el menú principal");
                     }
-                } catch (IllegalArgumentException e) {
-                    System.out.println(e.getMessage());
-                    sc.nextLine();
-                }
         }
         sc.close();
         // Lleva los datos a JSON, si es que existen.

@@ -1,14 +1,14 @@
 [
     {
         "tipo_producto": "VACIO",
-        "nombre": "seven up"
-    },
-    {
-        "tipo_producto": "VACIO",
         "nombre": "sin marca"
     },
     {
         "tipo_producto": "VACIO",
         "nombre": "coca cola"
+    },
+    {
+        "tipo_producto": "VACIO",
+        "nombre": "pepsico"
     }
 ]

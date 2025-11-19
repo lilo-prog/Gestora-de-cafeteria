@@ -1,15 +1,22 @@
-[{
-    "marca": "coca cola",
-    "precio": 4000,
-    "categoria": "bebidas sin alcohol",
-    "tipo_producto": "BEBIBLE",
-    "upc": "049003219382",
-    "proveedor": {
-        "cuil": "12345689012",
-        "telefono": "223123456980",
-        "nombre": "Bruno",
-        "clase": "Proveedor"
+[
+    {
+        "marca": "coca cola",
+        "precio": 2500,
+        "id_proveedor": "12345689012",
+        "categoria": "bebidas sin alcohol",
+        "tipo_producto": "BEBIBLE",
+        "upc": "049000093322",
+        "nombre": "coca cola zero",
+        "clase": "Producto"
     },
-    "nombre": "coca cola ",
-    "clase": "Producto"
-}]
+    {
+        "marca": "sin marca",
+        "precio": 2500,
+        "id_proveedor": "12345689012",
+        "categoria": "panadería",
+        "tipo_producto": "COMESTIBLE",
+        "upc": "000000000010",
+        "nombre": "medialuna dulce",
+        "clase": "Producto"
+    }
+]
