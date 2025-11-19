@@ -150,7 +150,7 @@ public class Main {
                     sc.nextLine();
                 }
         }
-
+        sc.close();
         // Lleva los datos a JSON, si es que existen.
         if(!Mudy.listaEmpleados.getMap().isEmpty()) Mudy.toJsonEmpleado();
         if(!Mudy.listaClientes.getMap().isEmpty()) Mudy.toJsonClientes();
