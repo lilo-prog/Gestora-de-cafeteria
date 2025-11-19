@@ -7,18 +7,17 @@ import java.time.LocalDate;
 
 public class Cliente extends Persona {
     //Atributos.
-    private Double gastoTotal;
+    private Double gastoTotal = 0.0;
     private Double descuento = 0.0;
 
     //Método constructor.
-    public Cliente(String nombre, String apellido, LocalDate fechaNacimiento, int dni, String telefono, Double gastosTotales, Double descuento) {
+    public Cliente(String nombre, String apellido, LocalDate fechaNacimiento, String dni, String telefono, Double gastosTotales, Double descuento) {
         super(nombre, apellido, fechaNacimiento, dni, telefono);
         this.gastoTotal = gastosTotales;
         this.descuento = descuento;
     }
     public Cliente() {
         super();
-        this.gastoTotal = 0.0;
     }
 
     //Getters y Setters.
@@ -56,6 +55,6 @@ public class Cliente extends Persona {
     }
 
     //Override.
-    @Override public String toString() {return "Cliente{ " + super.toString() + ", gastos totales: " + gastoTotal + " }";}
+    @Override public String toString() {return "Cliente{ " + super.toString() + ", gastos totales: " + gastoTotal + ", descuento: " + descuento + " }";}
 
 }

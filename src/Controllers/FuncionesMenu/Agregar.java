@@ -139,13 +139,10 @@ public class Agregar {
                     sc.nextLine();
                     throw new SalirDelIngresoDeDatosException();
                 }
-                if(dni.length() != 8) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
+                Utilidades.validarCodigo(dni,8);
                 e.setDni(dni);
                 sc.nextLine();
                 break;
-            }catch(InputMismatchException x){
-                System.out.println("- Error: El dni debe ser numérico.");
-                sc.nextLine();
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
             }
@@ -221,7 +218,7 @@ public class Agregar {
                 System.out.println("- Error: El sueldo debe ser numérico ");
             }
         }
-        cafe.listaEmpleados.agregar((long) e.getDni(), e);
+        cafe.listaEmpleados.agregar(e.getDni(), e);
     }
 
     public static void agregarCliente(Cafeteria cafe) throws ElementoRepetidoException, SalirDelIngresoDeDatosException {
@@ -234,7 +231,7 @@ public class Agregar {
                     sc.nextLine();
                     throw new SalirDelIngresoDeDatosException();
                 }
-                if(dni.length() != 8) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
+                Utilidades.validarCodigo(dni,8);
                 c.setDni(dni);
                 break;
             }catch(InputMismatchException x){
@@ -298,7 +295,7 @@ public class Agregar {
                 System.out.println("- Error: " + x.getMessage());
             }
         }
-        cafe.listaClientes.agregar((long)c.getDni(), c);
+        cafe.listaClientes.agregar(c.getDni(), c);
     }
 
     public static void agregarProveedor(Cafeteria cafe) throws ElementoRepetidoException, SalirDelIngresoDeDatosException{
@@ -318,12 +315,12 @@ public class Agregar {
         while(true){
             try {
                 System.out.println("- Ingrese CUIL del proveedor (ingrese 0 para salir): ");
-                long cuil = sc.nextLong();
-                if(cuil == 0){
+                String cuil = sc.next();
+                if(cuil.equals("0")){
                     sc.nextLine();
                     throw new SalirDelIngresoDeDatosException();
                 }
-                if(cuil < 10000000000L || cuil > 100000000000L) throw new IllegalArgumentException("El cuil debe tener 11 dígitos.");
+                Utilidades.validarCodigo(cuil,11);
                 p.setCuil(cuil);
                 sc.nextLine();
                 break;
@@ -367,17 +364,14 @@ public class Agregar {
         while(true) {
             try {
                 System.out.println("- Ingrese UPC del producto (no debe empezar con 0)(ingrese 0 para salir): ");
-                long upc = sc.nextLong();
+                String upc = sc.next();
                 sc.nextLine();
-                if(upc == 0) throw new SalirDelIngresoDeDatosException();
-                if(String.valueOf(upc).length() != 12) throw new IllegalArgumentException("El UPC debe tener 12 dígitos.");
+                if(upc.equals("0")) throw new SalirDelIngresoDeDatosException();
+                Utilidades.validarCodigo(upc,12);
                 p.setUpc(upc);
                 break;
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
-            }catch(InputMismatchException x){
-                System.out.println("- Error: El UPC debe ser un número.");
-                sc.nextLine();
             }
         }
         while(true) {
@@ -413,9 +407,9 @@ public class Agregar {
             try {
                 System.out.println("- Seleccione el proveedor del producto por su CUIL (ingrese 0 para salir): ");
                 System.out.println(cafe.listaProveedores.mostrarLista());
-                long cuilABuscar =  sc.nextLong();
+                String cuilABuscar = sc.next();
                 sc.nextLine();
-                if(cuilABuscar == 0) throw new SalirDelIngresoDeDatosException();
+                if(cuilABuscar.equals("0")) throw new SalirDelIngresoDeDatosException();
                 Proveedor proveedor = cafe.listaProveedores.buscarPorId(cuilABuscar);
                 if(proveedor == null) throw new  ElementoNoEncontradoException();
                 p.setProveedor(proveedor);
@@ -449,14 +443,14 @@ public class Agregar {
         if(cafe.listaProductos.getMap().isEmpty())throw new ListaNoCargadaException("No hay productos para agregar al pedido.");
         if(cafe.listaClientes.getMap().isEmpty())throw new ListaNoCargadaException("No hay clientes a quienes asignarles los pedidos.");
         Pedido p = new Pedido();
-        long upc;
+        String upc;
         int cantidad;
         while(true){
             try {
                 System.out.println(cafe.listaProductos.mostrarLista());
                 System.out.println("- Seleccione el producto por su UPC (ingrese 0 para salir): ");
-                upc =  sc.nextLong();
-                if(upc == 0) throw new SalirDelIngresoDeDatosException();
+                upc =  sc.next();
+                if(upc.equals("0")) throw new SalirDelIngresoDeDatosException();
                 Producto pr = cafe.listaProductos.buscarPorId(upc);
                 System.out.println("- Ingrese la cantidad (ingrese 0 para salir): ");
                 cantidad = sc.nextInt();
@@ -491,10 +485,10 @@ public class Agregar {
         while(true){
             try{
                 System.out.println("- Ingrese DNI del cliente (ingrese 0 para salir): ");
-                int dni = sc.nextInt();
-                if(dni == 0) throw new SalirDelIngresoDeDatosException();
-                else if(dni < 10000000) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
-                cafe.listaClientes.buscarPorId((long)dni);
+                String dni = sc.next();
+                if(dni.equals("0")) throw new SalirDelIngresoDeDatosException();
+                Utilidades.validarCodigo(dni,8);
+                cafe.listaClientes.buscarPorId(dni);
                 p.setDniCliente(dni);
                 break;
             }catch(ElementoNoEncontradoException e){
@@ -508,12 +502,12 @@ public class Agregar {
         }
         p.setTotal(p.calcularTotal());
         p.setFecha(LocalDateTime.now());
-        cafe.listaPedidos.agregar((long)p.getId(),p);
+        cafe.listaPedidos.agregar(String.valueOf(p.getId()),p);
 
         cafe.calcularGastoTotalDeCliente(p.getDniCliente());
 
         cafe.calcularDescuento(p.getDniCliente(), Pedido.getGastoMinimo(), Pedido.getDescuentoAAplicar());
-        Cliente cliente = cafe.listaClientes.buscarPorId((long)p.getDniCliente());
+        Cliente cliente = cafe.listaClientes.buscarPorId(p.getDniCliente());
         Pedido.setDescuentoAAplicar(cliente.getDescuento());
 
     }
