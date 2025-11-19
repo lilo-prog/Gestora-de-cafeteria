@@ -6,34 +6,27 @@ import java.util.Objects;
 
 public class Proveedor implements IJson {
     //Atributos.
-    private int id;
-    private static int idGeneral = 0;
     private String nombre;
-    private long cuil;
+    private String cuil; // porque tiene 11 digitos
     private String telefono;
 
     //Métodos constructores.
-    public Proveedor(String nombre, long cuil,String telefono) {
-        idGeneral++;
-        this.id = idGeneral;
+    public Proveedor(String nombre, String cuil,String telefono) {
         this.nombre = nombre;
         this.cuil = cuil;
         this.telefono = telefono;
     }
     public Proveedor() {
-        idGeneral++;
-        this.id = idGeneral;
         this.nombre = "";
-        this.cuil = 0;
+        this.cuil = "";
         this.telefono = "";
     }
 
     //Getters y Setters.
-    public int getId() {return id;}
     public String getNombre() {return nombre;}
     public void setNombre(String nombre) {this.nombre = nombre;}
-    public long getCuil() {return cuil;}
-    public void setCuil(long cuil) {this.cuil = cuil;}
+    public String getCuil() {return cuil;}
+    public void setCuil(String cuil) {this.cuil = cuil;}
     public String getTelefono() {return telefono;}
     public void setTelefono(String telefono) {this.telefono = telefono;}
 
@@ -47,7 +40,6 @@ public class Proveedor implements IJson {
     public JSONObject toJson() {
         JSONObject objetoJSON = new JSONObject();
         try {
-            objetoJSON.put("id", this.id);
             objetoJSON.put("nombre", this.nombre);
             objetoJSON.put("cuil", this.cuil);
             objetoJSON.put("telefono", this.telefono);
@@ -61,9 +53,8 @@ public class Proveedor implements IJson {
     @Override
     public void fromJson(JSONObject objetoJSON) {
         try {
-            this.id = objetoJSON.getInt("id");
             this.nombre = objetoJSON.getString("nombre");
-            this.cuil = objetoJSON.getLong("cuil");
+            this.cuil = objetoJSON.getString("cuil");
             this.telefono = objetoJSON.getString("telefono");
         } catch (JSONException e){
             e.printStackTrace();
@@ -77,5 +68,5 @@ public class Proveedor implements IJson {
     }
     @Override public int hashCode() {return Objects.hashCode(cuil);}
 
-    @Override public String toString() {return "Proveedor{ " + "ID proveedor: " + id + ", nombre: '" + nombre + '\'' + ", CUIL: '" + cuil + '\'' + ", teléfono: " + telefono + " }";}
+    @Override public String toString() {return "Proveedor{ " + ", nombre: '" + nombre + '\'' + ", CUIL: '" + cuil + '\'' + ", teléfono: " + telefono + " }";}
 }

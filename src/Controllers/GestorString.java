@@ -59,17 +59,6 @@ public class GestorString {
         return sb.toString();
     }
 
-    public static <T extends GestorString> HashSet exportarASet(T elementos) {
-        HashSet<GestorString> set = new HashSet<>();
-        for (Map.Entry<String, ETipoProducto> entry : elementos.getMap().entrySet()) {
-            GestorString gs = new GestorString();
-            gs.setNombre(elementos.getNombre());
-            gs.agregar(entry.getKey(), entry.getValue());
-            set.add(gs);
-        }
-        return set;
-    }
-
     //Métodos JSON.
         //Método toJSON.
     public JSONArray toJson() {

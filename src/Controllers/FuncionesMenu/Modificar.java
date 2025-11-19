@@ -136,7 +136,7 @@ public class Modificar {
         char control = 's';
         Empleado e = Buscar.buscarEmpleado(cafe);
         System.out.println(e);
-        long dni = e.getDni();
+        String dni = e.getDni();
         while(control == 's') {
             System.out.println("- Seleccione el campo a modificar del empleado: ");
             System.out.println("1 - DNI. ");
@@ -156,23 +156,17 @@ public class Modificar {
                     while (true) {
                         try {
                             System.out.println("- Ingrese el DNI nuevo del empleado (ingrese 0 para salir): ");
-                            int dniNuevo = sc.nextInt();
-                            if(dniNuevo == 0){
+                            String dniNuevo = sc.next();
+                            if(dniNuevo.equals("0")){
                                 sc.nextLine();
                                 throw new SalirDelIngresoDeDatosException();
                             }
-                            if (dniNuevo < 10000000L || dniNuevo > 100000000L) throw new IllegalArgumentException("El DNI debe tener 8 dígitos");
-                            if(cafe.listaEmpleados.getMap().containsKey((long)dniNuevo)) throw new ElementoRepetidoException();
+                            Utilidades.validarCodigo(dniNuevo,8);
+                            if(cafe.listaEmpleados.getMap().containsKey(dniNuevo)) throw new ElementoRepetidoException();
                             cafe.listaEmpleados.getMap().get(dni).setDni(dniNuevo);
                             break;
-                        } catch (InputMismatchException x) {
-                            System.out.println("- Error: el DNI debe ser numérico.");
-                            sc.nextLine();
-                        } catch (IllegalArgumentException x) {
+                        }catch (IllegalArgumentException | ElementoRepetidoException x) {
                             System.out.println("- Error: " + x.getMessage());
-                            sc.nextLine();
-                        } catch (ElementoRepetidoException x){
-                            System.out.println(x.getMessage());
                         }
                     }
                     break;
@@ -272,7 +266,7 @@ public class Modificar {
         char control = 's';
         Cliente c = Buscar.buscarCliente(cafe);
         System.out.println(c);
-        long dni = c.getDni();
+        String dni = c.getDni();
         while (control == 's') {
             System.out.println("- Seleccione el campo a modificar del cliente: ");
             System.out.println("1 - DNI.");
@@ -292,22 +286,17 @@ public class Modificar {
                     while (true) {
                         try {
                             System.out.println("- Ingrese el DNI nuevo del cliente (ingrese 0 para salir): ");
-                            int dniNuevo = sc.nextInt();
-                            if(dniNuevo == 0){
+                            String dniNuevo = sc.next();
+                            if(dniNuevo.equals("0")){
                                 sc.nextLine();
                                 throw new SalirDelIngresoDeDatosException();
                             }
-                            if (dniNuevo < 10000000L || dniNuevo > 100000000L) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
-                            if (cafe.listaClientes.getMap().containsKey((long)dniNuevo)) throw new ElementoRepetidoException();
+                            Utilidades.validarCodigo(dniNuevo,8);
+                            if (cafe.listaClientes.getMap().containsKey(dniNuevo)) throw new ElementoNoEncontradoException();
                             cafe.listaClientes.getMap().get(dni).setDni(dniNuevo);
                             break;
-                        } catch (InputMismatchException x) {
-                            System.out.println("- Error: el DNI debe ser numérico.");
-                            sc.nextLine();
-                        } catch (IllegalArgumentException x) {
+                        } catch (IllegalArgumentException | ElementoNoEncontradoException x) {
                             System.out.println("- Error: " + x.getMessage());
-                        } catch (ElementoRepetidoException x) {
-                            System.out.println(x.getMessage());
                         }
                     }
                     break;
@@ -390,13 +379,13 @@ public class Modificar {
         char control = 's';
         Proveedor p = Buscar.buscarProveedor(cafe);
         System.out.println(p);
-        long cuil = p.getCuil();
+        String cuil = p.getCuil();
         int opcion;
         while (control == 's') {
             while(true) {
                 System.out.println("- Seleccione el campo a modificar del proveedor: ");
-                System.out.println("1 - Nombre. ");
-                System.out.println("2 - CUIL. ");
+                System.out.println("1 - CUIL. ");
+                System.out.println("2 - Nombre. ");
                 System.out.println("3 - Teléfono. ");
                 System.out.println("0 - Salir. ");
                 try {
@@ -415,6 +404,23 @@ public class Modificar {
                 case 1:
                     while(true){
                         try{
+                            System.out.println("- Ingrese el nuevo CUIL (solo números) (ingrese 0 para salir): ");
+                            String cuilNuevo = sc.next();
+                            if(cuilNuevo.equals("0")) throw new SalirDelIngresoDeDatosException();
+                            Utilidades.validarCodigo(cuilNuevo,11);
+                            cafe.listaProveedores.getMap().get(cuil).setCuil(cuilNuevo);
+                            break;
+                        }catch(IllegalArgumentException e){
+                            System.out.println("- Error: " + e.getMessage());
+                        }catch(InputMismatchException e){
+                            System.out.println("- Error: El CUIL debe ser numérico. ");
+                            sc.nextLine();
+                        }
+                    }
+                    break;
+                case 2:
+                    while(true){
+                        try{
                             System.out.println("- Ingrese el nuevo nombre (ingrese 0 para salir): ");
                             String nombre = sc.nextLine();
                             if(nombre.equals("0")) throw new SalirDelIngresoDeDatosException();
@@ -426,23 +432,7 @@ public class Modificar {
                         }
                     }
                     break;
-                case 2:
-                    while(true){
-                        try{
-                            System.out.println("- Ingrese el nuevo CUIL (solo números) (ingrese 0 para salir): ");
-                            long cuilNuevo = sc.nextLong();
-                            if(cuilNuevo == 0) throw new SalirDelIngresoDeDatosException();
-                            if(cuilNuevo < 10000000000L || cuilNuevo > 100000000000L) throw new IllegalArgumentException("El CUIL debe tener 11 dígitos. ");
-                            cafe.listaProveedores.getMap().get(cuil).setCuil(cuilNuevo);
-                            break;
-                        }catch(IllegalArgumentException e){
-                            System.out.println("- Error: " + e.getMessage());
-                        }catch(InputMismatchException e){
-                            System.out.println("- Error: El CUIL debe ser numérico. ");
-                            sc.nextLine();
-                        }
-                    }
-                    break;
+
                 case 3:
                     while(true){
                         try {
@@ -475,7 +465,7 @@ public class Modificar {
         char control = 's';
         Producto p = Buscar.buscarProducto(cafe);
         System.out.println(p);
-        long upc = p.getUpc();
+        String upc = p.getUpc();
         while (control == 's') {
             System.out.println("- Seleccione el campo a modificar del producto: ");
             System.out.println("1 - UPC. ");
@@ -495,22 +485,17 @@ public class Modificar {
                     while (true) {
                         try {
                             System.out.println("- Ingrese el UPC nuevo del producto (ingrese 0 para salir): ");
-                            long upcNuevo = sc.nextLong();
-                            if(upcNuevo == 0){
+                            String upcNuevo = sc.next();
+                            if(upcNuevo.equals("0")){
                                 sc.nextLine();
                                 throw new SalirDelIngresoDeDatosException();
                             }
-                            if (upcNuevo < 100000000000L || upcNuevo > 1000000000000L) throw new IllegalArgumentException("El UPC debe tener 12 dígitos.");
+                            Utilidades.validarCodigo(upcNuevo,12);
                             if (cafe.listaProductos.getMap().containsKey(upcNuevo)) throw new ElementoRepetidoException();
                             cafe.listaProductos.getMap().get(upc).setUpc(upcNuevo);
                             break;
-                        } catch (InputMismatchException x) {
-                            System.out.println("- Error: el UPC debe ser numérico");
-                            sc.nextLine();
-                        } catch (IllegalArgumentException x) {
+                        } catch (IllegalArgumentException | ElementoRepetidoException x) {
                             System.out.println("- Error: " + x.getMessage());
-                        } catch (ElementoRepetidoException x) {
-                            System.out.println(x.getMessage());
                         }
                     }
                     break;
@@ -563,18 +548,17 @@ public class Modificar {
                         try {
                             System.out.println(cafe.listaProveedores.mostrarLista());
                             System.out.println("- Seleccione el proveedor del producto por su CUIL (ingrese 0 para salir): ");
-                            long cuilABuscar =  sc.nextLong();
-                            if(cuilABuscar == 0){
+                            String cuilABuscar =  sc.next();
+                            if(cuilABuscar.equals("0")){
                                 sc.nextLine();
                                 throw new SalirDelIngresoDeDatosException();
                             }
+                            Utilidades.validarCodigo(cuilABuscar,12);
                             Proveedor proveedor = cafe.listaProveedores.buscarPorId(cuilABuscar);
-                            if(proveedor == null) throw new ElementoNoEncontradoException();
                             cafe.listaProductos.getMap().get(upc).setProveedor(proveedor);
                             break;
-                        } catch (InputMismatchException | ElementoNoEncontradoException e) {
+                        }catch(IllegalArgumentException | ElementoNoEncontradoException e){
                             System.out.println("- Error: " + e.getMessage());
-                            sc.nextLine();
                         }
                     }
                     break;
@@ -611,7 +595,7 @@ public class Modificar {
         char control = 's';
         Pedido p = Buscar.buscarPedido(cafe);
         System.out.println(p);
-        int id = p.getId();
+        String id = String.valueOf(p.getId());
         while (control == 's') {
             System.out.println("- Seleccione el campo a modificar del pedido: ");
             System.out.println("1 - Tipo de pago. ");
@@ -631,7 +615,7 @@ public class Modificar {
                             String forma = sc.nextLine().toUpperCase();
                             if(forma.equals("0")) throw new SalirDelIngresoDeDatosException();
                             ETipoPago tipo = ETipoPago.valueOf(forma);
-                            cafe.listaPedidos.getMap().get((long)id).setTipoPago(tipo);
+                            cafe.listaPedidos.getMap().get(id).setTipoPago(tipo);
                             break;
                         } catch (IllegalArgumentException e) {
                             System.out.println("- Error: tipo de pago inválido.");
@@ -650,13 +634,13 @@ public class Modificar {
                                 System.out.println("  DNI: " + cli.getDni() + " - " + cli.getNombre() + " " + cli.getApellido());
                             }
                             System.out.println("- Ingrese el DNI del cliente que desea asignar al pedido (ingrese 0 para salir): ");
-                            long dniNuevo = sc.nextLong();
-                            if(dniNuevo == 0){
+                            String dniNuevo = sc.next();
+                            if(dniNuevo.equals("0")){
                                 sc.nextLine();
                                 throw new SalirDelIngresoDeDatosException();
                             }
                             if (!cafe.listaClientes.getMap().containsKey(dniNuevo)) throw new ElementoNoEncontradoException();
-                            cafe.listaPedidos.getMap().get((long)id).setDniCliente((int) dniNuevo);
+                            cafe.listaPedidos.getMap().get(id).setDniCliente(dniNuevo);
                             break;
                         } catch (InputMismatchException x) {
                             System.out.println("- Error: el DNI debe ser numérico.");
@@ -669,27 +653,28 @@ public class Modificar {
                 case 3:
                     while(true){
                         try{
-                            System.out.println(cafe.listaPedidos.getMap().get((long)id).mostrarListaDeProductos());
+                            System.out.println(cafe.listaPedidos.getMap().get(id).mostrarListaDeProductos());
                             System.out.println("- Seleccione el producto a cambiar, por su UPC (ingrese 0 para salir): ");
-                            long upc =  sc.nextLong();
-                            if(upc == 0) throw new SalirDelIngresoDeDatosException();
+                            String upc =  sc.next();
+                            if(upc.equals("0")) throw new SalirDelIngresoDeDatosException();
                             Producto pr = cafe.listaProductos.getMap().get(upc);
                             // busca el producto en la lista de productos de la cafeteria
                             if(pr == null) throw new ElementoNoEncontradoException();
                             // busca el producto en la lista de productos del pedido
-                            if(!cafe.listaPedidos.getMap().get((long)id).existe(pr.getNombre())) throw new ElementoNoEncontradoException();
-                            cafe.listaPedidos.getMap().get((long)id).eliminar(pr.getNombre());
+                            if(!cafe.listaPedidos.getMap().get(id).existe(pr.getNombre())) throw new ElementoNoEncontradoException();
+                            cafe.listaPedidos.getMap().get(id).eliminar(pr.getNombre());
                             System.out.println("- Seleccione el producto que reemplazara el producto ya elegido, por su UPC: ");
                             System.out.println(cafe.listaProductos.mostrarLista());
-                            upc = sc.nextLong();
+                            upc = sc.next();
+                            if(upc.equals("0")) throw new SalirDelIngresoDeDatosException();
                             pr = cafe.listaProductos.getMap().get(upc);
                             if(pr == null) throw new ElementoNoEncontradoException();
                             System.out.println("- Ingrese la cantidad de este producto: ");
                             int cantidad = sc.nextInt();
                             if(cantidad <= 0) throw new IllegalArgumentException("La cantidad no puede ser menor o igual a 0. ");
-                            cafe.listaPedidos.getMap().get((long)id).agregar(pr,cantidad);
+                            cafe.listaPedidos.getMap().get(id).agregar(pr,cantidad);
                             break;
-                        }catch(IllegalArgumentException | InputMismatchException x){
+                        }catch(IllegalArgumentException x){
                             System.out.println("- Error: " + x.getMessage());
                         } catch (ElementoRepetidoException | ElementoNoEncontradoException e) {
                             System.out.println("- " + e.getMessage());

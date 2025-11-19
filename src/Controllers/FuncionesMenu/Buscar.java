@@ -117,13 +117,10 @@ public class Buscar {
         while(true){
             try {
                 System.out.println("- Ingrese DNI del empleado para buscarlo (ingrese 0 para salir): ");
-                int dni = sc.nextInt();
-                if(dni == 0) throw new SalirDelIngresoDeDatosException();
-                if(dni < 10000000) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
-                return cafe.listaEmpleados.buscarPorId((long)dni);
-            }catch(InputMismatchException x){
-                System.out.println("- Error: El DNI debe ser numérico.");
-                sc.nextLine();
+                String dni = sc.next();
+                if(dni.equals("0")) throw new SalirDelIngresoDeDatosException();
+                Utilidades.validarCodigo(dni,8);
+                return cafe.listaEmpleados.buscarPorId(dni);
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
             }
@@ -134,13 +131,10 @@ public class Buscar {
         while(true){
             try {
                 System.out.println("- Ingrese DNI del cliente para buscarlo (ingrese 0 para salir): ");
-                int dni = sc.nextInt();
-                if(dni == 0) throw new SalirDelIngresoDeDatosException();
-                if(dni < 10000000) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
-                return cafe.listaClientes.buscarPorId((long)dni);
-            }catch(InputMismatchException x){
-                System.out.println("- Error: El DNI debe ser numérico.");
-                sc.nextLine();
+                String dni = sc.next();
+                if(dni.equals("0")) throw new SalirDelIngresoDeDatosException();
+                Utilidades.validarCodigo(dni,8);
+                return cafe.listaClientes.buscarPorId(dni);
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
             }
@@ -151,14 +145,11 @@ public class Buscar {
         while(true){
             try {
                 System.out.println("- Ingrese CUIL del proveedor para buscarlo (ingrese 0 para salir): ");
-                long cuil = sc.nextLong();
-                if(cuil == 0) throw new SalirDelIngresoDeDatosException();
-                if(cuil < 10000000000L) throw new IllegalArgumentException("El CUIL debe tener 11 dígitos.");
+                String cuil = sc.next();
+                if(cuil.equals("0")) throw new SalirDelIngresoDeDatosException();
+                Utilidades.validarCodigo(cuil,11);
                 sc.nextLine();
                 return cafe.listaProveedores.buscarPorId(cuil);
-            }catch(InputMismatchException x){
-                System.out.println("- Error: el CUIL debe ser numérico");
-                sc.nextLine();
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
             }
@@ -169,13 +160,10 @@ public class Buscar {
         while(true) {
             try {
                 System.out.println("- Ingrese UPC del producto para buscarlo (ingrese 0 para salir): ");
-                long upc = sc.nextLong();
-                if(upc == 0) throw new SalirDelIngresoDeDatosException();
-                if(upc < 100000000000L) throw new IllegalArgumentException("El UPC debe tener al menos 12 dígitos.");
+                String upc = sc.next();
+                if(upc.equals("0")) throw new SalirDelIngresoDeDatosException();
+                Utilidades.validarCodigo(upc,11);
                 return cafe.listaProductos.buscarPorId(upc);
-            }catch(InputMismatchException x){
-                System.out.println("- Error: el UPC debe ser numérico");
-                sc.nextLine();
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
             }
@@ -186,13 +174,11 @@ public class Buscar {
         while(true) {
             try {
                 System.out.println("- Ingrese ID del pedido para buscarlo (ingrese 0 para salir): ");
-                int id = sc.nextInt();
-                if(id == 0) throw new SalirDelIngresoDeDatosException();
-                if(id < 0) throw new IllegalArgumentException("No hay pedidos con ID menor a 0");
-                return cafe.listaPedidos.buscarPorId((long)id);
-            }catch(InputMismatchException x){
-                System.out.println("- Error: el ID del pedido debe ser numérico");
-                sc.nextLine();
+                String id = sc.next();
+                if(id.equals("0")) throw new SalirDelIngresoDeDatosException();
+                if(id.matches(".*[^0-9]*.")) throw new IllegalArgumentException("El id debe ser numerico");
+                if(Integer.parseInt(id) < 0) throw new IllegalArgumentException("El id no puede ser negativo");
+                return cafe.listaPedidos.buscarPorId(id);
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
             }
@@ -205,7 +191,7 @@ public class Buscar {
                 System.out.println("- Ingrese nombre de la marca para buscarla (ingrese 0 para salir): ");
                 String marca = sc.nextLine();
                 if(marca.equals("0")) throw new SalirDelIngresoDeDatosException();
-                if(marca.length() < 2) throw new IllegalArgumentException("El nombre debe tener al menos 2 caracteres.");
+                Utilidades.validarString(marca);
                 if(cafe.listaMarcas.buscar(marca)) return marca;
             }catch(IllegalArgumentException ex){
                 System.out.println("- Error: " + ex.getMessage());

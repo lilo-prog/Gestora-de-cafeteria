@@ -23,12 +23,12 @@ public class Pedido implements IJson {
     private Double totalConDescuento;
     private LocalDateTime fecha;
     private ETipoPago tipoPago;
-    private int dniCliente;
+    private String dniCliente;
     public static Double descuentoAAplicar = 0.0;
     public static Double gastoMinimo = 0.0;
 
     //Método constructor.
-    public Pedido(ETipoPago tipoPago, int dniCliente) {
+    public Pedido(ETipoPago tipoPago, String dniCliente) {
         idGeneral++;
         this.id = idGeneral;
         this.listaProductos = new HashMap<>();
@@ -42,15 +42,15 @@ public class Pedido implements IJson {
         this.listaProductos = new HashMap<>();
         this.fecha = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);;
         this.tipoPago = ETipoPago.VACIO;
-        this.dniCliente = 0;
+        this.dniCliente = "";
     }
 
     //Getters y Setters.
     public int getId() {return id;}
     public void setId(int id) {this.id = id;}
     public Double getTotal() {return total;}
-    public int getDniCliente(){return dniCliente;}
-    public void setDniCliente(int dniCliente) {this.dniCliente = dniCliente;}
+    public String getDniCliente(){return dniCliente;}
+    public void setDniCliente(String dniCliente) {this.dniCliente = dniCliente;}
     public void setTotal(Double total) {this.total = total;}
     public LocalDateTime getFecha() {return fecha;}
     public void setFecha(LocalDateTime fecha) {this.fecha = fecha;}
@@ -111,7 +111,7 @@ public class Pedido implements IJson {
             totalConDescuento = objetoJSON.getDouble("total_con_descuento");
             fecha = LocalDateTime.parse(objetoJSON.getString("fecha"));
             tipoPago = ETipoPago.valueOf(objetoJSON.getString("tipo_de_pago"));
-            dniCliente = objetoJSON.getInt("dni_cliente");
+            dniCliente = objetoJSON.getString("dni_cliente");
             descuentoAAplicar = objetoJSON.getDouble("descuento_aplicado");
             gastoMinimo = objetoJSON.getDouble("gasto_minimo");
         }catch (JSONException e){

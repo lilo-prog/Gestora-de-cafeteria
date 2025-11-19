@@ -20,7 +20,7 @@ public class Main {
         JSONTokener tok6 = JsonUtiles.leerUnJson("marcas.json");
         JSONTokener tok7 = JsonUtiles.leerUnJson("categorias.json");
         try {
-            System.out.println("- Cargando archivos...");
+            System.out.println("- Cargando datos...");
             Thread.sleep(2000);
             if (tok1 != null) {
                 JSONArray array = new JSONArray(tok1);

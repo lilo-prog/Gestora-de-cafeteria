@@ -33,23 +33,23 @@ public class Cafeteria {
         this.listaCategorias = new GestorString("categorias");
     }
 
-    public void calcularGastoTotalDeCliente(int dni) throws ElementoNoEncontradoException {
-        Cliente c = listaClientes.buscarPorId((long)dni);
+    public void calcularGastoTotalDeCliente(String dni) throws ElementoNoEncontradoException {
+        listaClientes.buscarPorId(dni);
         Double total = 0.0;
-        for(Map.Entry<Long, Pedido> entry : listaPedidos.getMap().entrySet()){
+        for(Map.Entry<String, Pedido> entry : listaPedidos.getMap().entrySet()){
             Pedido pedido = entry.getValue();
-            if(pedido.getDniCliente() == dni){
+            if(pedido.getDniCliente().equals(dni)){
                 total += pedido.getTotal();
             }
         }
-        listaClientes.getMap().get((long)dni).setGastoTotal(total);
+        listaClientes.getMap().get(dni).setGastoTotal(total);
     }
 
-    public void calcularDescuento(int dni, double gasto_total_minimo, double descuento_a_aplicar) throws ElementoNoEncontradoException{
-        Cliente c = listaClientes.buscarPorId((long) dni);
+    public void calcularDescuento(String dni, double gasto_total_minimo, double descuento_a_aplicar) throws ElementoNoEncontradoException{
+        Cliente c = listaClientes.buscarPorId(dni);
         if(c.getGastoTotal() >= gasto_total_minimo){
-            listaClientes.getMap().get((long)dni).setDescuento(descuento_a_aplicar);
-        }else listaClientes.getMap().get((long)dni).setDescuento(0.0);
+            listaClientes.getMap().get(dni).setDescuento(descuento_a_aplicar);
+        }else listaClientes.getMap().get(dni).setDescuento(0.0);
     }
 
     //Convertir a CAFETERIA a JSON.
@@ -90,43 +90,43 @@ public class Cafeteria {
     public void listaEmpleadosFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Empleado> lista = GestoraJson.fromJson(listaJson);
         for(Empleado e : lista){
-            listaEmpleados.agregar((long)e.getId(),e);
+            listaEmpleados.agregar(e.getDni(),e);
         }
     }
 
     public void listaClientesFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Cliente> lista = GestoraJson.fromJson(listaJson);
         for(Cliente e : lista){
-            listaClientes.agregar((long)e.getId(),e);
+            listaClientes.agregar(e.getDni(),e);
         }
     }
 
     public void listaProductosFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Producto> lista = GestoraJson.fromJson(listaJson);
         for(Producto e : lista){
-            listaProductos.agregar((long)e.getId(),e);
+            listaProductos.agregar(e.getUpc(),e);
         }
     }
 
     public void listaPedidosFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Pedido> lista = GestoraJson.fromJson(listaJson);
         for(Pedido e : lista){
-            listaPedidos.agregar((long)e.getId(),e);
+            listaPedidos.agregar(String.valueOf(e.getId()),e);
         }
     }
 
     public void listaProveedoresFromJson(JSONArray listaJson) throws ElementoRepetidoException {
         HashSet<Proveedor> lista = GestoraJson.fromJson(listaJson);
         for(Proveedor e : lista){
-            listaProveedores.agregar((long)e.getId(),e);
+            listaProveedores.agregar(e.getCuil(),e);
         }
     }
 
-    public void listaMarcasFromJson(JSONArray listaJson) throws ElementoRepetidoException {
+    public void listaMarcasFromJson(JSONArray listaJson) {
         listaMarcas.fromJson(listaJson);
     }
 
-    public void listaCategoriasFromJson(JSONArray listaJson) throws ElementoRepetidoException {
+    public void listaCategoriasFromJson(JSONArray listaJson) {
         listaCategorias.fromJson(listaJson);
     }
 

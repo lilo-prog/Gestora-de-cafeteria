@@ -4,6 +4,12 @@ import Controllers.Cafeteria;
 import Exceptions.ElementoNoEncontradoException;
 import Exceptions.ListaNoCargadaException;
 import Exceptions.SalirDelIngresoDeDatosException;
+import Models.Pedidos.Pedido;
+import Models.Personas.Cliente;
+import Models.Personas.Empleado;
+import Models.Productos.Producto;
+import Models.Proveedores.Proveedor;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -107,133 +113,37 @@ public class Eliminar {
     }
     //Métodos eliminar de la lista.
     public static void eliminarEmpleado(Cafeteria cafe) throws ElementoNoEncontradoException, SalirDelIngresoDeDatosException {
-        while(true){
-            try {
-                System.out.println("- Ingrese DNI del empleado para eliminarlo (ingrese 0 para salir): ");
-                int dni = sc.nextInt();
-                if(dni == 0){
-                    sc.nextLine();
-                    throw new SalirDelIngresoDeDatosException();
-                }
-                if(dni < 10000000) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
-                cafe.listaEmpleados.eliminar((long)dni);
-                break;
-            }catch(InputMismatchException x){
-                System.out.println("- Error: El DNI debe ser numérico.");
-                sc.nextLine();
-            }catch(IllegalArgumentException x){
-                System.out.println("- Error: " + x.getMessage());
-            }
-        }
+        Empleado e = Buscar.buscarEmpleado(cafe);
+        cafe.listaEmpleados.eliminar(e.getDni());
     }
 
     public static void eliminarCliente(Cafeteria cafe) throws ElementoNoEncontradoException, SalirDelIngresoDeDatosException {
-        while(true){
-            try {
-                System.out.println("- Ingrese DNI del cliente para eliminarlo (ingrese 0 para salir): ");
-                int dni = sc.nextInt();
-                if(dni == 0){
-                    sc.nextLine();
-                    throw new SalirDelIngresoDeDatosException();
-                }
-                if(dni < 10000000) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
-                cafe.listaClientes.eliminar((long)dni);
-                break;
-            }catch(InputMismatchException x){
-                System.out.println("- Error: El DNI debe ser numérico.");
-                sc.nextLine();
-            }catch(IllegalArgumentException x){
-                System.out.println("- Error: " + x.getMessage());
-            }
-        }
+        Cliente c = Buscar.buscarCliente(cafe);
+        cafe.listaClientes.eliminar(c.getDni());
     }
 
     public static void eliminarProveedor(Cafeteria cafe) throws ElementoNoEncontradoException, SalirDelIngresoDeDatosException {
-        while(true){
-            try {
-                System.out.println("- Ingrese CUIL del proveedor para eliminarlo (ingrese 0 para salir): ");
-                long cuil = sc.nextLong();
-                if(cuil == 0){
-                    sc.nextLine();
-                    throw new SalirDelIngresoDeDatosException();
-                }
-                if(cuil < 10000000000L) throw new IllegalArgumentException("El CUIL debe tener 11 dígitos.");
-                sc.nextLine();
-                cafe.listaProveedores.eliminar(cuil);
-                break;
-            }catch(InputMismatchException x){
-                System.out.println("- Error: el CUIL debe ser numérico.");
-            }catch(IllegalArgumentException x){
-                System.out.println("- Error: " + x.getMessage());
-            }
-        }
+        Proveedor p = Buscar.buscarProveedor(cafe);
+        cafe.listaProveedores.eliminar(p.getCuil());
     }
 
     public static void eliminarPedido(Cafeteria cafe) throws ElementoNoEncontradoException, SalirDelIngresoDeDatosException {
-        while(true){
-            try {
-                System.out.println("- Ingrese ID del pedido para eliminarlo (ingrese 0 para salir): ");
-                long id = sc.nextLong();
-                if(id == 0){
-                    sc.nextLine();
-                    throw new SalirDelIngresoDeDatosException();
-                }
-                cafe.listaPedidos.eliminar(id);
-                break;
-            }catch(InputMismatchException x){
-                System.out.println("- Error: el ID debe ser numérico.");
-            }
-        }
+        Pedido p =  Buscar.buscarPedido(cafe);
+        cafe.listaPedidos.eliminar(String.valueOf(p.getId()));
     }
 
     public static void eliminarProducto(Cafeteria cafe) throws ElementoNoEncontradoException, SalirDelIngresoDeDatosException {
-        while(true) {
-            try {
-                System.out.println("- Ingrese UPC del producto para eliminarlo (ingrese 0 para salir): ");
-                long upc = sc.nextLong();
-                if(upc == 0){
-                    sc.nextLine();
-                    throw new SalirDelIngresoDeDatosException();
-                }
-                if(upc < 100000000000L) throw new IllegalArgumentException("El UPC debe tener al menos 12 dígitos.");
-                cafe.listaProductos.eliminar(upc);
-                break;
-            }catch(InputMismatchException x){
-                System.out.println("- Error: el UPC debe ser numérico. ");
-                sc.nextLine();
-            }catch(IllegalArgumentException x){
-                System.out.println("- Error: " + x.getMessage());
-            }
-        }
+        Producto p = Buscar.buscarProducto(cafe);
+        cafe.listaProductos.eliminar(p.getUpc());
     }
 
     public static void eliminarMarca(Cafeteria cafe) throws ElementoNoEncontradoException, SalirDelIngresoDeDatosException {
-        while(true) {
-            try {
-                System.out.println("- Ingrese nombre de la marca para eliminarla (ingrese 0 para salir): ");
-                String marca = sc.nextLine();
-                if(marca.equals("0")) throw new SalirDelIngresoDeDatosException();
-                if(marca.length() < 2) throw new IllegalArgumentException("El nombre de la marca debe tener al menos 2 caracteres.");
-                cafe.listaMarcas.eliminar(marca);
-                break;
-            }catch(IllegalArgumentException ex){
-                System.out.println("- Error: " + ex.getMessage());
-            }
-        }
+        String marca = Buscar.buscarMarca(cafe);
+        cafe.listaMarcas.eliminar(marca);
     }
 
     public static void eliminarCategoria(Cafeteria cafe) throws ElementoNoEncontradoException, SalirDelIngresoDeDatosException {
-        while(true) {
-            try {
-                System.out.println("- Ingrese nombre de la categoría para eliminarla (ingrese 0 para salir): ");
-                String categoria = sc.nextLine();
-                if(categoria.equals("0")) throw new SalirDelIngresoDeDatosException();
-                Utilidades.validarString(categoria);
-                cafe.listaCategorias.eliminar(categoria);
-                break;
-            }catch(IllegalArgumentException ex){
-                System.out.println("- Error: " + ex.getMessage());
-            }
-        }
+        String categoria = Buscar.buscarCategoria(cafe);
+        cafe.listaCategorias.eliminar(categoria);
     }
 }

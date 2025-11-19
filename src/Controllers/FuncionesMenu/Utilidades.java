@@ -51,4 +51,9 @@ public class Utilidades {
         if(string.length() < 2)
             throw new IllegalArgumentException("El texto ingresado debe tener al menos 2 caracteres.");
     }
+    public static void validarCodigo(String string, int cantDigitos) {
+        if(!string.matches(".*\\d+.*")) throw new IllegalArgumentException("El valor debe ser numerico");
+        if(string.length() != cantDigitos) throw new IllegalArgumentException("El valor debe tener exactamente " + cantDigitos + " digitos.");
+        if(Integer.parseInt(string) < 0) throw new IllegalArgumentException("El valor debe mayor a 0");
+    }
 }
