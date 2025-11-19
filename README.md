@@ -50,7 +50,7 @@ El guardado y la carga se realizan usando lectura/escritura de archivos JSON, pe
 - *Java 17+*
 - Programación orientada a objetos
 - Manejo de excepciones personalizadas
-- Colecciones (HashMap, ArrayList)
+- Coleccion (HashMap)
 - Validaciones de entrada de usuario
 
 ---
