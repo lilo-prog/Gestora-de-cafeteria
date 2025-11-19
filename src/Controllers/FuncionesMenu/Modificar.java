@@ -161,7 +161,7 @@ public class Modificar {
                                 sc.nextLine();
                                 throw new SalirDelIngresoDeDatosException();
                             }
-                            if (dniNuevo < 10000000L) throw new IllegalArgumentException("El DNI debe tener 8 dígitos");
+                            if (dniNuevo < 10000000L || dniNuevo > 100000000L) throw new IllegalArgumentException("El DNI debe tener 8 dígitos");
                             if(cafe.listaEmpleados.getMap().containsKey((long)dniNuevo)) throw new ElementoRepetidoException();
                             cafe.listaEmpleados.getMap().get(dni).setDni(dniNuevo);
                             break;
@@ -297,7 +297,7 @@ public class Modificar {
                                 sc.nextLine();
                                 throw new SalirDelIngresoDeDatosException();
                             }
-                            if (dniNuevo < 10000000L) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
+                            if (dniNuevo < 10000000L || dniNuevo > 100000000L) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
                             if (cafe.listaClientes.getMap().containsKey((long)dniNuevo)) throw new ElementoRepetidoException();
                             cafe.listaClientes.getMap().get(dni).setDni(dniNuevo);
                             break;
@@ -432,7 +432,7 @@ public class Modificar {
                             System.out.println("- Ingrese el nuevo CUIL (solo números) (ingrese 0 para salir): ");
                             long cuilNuevo = sc.nextLong();
                             if(cuilNuevo == 0) throw new SalirDelIngresoDeDatosException();
-                            if(cuilNuevo < 10000000000L) throw new IllegalArgumentException("El CUIL debe tener 11 dígitos. ");
+                            if(cuilNuevo < 10000000000L || cuilNuevo > 100000000000L) throw new IllegalArgumentException("El CUIL debe tener 11 dígitos. ");
                             cafe.listaProveedores.getMap().get(cuil).setCuil(cuilNuevo);
                             break;
                         }catch(IllegalArgumentException e){
@@ -500,7 +500,7 @@ public class Modificar {
                                 sc.nextLine();
                                 throw new SalirDelIngresoDeDatosException();
                             }
-                            if (upcNuevo < 100000000000L) throw new IllegalArgumentException("El UPC debe tener 12 dígitos.");
+                            if (upcNuevo < 100000000000L || upcNuevo > 1000000000000L) throw new IllegalArgumentException("El UPC debe tener 12 dígitos.");
                             if (cafe.listaProductos.getMap().containsKey(upcNuevo)) throw new ElementoRepetidoException();
                             cafe.listaProductos.getMap().get(upc).setUpc(upcNuevo);
                             break;
@@ -547,7 +547,7 @@ public class Modificar {
                     while(true) {
                         try {
                             System.out.println("- Ingrese precio nuevo del producto (ingrese 0 para salir): ");
-                            Double precio = sc.nextDouble();
+                            double precio = sc.nextDouble();
                             if(precio == 0) throw new SalirDelIngresoDeDatosException();
                             if(precio < 0) throw new IllegalArgumentException("El valor de un producto no puede ser menor a 0.");
                             cafe.listaProductos.getMap().get(upc).setPrecio(precio);
@@ -711,6 +711,7 @@ public class Modificar {
     }
 
     public static void modificarMarca(Cafeteria cafe) throws ElementoNoEncontradoException, SalirDelIngresoDeDatosException {
+        System.out.println(cafe.listaMarcas.mostrar());
         String marca = Buscar.buscarMarca(cafe);
         while(true) {
             try {
@@ -728,6 +729,7 @@ public class Modificar {
     }
 
     public static void modificarCategoria(Cafeteria cafe) throws ElementoNoEncontradoException, SalirDelIngresoDeDatosException {
+        System.out.println(cafe.listaCategorias.mostrar());
         String categoria = Buscar.buscarCategoria(cafe);
         while(true) {
             try {
@@ -755,7 +757,7 @@ public class Modificar {
         while(true) {
             try {
                 System.out.println("- Ingrese nuevo gasto mínimo para aplicar descuento (ingrese 0 para salir): ");
-                Double gastoMinimo = sc.nextDouble();
+                double gastoMinimo = sc.nextDouble();
                 if(gastoMinimo == 0) throw new SalirDelIngresoDeDatosException();
                 if(gastoMinimo < 0) throw new IllegalArgumentException("El valor debe ser mayor a 0.");
                 Pedido.setGastoMinimo(gastoMinimo);
@@ -773,7 +775,7 @@ public class Modificar {
         while(true) {
             try {
                 System.out.println("- Ingrese nuevo descuento para aplicar descuento (ingrese 0 para salir): ");
-                Double descuento = sc.nextDouble();
+                double descuento = sc.nextDouble();
                 if(descuento == 0) throw new SalirDelIngresoDeDatosException();
                 if(descuento < 0) throw new IllegalArgumentException("El valor debe ser mayor a 0.");
                 Pedido.setDescuentoAAplicar(descuento);

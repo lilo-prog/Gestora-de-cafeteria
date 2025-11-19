@@ -1,10 +1,22 @@
 [
     {
         "tipo_producto": "BEBIBLE",
-        "nombre": "pee"
+        "nombre": "cafés"
+    },
+    {
+        "tipo_producto": "COMESTIBLE",
+        "nombre": "panadería"
     },
     {
         "tipo_producto": "BEBIBLE",
-        "nombre": "bebidas"
+        "nombre": "bebidas sin alcohol"
+    },
+    {
+        "tipo_producto": "BEBIBLE",
+        "nombre": "especial"
+    },
+    {
+        "tipo_producto": "COMESTIBLE",
+        "nombre": "pastelería"
     }
 ]

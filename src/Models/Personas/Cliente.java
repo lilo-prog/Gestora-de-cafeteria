@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class Cliente extends Persona {
     //Atributos.
     private Double gastoTotal;
-    private Double descuento;
+    private Double descuento = 0.0;
 
     //Método constructor.
     public Cliente(String nombre, String apellido, LocalDate fechaNacimiento, int dni, String telefono, Double gastosTotales, Double descuento) {

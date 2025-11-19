@@ -21,7 +21,6 @@ public class GestoraJson{
         try{
             JSONObject obj = arrJson.getJSONObject(0);
             String clase = obj.getString("clase");
-            System.out.println(clase);
             for(int i=0;i<arrJson.length();i++){
                 switch(clase) {
                     case "Pedido":

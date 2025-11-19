@@ -1,25 +1,16 @@
 import Controllers.*;
 import Controllers.FuncionesMenu.*;
 import Exceptions.*;
-import Models.Personas.Cliente;
-import Models.Personas.Empleado;
-import Models.Productos.Producto;
-import Models.Proveedores.Proveedor;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONTokener;
-import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import Enum.ETipoProducto;
 
 public class Main {
-
-
     public static void main(String[] args) throws ElementoRepetidoException {
         Cafeteria Mudy = new Cafeteria();
         Scanner sc = new Scanner(System.in);
-        
         // Trae los datos de los JSON,si es que existen.
         JSONTokener tok1 = JsonUtiles.leerUnJson("Empleado.json");
         JSONTokener tok2 = JsonUtiles.leerUnJson("Cliente.json");
@@ -29,6 +20,8 @@ public class Main {
         JSONTokener tok6 = JsonUtiles.leerUnJson("marcas.json");
         JSONTokener tok7 = JsonUtiles.leerUnJson("categorias.json");
         try {
+            System.out.println("- Cargando archivos...");
+            Thread.sleep(2000);
             if (tok1 != null) {
                 JSONArray array = new JSONArray(tok1);
                 Mudy.listaEmpleadosFromJson(array);
@@ -59,25 +52,12 @@ public class Main {
             }
         } catch (JSONException  e) {
             System.out.print("");
+        } catch (InterruptedException e){
+            System.out.println(e.getMessage());
         }
 
         int opcion;
         char control = 's';
-        Empleado empleado1 = new Empleado("Lilo", "Trola", LocalDate.parse("2004-06-24"), 45993056, "2236182257", 230000.0);
-        Mudy.listaEmpleados.agregar((long)empleado1.getDni(),empleado1);
-        Empleado empleado2 = new Empleado("Bruno", "Trola", LocalDate.parse("2004-06-24"), 47089846, "2236182257", 230000.0);
-        Mudy.listaEmpleados.agregar((long)empleado2.getDni(),empleado2);
-
-        Cliente cliente1 = new Cliente("Abril", "Derdoy", LocalDate.parse("2004-11-02"), 46277898, "2236695548", 10000.50, 0.25);
-        Mudy.listaClientes.agregar((long)cliente1.getDni(),cliente1);
-        Cliente cliente2 = new Cliente("Pichicho", "Derdoy", LocalDate.parse("2000-03-11"), 464544432, "2236969696", 6000.50, 0.25);
-        Mudy.listaClientes.agregar((long)cliente2.getDni(),cliente2);
-
-        Proveedor proveeedor1 = new Proveedor("Lilo", 12345678989l, "2236182257");
-        Mudy.listaProveedores.agregar(proveeedor1.getCuil(), proveeedor1);
-
-        Producto producto1 = new Producto("coca cola", 123456789876L, "pepsico", 2300.0, proveeedor1, "bebibles", ETipoProducto.BEBIBLE);
-        Mudy.listaProductos.agregar(producto1.getUpc(), producto1);
 
         boolean flagInvalido = false;
         while(control == 's') {

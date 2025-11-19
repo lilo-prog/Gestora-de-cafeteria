@@ -10,19 +10,15 @@ import java.util.Objects;
 
 public class Persona implements IJson {
     //Atributos.
-    private int id;
-    private static int idGeneral = 0;
     private String nombre;
     private String apellido;
     private LocalDate fechaNacimiento;
     private int edad;
-    private int dni;
+    private String dni;
     private String telefono;
 
     //Método constructor.
-    public Persona(String nombre, String apellido, LocalDate fechaNacimiento, int dni, String telefono) {
-        idGeneral++;
-        this.id = idGeneral;
+    public Persona(String nombre, String apellido, LocalDate fechaNacimiento, String dni, String telefono) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;
@@ -31,27 +27,24 @@ public class Persona implements IJson {
         this.telefono = telefono;
     }
     public Persona() {
-        idGeneral++;
-        this.id = idGeneral;
         this.nombre = "";
         this.apellido = "";
         TemporalAmount temp = Period.ofYears(16);
         this.fechaNacimiento = LocalDate.now().minus(temp);
         this.edad = calcularEdad();
-        this.dni = 0;
+        this.dni = "";
         this.telefono = "";
     }
 
     //Getters y Setters.
-    public int getId() {return id;}
     public String getNombre() {return nombre;}
     public void setNombre(String nombre) {this.nombre = nombre;}
     public String getApellido() {return apellido;}
     public void setApellido(String apellido) {this.apellido = apellido;}
     public int getEdad() {return edad;}
     public void setEdad(int edad) {this.edad=edad;}
-    public int getDni() {return dni;}
-    public void setDni(int dni) {this.dni = dni;}
+    public String getDni() {return dni;}
+    public void setDni(String dni) {this.dni = dni;}
     public String getTelefono() {return telefono;}
     public void setTelefono(String telefono) {this.telefono = telefono;}
     public void setFechaNacimiento(LocalDate fechaNacimiento) {this.fechaNacimiento = fechaNacimiento;}
@@ -71,7 +64,6 @@ public class Persona implements IJson {
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         try{
-            json.put("id", id);
             json.put("nombre",nombre);
             json.put("apellido",apellido);
             json.put("fechaNacimiento",fechaNacimiento.toString());
@@ -88,12 +80,11 @@ public class Persona implements IJson {
     @Override
     public void fromJson(JSONObject objetoJSON) {
         try{
-            id = objetoJSON.getInt("id");
             nombre = objetoJSON.getString("nombre");
             apellido = objetoJSON.getString("apellido");
             fechaNacimiento = LocalDate.parse(objetoJSON.getString("fechaNacimiento"));
             edad = objetoJSON.getInt("edad");
-            dni = objetoJSON.getInt("dni");
+            dni = objetoJSON.getString("dni");
             telefono = objetoJSON.getString("telefono");
         }catch(JSONException e){
             e.printStackTrace();
@@ -108,5 +99,5 @@ public class Persona implements IJson {
     }
     @Override public int hashCode() {return Objects.hashCode(dni);}
 
-    @Override public String toString() {return "ID: " + id + ", DNI: " + dni + ", nombre: '" + nombre + '\'' + ", apellido: '" + apellido + '\'' + ", edad: " + edad + ", teléfono: " + telefono;}
+    @Override public String toString() {return "DNI: " + dni + ", nombre: '" + nombre + '\'' + ", apellido: '" + apellido + '\'' + ", edad: " + edad + ", teléfono: " + telefono;}
 }

@@ -2,7 +2,6 @@ package Controllers.FuncionesMenu;
 
 import Controllers.Cafeteria;
 import Exceptions.ElementoNoEncontradoException;
-import Exceptions.ElementoRepetidoException;
 import Exceptions.ListaNoCargadaException;
 import Exceptions.SalirDelIngresoDeDatosException;
 import Models.Pedidos.Pedido;
@@ -37,9 +36,8 @@ public class Buscar {
                     break;
                 case 1:
                     if (cafe.listaEmpleados.getMap().isEmpty()) throw new ListaNoCargadaException("- No hay empleados para buscar.");
-                    Empleado e;
                     try {
-                        e = buscarEmpleado(cafe);
+                        Empleado e = buscarEmpleado(cafe);
                         System.out.println(e);
                     } catch (SalirDelIngresoDeDatosException ex) {
                         System.out.println(ex.getMessage());

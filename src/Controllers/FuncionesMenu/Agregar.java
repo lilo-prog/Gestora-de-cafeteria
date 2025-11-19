@@ -26,12 +26,12 @@ public class Agregar {
         int opcion = 0;
         while(control == 's') {
             try {
-                System.out.println("-----------------");
+                System.out.println("-----------------------------------");
                 System.out.println("- Agregar -");
-                Utilidades.mostrarListas();
+                Utilidades.mostrarListasModificar();
                 opcion = sc.nextInt();
                 sc.nextLine();
-                System.out.println("-----------------");
+                System.out.println("-----------------------------------");
             } catch (InputMismatchException e) {
                 System.out.println("- Error: la opción debe ser numérica.");
                 sc.nextLine();
@@ -96,6 +96,24 @@ public class Agregar {
                         System.out.println(e.getMessage());
                     }
                     break;
+                case 8:
+                    if(Pedido.gastoMinimo == 0.0){
+                        try{
+                            agregarMontoMinimo();
+                        } catch (SalirDelIngresoDeDatosException e){
+                            System.out.println(e.getMessage());
+                        }
+                    } else System.out.println("- Monto mínimo ingresado anteriormente. Vaya a modificar.");
+                    break;
+                case 9:
+                    if(Pedido.descuentoAAplicar == 0.0) {
+                        try {
+                            agregarDescuento();
+                        } catch (SalirDelIngresoDeDatosException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    } else System.out.println("- Descuento ingresado anteriormente. Vaya a modificar.");
+                    break;
                 default:
                     System.out.println("- Opción inválida.");
                     break;
@@ -113,6 +131,25 @@ public class Agregar {
 
     public static void agregarEmpleado(Cafeteria cafe) throws ElementoRepetidoException, SalirDelIngresoDeDatosException{
         Empleado e = new Empleado();
+        while(true){
+            try {
+                System.out.println("- Ingrese DNI del empleado (ingrese 0 para salir): ");
+                String dni = sc.next();
+                if(dni.equals("0")){
+                    sc.nextLine();
+                    throw new SalirDelIngresoDeDatosException();
+                }
+                if(dni.length() != 8) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
+                e.setDni(dni);
+                sc.nextLine();
+                break;
+            }catch(InputMismatchException x){
+                System.out.println("- Error: El dni debe ser numérico.");
+                sc.nextLine();
+            }catch(IllegalArgumentException x){
+                System.out.println("- Error: " + x.getMessage());
+            }
+        }
         while(true) {
             try {
                 System.out.println("- Ingrese nombre del empleado (ingrese 0 para salir): ");
@@ -157,25 +194,6 @@ public class Agregar {
         }
         while(true){
             try {
-                System.out.println("- Ingrese dni del empleado (ingrese 0 para salir): ");
-                int dni = sc.nextInt();
-                if(dni == 0){
-                    sc.nextLine();
-                    throw new SalirDelIngresoDeDatosException();
-                }
-                if(dni < 10000000) throw new IllegalArgumentException("- El dni debe tener 8 dígitos.");
-                e.setDni(dni);
-                sc.nextLine();
-                break;
-            }catch(InputMismatchException x){
-                System.out.println("- Error: El dni debe ser numérico.");
-                sc.nextLine();
-            }catch(IllegalArgumentException x){
-                System.out.println("- Error: " + x.getMessage());
-            }
-        }
-        while(true){
-            try {
                 System.out.println("- Ingrese teléfono del empleado (ingrese 0 para salir): ");
                 String telefono = sc.nextLine();
                 if(telefono.equals("0")) throw new SalirDelIngresoDeDatosException();
@@ -189,7 +207,7 @@ public class Agregar {
         while(true) {
             try {
                 System.out.println("- Ingrese sueldo del empleado (ingrese 0 para salir): ");
-                Double sueldo = sc.nextDouble();
+                double sueldo = sc.nextDouble();
                 if(sueldo == 0){
                     sc.nextLine();
                     throw new SalirDelIngresoDeDatosException();
@@ -208,6 +226,24 @@ public class Agregar {
 
     public static void agregarCliente(Cafeteria cafe) throws ElementoRepetidoException, SalirDelIngresoDeDatosException {
         Cliente c = new Cliente();
+        while(true){
+            try {
+                System.out.println("- Ingrese DNI del cliente (ingrese 0 para salir): ");
+                String dni = sc.next();
+                if(dni.equals("0")) {
+                    sc.nextLine();
+                    throw new SalirDelIngresoDeDatosException();
+                }
+                if(dni.length() != 8) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
+                c.setDni(dni);
+                break;
+            }catch(InputMismatchException x){
+                System.out.println("- Error: El DNI debe ser numérico.");
+                sc.nextLine();
+            }catch(IllegalArgumentException x){
+                System.out.println("- Error: " + x.getMessage());
+            }
+        }
         while(true) {
             try {
                 System.out.println("- Ingrese nombre del cliente (ingrese 0 para salir): ");
@@ -252,25 +288,6 @@ public class Agregar {
         }
         while(true){
             try {
-                System.out.println("- Ingrese DNI del cliente (ingrese 0 para salir): ");
-                int dni = sc.nextInt();
-                if(dni == 0) {
-                    sc.nextLine();
-                    throw new SalirDelIngresoDeDatosException();
-                }
-                if(dni < 10000000) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
-                c.setDni(dni);
-                sc.nextLine();
-                break;
-            }catch(InputMismatchException x){
-                System.out.println("- Error: El DNI debe ser numérico.");
-                sc.nextLine();
-            }catch(IllegalArgumentException x){
-                System.out.println("- Error: " + x.getMessage());
-            }
-        }
-        while(true){
-            try {
                 System.out.println("- Ingrese teléfono del cliente (ingrese 0 para salir): ");
                 String telefono = sc.nextLine();
                 if(telefono.equals("0")) throw new SalirDelIngresoDeDatosException();
@@ -306,7 +323,7 @@ public class Agregar {
                     sc.nextLine();
                     throw new SalirDelIngresoDeDatosException();
                 }
-                if(cuil < 10000000000L) throw new IllegalArgumentException("El cuil debe tener 11 dígitos.");
+                if(cuil < 10000000000L || cuil > 100000000000L) throw new IllegalArgumentException("El cuil debe tener 11 dígitos.");
                 p.setCuil(cuil);
                 sc.nextLine();
                 break;
@@ -349,17 +366,17 @@ public class Agregar {
         }
         while(true) {
             try {
-                System.out.println("- Ingrese UPC del producto (ingrese 0 para salir): ");
+                System.out.println("- Ingrese UPC del producto (no debe empezar con 0)(ingrese 0 para salir): ");
                 long upc = sc.nextLong();
-                if(upc == 0){
-                    sc.nextLine();
-                    throw new SalirDelIngresoDeDatosException();
-                }
-                if(upc < 100000000000L) throw new IllegalArgumentException("El UPC debe tener al menos 12 dígitos.");
+                sc.nextLine();
+                if(upc == 0) throw new SalirDelIngresoDeDatosException();
+                if(String.valueOf(upc).length() != 12) throw new IllegalArgumentException("El UPC debe tener 12 dígitos.");
                 p.setUpc(upc);
                 break;
-            }catch(IllegalArgumentException | InputMismatchException x){
+            }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
+            }catch(InputMismatchException x){
+                System.out.println("- Error: El UPC debe ser un número.");
                 sc.nextLine();
             }
         }
@@ -379,7 +396,7 @@ public class Agregar {
         while(true) {
             try {
                 System.out.println("- Ingrese precio del producto (ingrese 0 para salir): ");
-                Double precio = sc.nextDouble();
+                double precio = sc.nextDouble();
                 if(precio == 0){
                     sc.nextLine();
                     throw new SalirDelIngresoDeDatosException();
@@ -458,11 +475,14 @@ public class Agregar {
                 System.out.println("- Seleccione el tipo de pago (ingrese 0 para salir): ");
                 System.out.println("- EFECTIVO / TRANSFERENCIA / CREDITO -");
                 String tipo = sc.next().toUpperCase();
-                if(tipo.equals("0")) throw new SalirDelIngresoDeDatosException();
-                else if(tipo.equals("EFECTIVO")) p.setTipoPago(ETipoPago.EFECTIVO);
-                else if(tipo.equals("TRANSFERENCIA")) p.setTipoPago(ETipoPago.TRANSFERENCIA);
-                else if(tipo.equals("CREDITO")) p.setTipoPago(ETipoPago.CREDITO);
-                else throw new IllegalArgumentException("Valor inválido.");
+                // Hicimos un if, pero intellij nos recomendó hacer el switch.
+                switch (tipo) {
+                    case "0" -> throw new SalirDelIngresoDeDatosException();
+                    case "EFECTIVO" -> p.setTipoPago(ETipoPago.EFECTIVO);
+                    case "TRANSFERENCIA" -> p.setTipoPago(ETipoPago.TRANSFERENCIA);
+                    case "CREDITO" -> p.setTipoPago(ETipoPago.CREDITO);
+                    default -> throw new IllegalArgumentException("Valor inválido.");
+                }
                 break;
             }catch(IllegalArgumentException | InputMismatchException e ){
                 System.out.println("- Error: " + e.getMessage());
@@ -474,7 +494,7 @@ public class Agregar {
                 int dni = sc.nextInt();
                 if(dni == 0) throw new SalirDelIngresoDeDatosException();
                 else if(dni < 10000000) throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
-                Cliente c = cafe.listaClientes.buscarPorId((long)dni);
+                cafe.listaClientes.buscarPorId((long)dni);
                 p.setDniCliente(dni);
                 break;
             }catch(ElementoNoEncontradoException e){
@@ -494,7 +514,8 @@ public class Agregar {
 
         cafe.calcularDescuento(p.getDniCliente(), Pedido.getGastoMinimo(), Pedido.getDescuentoAAplicar());
         Cliente cliente = cafe.listaClientes.buscarPorId((long)p.getDniCliente());
-        cafe.listaPedidos.getMap().get(upc).setDescuentoAAplicar(cliente.getDescuento());
+        Pedido.setDescuentoAAplicar(cliente.getDescuento());
+
     }
 
     public static void agregarMarca(Cafeteria cafe) throws SalirDelIngresoDeDatosException{
@@ -535,4 +556,27 @@ public class Agregar {
             }
         }
     }
+
+    public static void agregarMontoMinimo() throws SalirDelIngresoDeDatosException {
+        try {
+            System.out.println("- Ingrese monto mínimo para aplicar descuento (ingrese 0 para salir): ");
+            double montoMinimo = sc.nextDouble();
+            if(montoMinimo == 0) throw new SalirDelIngresoDeDatosException();
+            if(montoMinimo < 0) throw new IllegalArgumentException("El monto debe ser mayor a 0.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("- Error: " + e.getMessage());
+        }
+    }
+
+    public static void agregarDescuento() throws SalirDelIngresoDeDatosException {
+        try {
+            System.out.println("- Ingrese descuento: ");
+            double descuento = sc.nextDouble();
+            if(descuento < 0) throw new IllegalArgumentException("El monto debe ser mayor a 0.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("- Error: " + e.getMessage());
+        }
+    }
+
+
 }
