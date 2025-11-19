@@ -48,7 +48,11 @@ public class Cafeteria {
     public void calcularDescuento(String dni, double gasto_total_minimo, double descuento_a_aplicar) throws ElementoNoEncontradoException{
         Cliente c = listaClientes.buscarPorId(dni);
         if(c.getGastoTotal() >= gasto_total_minimo){
-            listaClientes.getMap().get(dni).setDescuento(descuento_a_aplicar);
+            if(Pedido.descuentoAAplicar<1) listaClientes.getMap().get(dni).setDescuento(descuento_a_aplicar);
+            if(Pedido.descuentoAAplicar>1) {
+                Pedido.descuentoAAplicar /= 100;
+                listaClientes.getMap().get(dni).setDescuento(descuento_a_aplicar);
+            }
         }else listaClientes.getMap().get(dni).setDescuento(0.0);
     }
 

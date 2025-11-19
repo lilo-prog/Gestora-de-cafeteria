@@ -216,6 +216,7 @@ public class Agregar {
                 System.out.println("- Error: " + x.getMessage());
             }catch(InputMismatchException x){
                 System.out.println("- Error: El sueldo debe ser numérico ");
+                sc.nextLine();
             }
         }
         cafe.listaEmpleados.agregar(e.getDni(), e);
@@ -324,7 +325,7 @@ public class Agregar {
                 p.setCuil(cuil);
                 sc.nextLine();
                 break;
-            }catch(InputMismatchException | IllegalArgumentException x){
+            }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
                 sc.nextLine();
             }
@@ -398,9 +399,11 @@ public class Agregar {
                 if(precio < 0) throw new IllegalArgumentException("El precio de un producto no puede ser menor a 0.");
                 p.setPrecio(precio);
                 break;
-            }catch(InputMismatchException | IllegalArgumentException e){
-                System.out.println("- Error: " + e.getMessage());
+            }catch(InputMismatchException e){
+                System.out.println("- Error: El precio debe ser numérico.");
                 sc.nextLine();
+            }catch(IllegalArgumentException e){
+                System.out.println("- Error: " + e.getMessage());
             }
         }
         while(true) {
@@ -414,9 +417,6 @@ public class Agregar {
                 if(proveedor == null) throw new  ElementoNoEncontradoException();
                 p.setProveedor(proveedor);
                 break;
-            } catch (InputMismatchException e) {
-                System.out.println("- Error: " + e.getMessage());
-                sc.nextLine();
             } catch (ElementoNoEncontradoException e){
                 System.out.println("- Error: " + e.getMessage());
             }
@@ -478,7 +478,7 @@ public class Agregar {
                     default -> throw new IllegalArgumentException("Valor inválido.");
                 }
                 break;
-            }catch(IllegalArgumentException | InputMismatchException e ){
+            }catch(IllegalArgumentException e ){
                 System.out.println("- Error: " + e.getMessage());
             }
         }
@@ -493,9 +493,6 @@ public class Agregar {
                 break;
             }catch(ElementoNoEncontradoException e){
                 System.out.println(e.getMessage());
-            }catch(InputMismatchException x){
-                System.out.println("- Error: El DNI debe ser numérico.");
-                sc.nextLine();
             }catch(IllegalArgumentException x){
                 System.out.println("- Error: " + x.getMessage());
             }
@@ -546,7 +543,6 @@ public class Agregar {
                 break;
             }catch(IllegalArgumentException ex){
                 System.out.println("- Error: " + ex.getMessage());
-                sc.nextLine();
             }
         }
     }
@@ -569,6 +565,8 @@ public class Agregar {
             if(descuento < 0) throw new IllegalArgumentException("El monto debe ser mayor a 0.");
         } catch (IllegalArgumentException e) {
             System.out.println("- Error: " + e.getMessage());
+        }catch(InputMismatchException e){
+            System.out.println("- Error: El descuento debe ser numérico");
         }
     }
 

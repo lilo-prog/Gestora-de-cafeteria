@@ -153,7 +153,11 @@ public class Pedido implements IJson {
             total += producto.getPrecio() * cantidad;
         }
         if(total >= gastoMinimo){
-            totalConDescuento = total * (1 - descuentoAAplicar);
+            if(descuentoAAplicar<1) totalConDescuento = total * (1 - descuentoAAplicar);
+            if(descuentoAAplicar>1) {
+                descuentoAAplicar /= 100;
+                totalConDescuento = total * (1 - descuentoAAplicar);
+            }
         }else totalConDescuento = total;
         return totalConDescuento;
     }
